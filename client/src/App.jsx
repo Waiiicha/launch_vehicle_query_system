@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
-  Container, Typography, TextField, Grid, Card, CardContent, CardActions,
+  Container, Typography, TextField, Grid, Card, CardContent, CardActions, CardMedia,
   Button, Dialog, DialogTitle, DialogContent, Box, Slider, FormControlLabel,
-  Switch, Checkbox, FormGroup, Chip, Stack, LinearProgress
+  Switch, Chip, Stack, LinearProgress, Paper, InputAdornment, Fade,
+  MenuItem, Select, FormControl, InputLabel
 } from '@mui/material';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
-import PublicIcon from '@mui/icons-material/Public';
-import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
+import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
 
 function App() {
   const [rockets, setRockets] = useState([]);
   const [search, setSearch] = useState('');
   const [selectedRocket, setSelectedRocket] = useState(null);
+  
+  // 增强筛选状态
   const [filters, setFilters] = useState({
-    minLeo: 0,
-    maxLeo: 150,
-    isReusable: false,
-    country: { '中国': false, '美国': false },
-    minThrust: 0
+    leoRange: [0, 160], // [min, max]
+    country: '', 
+    fuel: '',
+    isReusable: false
   });
 
   useEffect(() => {
@@ -29,12 +30,13 @@ function App() {
     const params = new URLSearchParams();
     if (search) params.append('search', search);
     if (filters.isReusable) params.append('isReusable', 'true');
-    if (filters.minLeo > 0) params.append('minLeo', filters.minLeo);
-    if (filters.maxLeo < 150) params.append('maxLeo', filters.maxLeo);
-    if (filters.minThrust > 0) params.append('minThrust', filters.minThrust);
-
-    const selectedCountries = Object.keys(filters.country).filter(c => filters.country[c]);
-    if (selectedCountries.length > 0) params.append('country', selectedCountries.join(','));
+    
+    // Range
+    params.append('minLeo', filters.leoRange[0]);
+    if (filters.leoRange[1] < 160) params.append('maxLeo', filters.leoRange[1]);
+    
+    if (filters.country) params.append('country', filters.country);
+    if (filters.fuel) params.append('fuel', filters.fuel);
 
     try {
       const response = await axios.get(`/api/rockets?${params.toString()}`);
@@ -44,161 +46,168 @@ function App() {
     }
   };
 
-  const handleCountryChange = (event) => {
-    setFilters({
-      ...filters,
-      country: { ...filters.country, [event.target.name]: event.target.checked }
-    });
-  };
-
-  // 辅助组件：能力条
-  const StatBar = ({ label, value, max, color = "primary" }) => (
-    <Box sx={{ mb: 1 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="caption" color="textSecondary">{label}</Typography>
-        <Typography variant="caption" color="primary">{value}</Typography>
-      </Box>
-      <LinearProgress 
-        variant="determinate" 
-        value={Math.min((value / max) * 100, 100)} 
-        color={color}
-        sx={{ height: 8, borderRadius: 1 }}
-      />
+  const StatRow = ({ label, value, unit }) => (
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 1, borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
+      <Typography variant="body2" color="textSecondary">{label}</Typography>
+      <Typography variant="body2" sx={{ fontWeight: 600 }}>{value ? `${value} ${unit}` : 'N/A'}</Typography>
     </Box>
   );
 
   return (
-    <Container maxWidth="xl" sx={{ mt: 4, mb: 4, minHeight: '100vh' }}>
-      <Box sx={{ textAlign: 'center', mb: 6, borderBottom: '1px solid #00f3ff', pb: 2 }}>
-        <Typography variant="h3" sx={{ color: '#00f3ff', textTransform: 'uppercase' }}>
-          Orbit // Database
+    <Container maxWidth="lg" sx={{ mt: 8, mb: 10 }}>
+      {/* 顶部标题区 */}
+      <Box sx={{ textAlign: 'center', mb: 8 }}>
+        <Typography variant="h3" gutterBottom>
+          Launch Vehicles.
         </Typography>
-        <Typography variant="subtitle1" color="secondary" sx={{ letterSpacing: 4 }}>
-          全球运载火箭情报系统 V2.0
+        <Typography variant="h5" color="textSecondary" sx={{ fontWeight: 400 }}>
+          Exploring humanity's bridge to the stars.
         </Typography>
       </Box>
 
-      <Grid container spacing={4}>
-        {/* 左侧控制面板 */}
-        <Grid item xs={12} md={3}>
-          <Card sx={{ p: 2, position: 'sticky', top: 20 }}>
-            <Typography variant="h6" color="primary" gutterBottom>
-              /// 筛选参数
-            </Typography>
-            
+      {/* 增强型控制栏 */}
+      <Paper 
+        elevation={0}
+        sx={{ 
+          p: 3, mb: 6, borderRadius: 4, 
+          backgroundColor: 'rgba(255,255,255,0.8)', 
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(0,0,0,0.05)',
+          position: 'sticky', top: 20, zIndex: 100
+        }}
+      >
+        <Grid container spacing={3} alignItems="center">
+          {/* 搜索 */}
+          <Grid item xs={12} md={3}>
             <TextField
+              placeholder="Search models..."
+              variant="standard"
               fullWidth
-              label="搜索型号/代号"
-              variant="outlined"
-              size="small"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              sx={{ mb: 3 }}
+              InputProps={{
+                disableUnderline: true,
+                startAdornment: <InputAdornment position="start"><SearchIcon color="action" /></InputAdornment>,
+                style: { fontSize: '1.1rem', fontWeight: 500 }
+              }}
             />
-
-            <Typography gutterBottom>LEO 运力 (吨)</Typography>
+          </Grid>
+          
+          {/* LEO 运力范围 */}
+          <Grid item xs={12} md={3}>
+            <Typography variant="caption" color="textSecondary">LEO Capacity: {filters.leoRange[0]}t - {filters.leoRange[1] === 160 ? '160t+' : `${filters.leoRange[1]}t`}</Typography>
             <Slider
-              value={[filters.minLeo, filters.maxLeo]}
-              onChange={(e, val) => setFilters({ ...filters, minLeo: val[0], maxLeo: val[1] })}
+              value={filters.leoRange}
+              onChange={(e, val) => setFilters({...filters, leoRange: val})}
               valueLabelDisplay="auto"
               min={0}
               max={160}
-              sx={{ mb: 3 }}
+              size="small"
             />
+          </Grid>
 
-            <Typography gutterBottom>起飞推力 (kN) &gt; {filters.minThrust}</Typography>
-            <Slider
-              value={filters.minThrust}
-              onChange={(e, val) => setFilters({ ...filters, minThrust: val })}
-              min={0}
-              max={80000} // Starship 级别
-              step={1000}
-              sx={{ mb: 3 }}
-            />
-
-            <FormGroup sx={{ mb: 2 }}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={filters.isReusable}
-                    onChange={(e) => setFilters({ ...filters, isReusable: e.target.checked })}
-                  />
-                }
-                label="可重复使用"
-              />
-            </FormGroup>
-
-            <Typography variant="caption" color="textSecondary" display="block" mb={1}>
-              所属阵营
-            </Typography>
-            <FormGroup row>
-              <FormControlLabel
-                control={<Checkbox checked={filters.country['中国']} onChange={handleCountryChange} name="中国" />}
-                label="CN"
-              />
-              <FormControlLabel
-                control={<Checkbox checked={filters.country['美国']} onChange={handleCountryChange} name="美国" />}
-                label="US"
-              />
-            </FormGroup>
-          </Card>
-        </Grid>
-
-        {/* 右侧数据网格 */}
-        <Grid item xs={12} md={9}>
-          <Typography variant="h6" sx={{ mb: 2, color: 'rgba(255,255,255,0.5)' }}>
-            检测到 {rockets.length} 个目标对象
-          </Typography>
+          {/* 燃料类型 */}
+          <Grid item xs={6} md={2}>
+            <FormControl fullWidth size="small" variant="standard">
+              <Select
+                value={filters.fuel}
+                onChange={(e) => setFilters({...filters, fuel: e.target.value})}
+                displayEmpty
+                disableUnderline
+                sx={{ fontWeight: 500 }}
+              >
+                <MenuItem value=""><em>Fuel Type</em></MenuItem>
+                <MenuItem value="煤油">Kerosene (煤油)</MenuItem>
+                <MenuItem value="氢">Hydrogen (氢氧)</MenuItem>
+                <MenuItem value="甲烷">Methane (甲烷)</MenuItem>
+                <MenuItem value="固体">Solid (固体)</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
           
-          <Grid container spacing={3}>
-            {rockets.map((rocket) => (
-              <Grid item xs={12} sm={6} lg={4} key={rocket.id}>
-                <Card 
-                  sx={{ 
-                    height: '100%', 
-                    display: 'flex', 
-                    flexDirection: 'column',
-                    transition: 'transform 0.2s',
-                    '&:hover': { transform: 'scale(1.02)' }
-                  }}
-                >
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                       <Box>
-                         <Typography variant="h5" component="div" sx={{ color: '#fff' }}>
-                           {rocket.name}
-                         </Typography>
-                         <Typography color="secondary" variant="body2">
-                           {rocket.manufacturer}
-                         </Typography>
-                       </Box>
-                       <RocketLaunchIcon color={rocket.isReusable ? "success" : "disabled"} />
-                    </Box>
+          {/* 国家 */}
+          <Grid item xs={6} md={2}>
+             <FormControl fullWidth size="small" variant="standard">
+              <Select
+                value={filters.country}
+                onChange={(e) => setFilters({...filters, country: e.target.value})}
+                displayEmpty
+                disableUnderline
+                sx={{ fontWeight: 500 }}
+              >
+                <MenuItem value=""><em>All Countries</em></MenuItem>
+                <MenuItem value="中国">China</MenuItem>
+                <MenuItem value="美国">USA</MenuItem>
+                <MenuItem value="欧洲">Europe</MenuItem>
+                <MenuItem value="俄罗斯">Russia</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
 
-                    <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-                      <Chip 
-                        label={rocket.country} 
-                        size="small" 
-                        variant="outlined" 
-                        color="primary"
-                        icon={<PublicIcon />} 
-                      />
-                      {rocket.isReusable && <Chip label="REUSABLE" size="small" color="success" />}
-                    </Stack>
-
-                    <StatBar label="LEO 运力 (t)" value={rocket.leoCapacity || 0} max={150} />
-                    <StatBar label="起飞推力 (kN)" value={rocket.liftoffThrust || 0} max={75000} color="secondary" />
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" fullWidth onClick={() => setSelectedRocket(rocket)}>
-                      查看全息数据
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
+          {/* 可回收开关 */}
+          <Grid item xs={12} md={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+             <FormControlLabel
+              control={
+                <Switch 
+                  checked={filters.isReusable} 
+                  onChange={(e) => setFilters({...filters, isReusable: e.target.checked})}
+                />
+              }
+              label={<Typography variant="body2" sx={{ fontWeight: 500 }}>Reusable</Typography>}
+            />
           </Grid>
         </Grid>
+      </Paper>
+
+      {/* 数据网格 */}
+      <Grid container spacing={4}>
+        {rockets.map((rocket) => (
+          <Grid item xs={12} sm={6} md={4} key={rocket.id}>
+            <Fade in={true} timeout={500}>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={rocket.imageUrl || `https://placehold.co/800x600/f5f5f7/1d1d1f?text=${rocket.name}`}
+                  alt={rocket.name}
+                  sx={{ objectFit: 'cover' }}
+                />
+                <CardContent sx={{ p: 3, flexGrow: 1 }}>
+                  <Stack direction="row" justifyContent="space-between" alignItems="flex-start" mb={1}>
+                    <Typography variant="overline" color="primary" sx={{ fontWeight: 700 }}>
+                      {rocket.series || rocket.manufacturer}
+                    </Typography>
+                    {rocket.isReusable && <Chip label="Reusable" size="small" color="success" variant="soft" sx={{ height: 20, fontSize: '0.65rem' }} />}
+                  </Stack>
+                  
+                  <Typography variant="h5" sx={{ mb: 1, letterSpacing: '-0.02em', fontWeight: 600 }}>
+                    {rocket.name}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" sx={{ mb: 3, minHeight: 40 }}>
+                    {rocket.description ? (rocket.description.length > 50 ? rocket.description.substring(0, 50) + '...' : rocket.description) : 'No description.'}
+                  </Typography>
+                  
+                  <Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+                       <Typography variant="caption" color="textSecondary">LEO Payload</Typography>
+                       <Typography variant="caption" sx={{ fontWeight: 600 }}>{rocket.leoCapacity || 0}t</Typography>
+                    </Box>
+                    <LinearProgress 
+                      variant="determinate" 
+                      value={Math.min(((rocket.leoCapacity || 0) / 150) * 100, 100)} 
+                      sx={{ height: 4, borderRadius: 2, bgcolor: '#f0f0f0' }} 
+                    />
+                  </Box>
+                </CardContent>
+                <CardActions sx={{ px: 3, pb: 3 }}>
+                  <Button variant="contained" fullWidth onClick={() => setSelectedRocket(rocket)}>
+                    View Specs
+                  </Button>
+                </CardActions>
+              </Card>
+            </Fade>
+          </Grid>
+        ))}
       </Grid>
 
       {/* 详情模态框 */}
@@ -208,51 +217,57 @@ function App() {
         maxWidth="md"
         fullWidth
         PaperProps={{
-          sx: { border: '2px solid #00f3ff', borderRadius: 0 }
+          sx: { borderRadius: 6, overflow: 'hidden' }
         }}
       >
         {selectedRocket && (
-          <>
-            <DialogTitle sx={{ borderBottom: '1px solid rgba(0,243,255,0.3)', display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="h4">{selectedRocket.name}</Typography>
-              <Chip label={selectedRocket.status || 'ACTIVE'} color="primary" variant="outlined" />
-            </DialogTitle>
-            <DialogContent sx={{ mt: 2 }}>
-              <Grid container spacing={4}>
-                <Grid item xs={12} md={6}>
-                  <Typography variant="h6" color="secondary" gutterBottom>/// 动力核心</Typography>
-                  <Box sx={{ p: 2, border: '1px dashed rgba(255,255,255,0.1)' }}>
-                    <Typography gutterBottom><LocalGasStationIcon sx={{ fontSize: 16, mr: 1, verticalAlign: 'middle' }}/>一级燃料: {selectedRocket.firstStageFuel || '未知'}</Typography>
-                    <Typography gutterBottom>一级引擎: {selectedRocket.firstStageEngine || '未知'}</Typography>
-                    <Typography gutterBottom>二级燃料: {selectedRocket.secondStageFuel || '未知'}</Typography>
-                    <Typography gutterBottom>起飞推力: {selectedRocket.liftoffThrust ? `${selectedRocket.liftoffThrust} kN` : 'N/A'}</Typography>
-                  </Box>
+          <Grid container>
+            {/* 左侧图片区 (仅在大屏显示) */}
+            <Grid item xs={12} md={5} sx={{ bgcolor: '#f5f5f7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+               <Box 
+                 component="img" 
+                 src={selectedRocket.imageUrl} 
+                 sx={{ width: '100%', height: '100%', objectFit: 'cover', maxHeight: 600 }}
+               />
+            </Grid>
+            
+            {/* 右侧信息区 */}
+            <Grid item xs={12} md={7}>
+              <Box sx={{ p: 4, position: 'relative' }}>
+                <Button 
+                  onClick={() => setSelectedRocket(null)} 
+                  sx={{ position: 'absolute', right: 16, top: 16, minWidth: 0, p: 1, borderRadius: '50%', color: '#000' }}
+                >
+                   <CloseIcon />
+                </Button>
+                
+                <Typography variant="overline" color="textSecondary">{selectedRocket.manufacturer} / {selectedRocket.country}</Typography>
+                <Typography variant="h3" sx={{ mt: 1, mb: 3 }}>{selectedRocket.name}</Typography>
+                
+                <Grid container spacing={4}>
+                  <Grid item xs={12} sm={6}>
+                    <Typography variant="h6" gutterBottom>Performance</Typography>
+                    <StatRow label="LEO Capacity" value={selectedRocket.leoCapacity} unit="t" />
+                    <StatRow label="GTO Capacity" value={selectedRocket.gtoCapacity} unit="t" />
+                    <StatRow label="Mars Transfer" value={selectedRocket.marsCapacity} unit="t" />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                     <Typography variant="h6" gutterBottom>Propulsion</Typography>
+                     <StatRow label="Fuel (Stage 1)" value={selectedRocket.firstStageFuel} unit="" />
+                     <StatRow label="Engine" value={selectedRocket.firstStageEngine} unit="" />
+                     <StatRow label="Thrust" value={selectedRocket.firstStageThrust} unit="" />
+                  </Grid>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <Typography variant="h6" color="secondary" gutterBottom>/// 运载能力矩阵</Typography>
-                   <StatBar label="LEO (近地轨道)" value={selectedRocket.leoCapacity || 0} max={150} />
-                   <StatBar label="GTO (地球同步转移)" value={selectedRocket.gtoCapacity || 0} max={50} />
-                   <StatBar label="MARS (火星转移)" value={selectedRocket.marsCapacity || 0} max={45} color="error" />
-                   {selectedRocket.description && selectedRocket.description.includes('冥王星') && (
-                     <Typography color="primary" sx={{ mt: 2, fontStyle: 'italic' }}>* 已确认具备冥王星深空探测潜力</Typography>
-                   )}
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Typography variant="h6" color="secondary" gutterBottom>/// 战术简报</Typography>
-                  <Typography variant="body1" sx={{ fontFamily: 'monospace', lineHeight: 1.8 }}>
-                    {selectedRocket.description || "暂无详细描述数据。"}
+                <Box sx={{ mt: 4, p: 3, bgcolor: '#fafafa', borderRadius: 4 }}>
+                   <Typography variant="subtitle2" gutterBottom>Mission Profile</Typography>
+                   <Typography variant="body2" color="textSecondary" align="justify">
+                    {selectedRocket.description}
                   </Typography>
-                </Grid>
-              </Grid>
-            </DialogContent>
-            <Box sx={{ p: 2, display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-              <Button onClick={() => setSelectedRocket(null)} variant="contained" color="primary">
-                关闭通讯
-              </Button>
-            </Box>
-          </>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
         )}
       </Dialog>
     </Container>

@@ -1,52 +1,73 @@
 import { createTheme } from '@mui/material';
 
-export const sciFiTheme = createTheme({
+export const appleTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
     primary: {
-      main: '#00f3ff', // 赛博青
+      main: '#0066cc', // Apple Blue
     },
     secondary: {
-      main: '#d500f9', // 霓虹紫
+      main: '#86868b', // Apple Grey
     },
     background: {
-      default: '#050510', // 深空黑
-      paper: 'rgba(20, 20, 35, 0.8)', // 玻璃拟态背景
+      default: '#f5f5f7', // 官网浅灰
+      paper: '#ffffff',
     },
     text: {
-      primary: '#e0e0e0',
-      secondary: '#00f3ff', // 次要文字用青色高亮
+      primary: '#1d1d1f', // 接近纯黑
+      secondary: '#86868b',
     }
   },
   typography: {
-    fontFamily: '"Orbitron", "Roboto", "Helvetica", "Arial", sans-serif',
-    h4: {
-      fontWeight: 700,
-      letterSpacing: '0.1em',
-      textShadow: '0 0 10px #00f3ff',
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+    h3: {
+      fontWeight: 600,
+      letterSpacing: '-0.02em',
+      color: '#1d1d1f',
     },
-    h6: {
-      letterSpacing: '0.05em',
+    h5: {
+      fontWeight: 600,
+      letterSpacing: '-0.01em',
+    },
+    body1: {
+      fontSize: '1.05rem',
+      lineHeight: 1.6,
+      color: '#424245',
+    },
+    button: {
+      textTransform: 'none', // 取消大写
+      fontWeight: 500,
     }
   },
   components: {
-    MuiPaper: {
+    MuiCard: {
       styleOverrides: {
         root: {
-          backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(0, 243, 255, 0.2)',
-          boxShadow: '0 0 15px rgba(0, 243, 255, 0.1)',
+          borderRadius: 18,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
+          border: 'none',
+          transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
+          '&:hover': {
+            transform: 'scale(1.02)',
+            boxShadow: '0 12px 40px rgba(0,0,0,0.08)',
+          }
         }
       }
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 0, // 硬朗的边角
-          border: '1px solid #00f3ff',
+          borderRadius: 999, // 胶囊按钮
+          padding: '8px 24px',
+          boxShadow: 'none',
           '&:hover': {
-            boxShadow: '0 0 10px #00f3ff',
-            backgroundColor: 'rgba(0, 243, 255, 0.1)',
+            boxShadow: 'none',
+            backgroundColor: 'rgba(0,102,204,0.1)',
+          }
+        },
+        contained: {
+          '&:hover': {
+             backgroundColor: '#0055aa',
           }
         }
       }
@@ -54,8 +75,8 @@ export const sciFiTheme = createTheme({
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: 4,
-          border: '1px solid',
+          borderRadius: 8,
+          fontWeight: 500,
         }
       }
     }

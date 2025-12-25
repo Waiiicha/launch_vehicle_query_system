@@ -9,37 +9,43 @@ datasource db {
 
 model Rocket {
   id           Int      @id @default(autoincrement())
-  name         String   @unique
+  
+  // 严格对应 Excel 列
   series       String?  // 系列
+  name         String   @unique // 型号
   country      String?  // 国家
-  manufacturer String?  // 研制单位 (CASC, SpaceX...)
+  manufacturer String?  // 研制单位
+  firstFlight  String?  // 首发时间
+  history      String?  // 发射历史
+  status       String?  // 状态
   
-  // 数值参数 (用于筛选)
-  leoCapacity  Float?   // LEO运力 (吨)
-  gtoCapacity  Float?   // GTO运力 (吨)
-  marsCapacity Float?   // 火星运力 (吨)
-  liftoffThrust Float?  // 起飞推力 (kN)
-  liftoffMass   Float?  // 起飞质量 (吨)
-  height        Float?  // 高度 (m)
-  diameter      Float?  // 直径 (m)
+  height       Float?   // 高度(m)
+  diameter     Float?   // 直径(m)
+  mass         Float?   // 起飞质量(t)
+  stages       String?  // 构型
   
-  // 燃料与动力
-  firstStageFuel  String? // 一级燃料
-  secondStageFuel String? // 二级燃料
-  firstStageEngine String? // 一级发动机
+  leoCapacity  Float?   // LEO运力(t)
+  gtoCapacity  Float?   // GTO运力(t)
+  marsCapacity Float?   // 火星运力(t)
+  plutoCapacity Float?  // 冥王星运力(t)
   
-  // 状态与描述
-  status       String?  // 现役/研发/退役
-  firstFlight  String?  // 首飞时间
-  description  String?  // 描述
+  firstStageFuel   String? // 芯一级燃料
+  firstStageEngine String? // 芯一级发动机配置
+  firstStageThrust String? // 芯一级推力
   
-  // 成功率统计 (如 "18发18中")
-  launches     Int?     @default(0) // 总发射数
-  failures     Int?     @default(0) // 失败数
+  secondStageFuel   String? // 芯二级燃料
+  secondStageEngine String? // 芯二级发动机配置
+  secondStageThrust String? // 芯二级推力
   
-  isReusable   Boolean  @default(false) // 是否可回收
+  thirdStageFuel   String? // 芯三级燃料
+  thirdStageEngine String? // 芯三级发动机配置
+  thirdStageThrust String? // 芯三级推力
   
-  imageUrl     String?  // 图片URL (占位)
+  recoveryMethod  String? // 回收方案
+  isReusable      Boolean @default(false)
+  imageUrl        String? // 图片地址
+
+  description     String? // 核心特征和主要任务
   
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

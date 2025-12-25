@@ -15,9 +15,9 @@ app.get('/api/rockets', async (req, res) => {
     search, 
     country, 
     minLeo, 
-    maxLeo, 
+    maxLeo, // 支持区间
     isReusable,
-    minThrust 
+    fuel // 新增: 燃料类型
   } = req.query;
 
   try {
@@ -34,27 +34,29 @@ app.get('/api/rockets', async (req, res) => {
       });
     }
 
-    // 国家筛选 (支持逗号分隔多个国家)
+    // 国家筛选
     if (country) {
       const countries = country.split(',');
-      where.AND.push({
-        country: { in: countries }
-      });
+      where.AND.push({ country: { in: countries } });
     }
 
     // LEO 运力范围
     if (minLeo) where.AND.push({ leoCapacity: { gte: parseFloat(minLeo) } });
     if (maxLeo) where.AND.push({ leoCapacity: { lte: parseFloat(maxLeo) } });
 
-    // 推力筛选
-    if (minThrust) where.AND.push({ liftoffThrust: { gte: parseFloat(minThrust) } });
-
     // 可回收
     if (isReusable === 'true') where.AND.push({ isReusable: true });
 
+    // 燃料筛选 (模糊匹配)
+    if (fuel) {
+      where.AND.push({
+        firstStageFuel: { contains: fuel } 
+      });
+    }
+
     const rockets = await prisma.rocket.findMany({
       where,
-      orderBy: { leoCapacity: 'desc' }, // 默认按运力降序
+      orderBy: { leoCapacity: 'desc' }, 
     });
     res.json(rockets);
   } catch (error) {
