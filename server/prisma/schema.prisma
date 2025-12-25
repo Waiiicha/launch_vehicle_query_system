@@ -1,5 +1,3 @@
-// server/prisma/schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,21 +9,37 @@ datasource db {
 
 model Rocket {
   id           Int      @id @default(autoincrement())
-  series       String?  // 系列 (长征, Falcon...)
-  name         String   @unique // 型号 (CZ-5, Falcon 9...)
+  name         String   @unique
+  series       String?  // 系列
   country      String?  // 国家
-  manufacturer String?  // 研制单位
-  firstFlight  String?  // 首发时间 (存字符串以兼容 "预计2027")
-  status       String?  // 状态
-  height       String?  // 高度 (存字符串以保留格式，或尝试解析为浮点)
-  diameter     String?  // 直径
-  mass         String?  // 起飞质量
-  leoCapacity  String?  // LEO运力
-  gtoCapacity  String?  // GTO运力
-  fuel         String?  // 燃料
-  engines      String?  // 发动机
-  description  String?  // 核心特征
+  manufacturer String?  // 研制单位 (CASC, SpaceX...)
+  
+  // 数值参数 (用于筛选)
+  leoCapacity  Float?   // LEO运力 (吨)
+  gtoCapacity  Float?   // GTO运力 (吨)
+  marsCapacity Float?   // 火星运力 (吨)
+  liftoffThrust Float?  // 起飞推力 (kN)
+  liftoffMass   Float?  // 起飞质量 (吨)
+  height        Float?  // 高度 (m)
+  diameter      Float?  // 直径 (m)
+  
+  // 燃料与动力
+  firstStageFuel  String? // 一级燃料
+  secondStageFuel String? // 二级燃料
+  firstStageEngine String? // 一级发动机
+  
+  // 状态与描述
+  status       String?  // 现役/研发/退役
+  firstFlight  String?  // 首飞时间
+  description  String?  // 描述
+  
+  // 成功率统计 (如 "18发18中")
+  launches     Int?     @default(0) // 总发射数
+  failures     Int?     @default(0) // 失败数
+  
   isReusable   Boolean  @default(false) // 是否可回收
+  
+  imageUrl     String?  // 图片URL (占位)
   
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
