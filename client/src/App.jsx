@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios'; // 不再需要
+import rocketsData from './data/rockets.json'; // 直接导入静态数据
 import {
   Container, Typography, TextField, Grid, Card, CardContent, CardActions, CardMedia,
   Button, Dialog, Box, Slider, FormControlLabel,
@@ -37,7 +38,7 @@ const allManufacturers = [
 ];
 
 function App() {
-  const [rockets, setRockets] = useState([]);
+  const [rockets, setRockets] = useState([]); // 显示的数据
   const [selectedRocket, setSelectedRocket] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeImage, setActiveImage] = useState('');
@@ -60,8 +61,9 @@ function App() {
     ? allManufacturers.filter(m => m.country === filters.country)
     : allManufacturers;
 
+  // 核心改动：本地筛选逻辑
   useEffect(() => {
-    fetchRockets();
+    filterRockets();
   }, [filters]);
 
   useEffect(() => {
@@ -82,24 +84,65 @@ function App() {
     }
   };
 
-  const fetchRockets = async () => {
-    const params = new URLSearchParams();
-    if (filters.search) params.append('search', filters.search);
-    if (filters.country) params.append('country', filters.country);
-    if (filters.isReusable) params.append('isReusable', 'true');
-    params.append('minLeo', filters.leoRange[0]);
-    if (filters.leoRange[1] < 160) params.append('maxLeo', filters.leoRange[1]);
-    if (filters.fuel) params.append('fuel', filters.fuel);
-    if (filters.status) params.append('status', filters.status);
-    if (filters.stages) params.append('stages', filters.stages);
-    if (filters.manufacturer) params.append('manufacturer', filters.manufacturer);
+  const filterRockets = () => {
+    let result = rocketsData;
 
-    try {
-      const response = await axios.get(`/api/rockets?${params.toString()}`);
-      setRockets(response.data);
-    } catch (error) {
-      console.error("Error fetching rockets:", error);
+    // 1. 搜索 (模糊匹配 名称/厂商/系列)
+    if (filters.search) {
+      const keyword = filters.search.toLowerCase();
+      result = result.filter(r => 
+        (r.name && r.name.toLowerCase().includes(keyword)) ||
+        (r.manufacturer && r.manufacturer.toLowerCase().includes(keyword)) ||
+        (r.series && r.series.toLowerCase().includes(keyword))
+      );
     }
+
+    // 2. 国家 (精确)
+    if (filters.country) {
+      result = result.filter(r => r.country === filters.country);
+    }
+
+    // 3. 可回收
+    if (filters.isReusable) {
+      result = result.filter(r => r.isReusable === true);
+    }
+
+    // 4. LEO 运力范围
+    const [minLeo, maxLeo] = filters.leoRange;
+    result = result.filter(r => {
+      const capacity = r.leoCapacity || 0;
+      if (maxLeo < 160) {
+        return capacity >= minLeo && capacity <= maxLeo;
+      }
+      return capacity >= minLeo; // 160+ 代表无上限
+    });
+
+    // 5. 燃料 (模糊)
+    if (filters.fuel) {
+      result = result.filter(r => r.firstStageFuel && r.firstStageFuel.includes(filters.fuel));
+    }
+
+    // 6. 状态 (模糊)
+    if (filters.status) {
+      result = result.filter(r => r.status && r.status.includes(filters.status));
+    }
+
+    // 7. 级数 (模糊 - "2" 匹配 "2", "两级" 等)
+    if (filters.stages) {
+      // 简单处理：如果选了 "2"，匹配 "2" 或 "两级"
+      const stageKey = filters.stages;
+      result = result.filter(r => r.stages && String(r.stages).includes(stageKey));
+    }
+
+    // 8. 厂商 (模糊)
+    if (filters.manufacturer) {
+      result = result.filter(r => r.manufacturer && r.manufacturer.includes(filters.manufacturer));
+    }
+
+    // 排序：默认按 LEO 运力降序
+    result.sort((a, b) => (b.leoCapacity || 0) - (a.leoCapacity || 0));
+
+    setRockets(result);
   };
 
   const handleReset = () => {
@@ -168,7 +211,7 @@ function App() {
       <Box sx={{ p: 3, overflowY: 'auto', flexShrink: 0, borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
         <Box sx={{ mb: 3 }}>
            <Typography variant="h6" sx={{ fontWeight: 800, color: '#000', letterSpacing: -0.5 }}>ROCKET DB</Typography>
-           <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 500 }}>Control Center</Typography>
+           <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 500 }}>Control Center (Static)</Typography>
         </Box>
 
         <TextField
@@ -372,7 +415,7 @@ function App() {
         </Container>
       </Box>
 
-      {/* 恢复后的详情弹窗：概述/运力/物理/推进/回收/历史 */}
+      {/* 详情弹窗 */}
       <Dialog open={!!selectedRocket} onClose={() => setSelectedRocket(null)} maxWidth="lg" fullWidth PaperProps={{ sx: { borderRadius: 4, overflow: 'hidden' } }}>
         {selectedRocket && (
           <Grid container sx={{ minHeight: '80vh' }}>
@@ -412,7 +455,7 @@ function App() {
                 <Typography variant="h3" sx={{ fontWeight: 800, mb: 0.5 }}>{selectedRocket.name}</Typography>
                 <Typography variant="subtitle1" color="textSecondary" sx={{ mb: 2 }}>{selectedRocket.manufacturer}</Typography>
 
-                {/* 1. 概述 OVERVIEW */}
+                {/* 概述 */}
                 <Box sx={{ mb: 4, p: 2.5, bgcolor: '#f9f9fa', borderRadius: 3, borderLeft: '4px solid #0066cc' }}>
                   <Typography variant="caption" sx={{ fontWeight: 700, display: 'block', mb: 0.5, color: '#0066cc' }}>概述 OVERVIEW</Typography>
                   <Typography variant="body2" sx={{ lineHeight: 1.7, color: '#444' }}>
@@ -421,7 +464,6 @@ function App() {
                 </Box>
                 
                 <Grid container spacing={6}>
-                  {/* 2. 运载能力 PAYLOAD */}
                   <Grid item xs={12} sm={6}>
                     <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 800, mb: 2, textTransform: 'uppercase' }}>运载能力</Typography>
                     <StatRow label="近地轨道 (LEO)" value={selectedRocket.leoCapacity} unit="t" highlight />
@@ -430,7 +472,6 @@ function App() {
                     <StatRow label="冥王星/深空" value={selectedRocket.plutoCapacity} unit="t" />
                   </Grid>
 
-                  {/* 3. 物理规格 SPECS */}
                   <Grid item xs={12} sm={6}>
                      <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 800, mb: 2, textTransform: 'uppercase' }}>物理规格</Typography>
                      <StatRow label="全箭高度" value={selectedRocket.height} unit="m" />
@@ -442,7 +483,6 @@ function App() {
 
                   <Grid item xs={12}><Divider /></Grid>
 
-                  {/* 4. 推进系统 PROPULSION */}
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 2 }}>推进系统</Typography>
                     <Grid container spacing={4}>
@@ -467,7 +507,7 @@ function App() {
                     </Grid>
                   </Grid>
 
-                  {/* 5. 回收 RECOVERY (独立色块) */}
+                  {/* 回收板块 */}
                   {selectedRocket.isReusable && (
                     <Grid item xs={12}>
                       <Box sx={{ p: 2.5, borderRadius: 3, bgcolor: '#e8f5e9', border: '1px solid #c8e6c9', display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -484,7 +524,6 @@ function App() {
 
                   <Grid item xs={12}><Divider /></Grid>
 
-                  {/* 6. 历史概况 HISTORY */}
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="textSecondary" sx={{ fontWeight: 800, mb: 2 }}>历史概况</Typography>
                     <Grid container spacing={4}>

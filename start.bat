@@ -1,9 +1,11 @@
 @echo off
-echo Starting Launch Vehicle Query System...
+echo Starting Launch Vehicle System (Static Mode)...
 
-start "Backend Server" cmd /k "cd server && npm run dev"
 start "Frontend Client" cmd /k "cd client && npm run dev"
 
-echo Done. Check the new windows for status.
-echo Access the website at: http://localhost:5173
+echo.
+echo ==========================================
+echo  System Started in Static Mode.
+echo  Access at: http://localhost:5173
+echo ==========================================
 pause
