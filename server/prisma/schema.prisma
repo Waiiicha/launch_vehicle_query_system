@@ -23,7 +23,8 @@ model Rocket {
   diameter     Float?   // 直径(m)
   mass         Float?   // 起飞质量(t)
   stages       String?  // 构型
-  
+  boosters     String?  // 助推器配置 (新增)
+
   leoCapacity  Float?   // LEO运力(t)
   gtoCapacity  Float?   // GTO运力(t)
   marsCapacity Float?   // 火星运力(t)

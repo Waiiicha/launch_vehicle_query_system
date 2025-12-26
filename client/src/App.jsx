@@ -2,41 +2,56 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Container, Typography, TextField, Grid, Card, CardContent, CardActions, CardMedia,
-  Button, Dialog, DialogTitle, DialogContent, Box, Slider, FormControlLabel,
+  Button, Dialog, Box, Slider, FormControlLabel,
   Switch, Chip, Stack, LinearProgress, Paper, InputAdornment, Fade,
-  MenuItem, Select, FormControl, InputLabel
+  MenuItem, Select, FormControl, Divider, Drawer, List, ListItem, ListItemButton, ListItemText, ListItemIcon,
+  IconButton, useMediaQuery, useTheme, InputLabel
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
+const drawerWidth = 320;
 
 function App() {
   const [rockets, setRockets] = useState([]);
-  const [search, setSearch] = useState('');
   const [selectedRocket, setSelectedRocket] = useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
   
-  // 增强筛选状态
+  // 纯净的筛选状态
   const [filters, setFilters] = useState({
-    leoRange: [0, 160], // [min, max]
-    country: '', 
+    search: '',
+    country: '',      // 国家筛选归位
+    leoRange: [0, 160],
     fuel: '',
-    isReusable: false
+    isReusable: false,
+    status: '',
+    stages: '',
+    manufacturer: ''
   });
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
     fetchRockets();
-  }, [search, filters]);
+  }, [filters]);
 
   const fetchRockets = async () => {
     const params = new URLSearchParams();
-    if (search) params.append('search', search);
-    if (filters.isReusable) params.append('isReusable', 'true');
     
-    // Range
+    if (filters.search) params.append('search', filters.search);
+    if (filters.country) params.append('country', filters.country);
+    if (filters.isReusable) params.append('isReusable', 'true');
     params.append('minLeo', filters.leoRange[0]);
     if (filters.leoRange[1] < 160) params.append('maxLeo', filters.leoRange[1]);
     
-    if (filters.country) params.append('country', filters.country);
     if (filters.fuel) params.append('fuel', filters.fuel);
+    if (filters.status) params.append('status', filters.status);
+    if (filters.stages) params.append('stages', filters.stages);
+    if (filters.manufacturer) params.append('manufacturer', filters.manufacturer);
 
     try {
       const response = await axios.get(`/api/rockets?${params.toString()}`);
@@ -46,231 +61,328 @@ function App() {
     }
   };
 
-  const StatRow = ({ label, value, unit }) => (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 1, borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
-      <Typography variant="body2" color="textSecondary">{label}</Typography>
+  const handleReset = () => {
+    setFilters({
+      search: '',
+      country: '',
+      leoRange: [0, 160],
+      fuel: '',
+      isReusable: false,
+      status: '',
+      stages: '',
+      manufacturer: ''
+    });
+  };
+
+  const StatRow = ({ label, value, unit, subLabel }) => (
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 1.2, borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+      <Box>
+        <Typography variant="body2" color="textSecondary">{label}</Typography>
+        {subLabel && <Typography variant="caption" color="textSecondary" sx={{ opacity: 0.6, fontSize: '0.7rem' }}>{subLabel}</Typography>}
+      </Box>
       <Typography variant="body2" sx={{ fontWeight: 600 }}>{value ? `${value} ${unit}` : 'N/A'}</Typography>
     </Box>
   );
 
-  return (
-    <Container maxWidth="lg" sx={{ mt: 8, mb: 10 }}>
-      {/* 顶部标题区 */}
-      <Box sx={{ textAlign: 'center', mb: 8 }}>
-        <Typography variant="h3" gutterBottom>
-          Launch Vehicles.
-        </Typography>
-        <Typography variant="h5" color="textSecondary" sx={{ fontWeight: 400 }}>
-          Exploring humanity's bridge to the stars.
-        </Typography>
+  const filterInputStyle = {
+    borderRadius: 3,
+    bgcolor: '#f5f5f7',
+    '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+    '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
+    '&.Mui-focused .MuiOutlinedInput-notchedOutline': { border: '1px solid #0066cc' },
+  };
+
+  const FilterSelect = ({ label, value, onChange, options }) => (
+    <FormControl fullWidth size="small" sx={{ mb: 2 }}>
+      <Typography variant="caption" sx={{ ml: 1, mb: 0.5, fontWeight: 600, color: 'text.secondary' }}>{label}</Typography>
+      <Select
+        value={value}
+        onChange={onChange}
+        displayEmpty
+        sx={filterInputStyle}
+        MenuProps={{ PaperProps: { sx: { borderRadius: 3, boxShadow: '0 4px 20px rgba(0,0,0,0.1)' } } }}
+      >
+        <MenuItem value=""><em>不限 (All)</em></MenuItem>
+        {options.map(opt => (
+          <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+
+  const drawerContent = (
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      {/* 上半部分：筛选区 (固定高度，可滚动) */}
+      <Box sx={{ p: 3, overflowY: 'auto', flexShrink: 0, borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
+        <Box sx={{ mb: 3 }}>
+           <Typography variant="h6" sx={{ fontWeight: 800, color: '#000', letterSpacing: -0.5 }}>ROCKET DB</Typography>
+           <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 500 }}>Control Center</Typography>
+        </Box>
+
+        <TextField
+          placeholder="搜索型号 / Search..."
+          variant="outlined"
+          fullWidth
+          size="small"
+          value={filters.search}
+          onChange={(e) => setFilters({...filters, search: e.target.value})}
+          InputProps={{
+            startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" sx={{ color: 'text.secondary' }} /></InputAdornment>,
+            sx: filterInputStyle
+          }}
+          sx={{ mb: 3 }}
+        />
+
+        <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 700, mb: 2, display: 'block', px: 1 }}>筛选条件 / FILTERS</Typography>
+        
+        {/* 国家筛选 (原快捷分类) */}
+        <FilterSelect 
+          label="国家 / Country"
+          value={filters.country}
+          onChange={(e) => setFilters({...filters, country: e.target.value})}
+          options={[
+            { value: '中国', label: '🇨🇳 中国 (China)' },
+            { value: '美国', label: '🇺🇸 美国 (USA)' },
+            { value: '欧洲', label: '🇪🇺 欧洲 (Europe)' },
+            { value: '俄罗斯', label: '🇷🇺 俄罗斯 (Russia)' },
+          ]}
+        />
+
+        {/* 厂商 */}
+        <FilterSelect 
+          label="研制单位 / Manufacturer"
+          value={filters.manufacturer}
+          onChange={(e) => setFilters({...filters, manufacturer: e.target.value})}
+          options={[
+            { value: '航天一院', label: '🇨🇳 CASC 一院' },
+            { value: '航天八院', label: '🇨🇳 CASC 八院' },
+            { value: '蓝箭', label: '🇨🇳 蓝箭航天' },
+            { value: '星河', label: '🇨🇳 星河动力' },
+            { value: 'SpaceX', label: '🇺🇸 SpaceX' },
+            { value: 'NASA', label: '🇺🇸 NASA' },
+            { value: 'ULA', label: '🇺🇸 ULA' },
+          ]}
+        />
+
+        <FilterSelect 
+          label="服役状态 / Status"
+          value={filters.status}
+          onChange={(e) => setFilters({...filters, status: e.target.value})}
+          options={[
+            { value: '现役', label: '🟢 现役 (Active)' },
+            { value: '研发', label: '🔵 研发中 (In Dev)' },
+            { value: '退役', label: '⚪️ 退役 (Retired)' },
+          ]}
+        />
+
+        <FilterSelect 
+          label="燃料类型 / Fuel"
+          value={filters.fuel}
+          onChange={(e) => setFilters({...filters, fuel: e.target.value})}
+          options={[
+            { value: '煤油', label: '🛢️ 煤油 (Kerosene)' },
+            { value: '甲烷', label: '💨 甲烷 (Methane)' },
+            { value: '氢', label: '💧 氢氧 (Hydrogen)' },
+            { value: '固体', label: '🧱 固体 (Solid)' },
+          ]}
+        />
+
+        <Box sx={{ px: 1, mb: 2, bgcolor: '#f5f5f7', p: 2, borderRadius: 3 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+            <Typography variant="caption" sx={{ fontWeight: 600 }}>LEO 运力</Typography>
+            <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 700 }}>{filters.leoRange[0]}-{filters.leoRange[1]}t</Typography>
+          </Box>
+          <Slider
+            value={filters.leoRange}
+            onChange={(e, val) => setFilters({...filters, leoRange: val})}
+            min={0} max={160} size="small"
+          />
+        </Box>
+
+        <Box sx={{ mt: 1, px: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+           <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8rem' }}>可回收型号</Typography>
+           <Switch checked={filters.isReusable} onChange={(e) => setFilters({...filters, isReusable: e.target.checked})} size="small" />
+        </Box>
+
+        <Button 
+          fullWidth 
+          size="small"
+          variant="text" 
+          onClick={handleReset}
+          sx={{ mt: 2, color: 'text.secondary', fontSize: '0.75rem' }}
+        >
+          重置所有筛选
+        </Button>
       </Box>
 
-      {/* 增强型控制栏 */}
-      <Paper 
-        elevation={0}
-        sx={{ 
-          p: 3, mb: 6, borderRadius: 4, 
-          backgroundColor: 'rgba(255,255,255,0.8)', 
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(0,0,0,0.05)',
-          position: 'sticky', top: 20, zIndex: 100
-        }}
-      >
-        <Grid container spacing={3} alignItems="center">
-          {/* 搜索 */}
-          <Grid item xs={12} md={3}>
-            <TextField
-              placeholder="Search models..."
-              variant="standard"
-              fullWidth
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              InputProps={{
-                disableUnderline: true,
-                startAdornment: <InputAdornment position="start"><SearchIcon color="action" /></InputAdornment>,
-                style: { fontSize: '1.1rem', fontWeight: 500 }
-              }}
-            />
-          </Grid>
-          
-          {/* LEO 运力范围 */}
-          <Grid item xs={12} md={3}>
-            <Typography variant="caption" color="textSecondary">LEO Capacity: {filters.leoRange[0]}t - {filters.leoRange[1] === 160 ? '160t+' : `${filters.leoRange[1]}t`}</Typography>
-            <Slider
-              value={filters.leoRange}
-              onChange={(e, val) => setFilters({...filters, leoRange: val})}
-              valueLabelDisplay="auto"
-              min={0}
-              max={160}
-              size="small"
-            />
-          </Grid>
-
-          {/* 燃料类型 */}
-          <Grid item xs={6} md={2}>
-            <FormControl fullWidth size="small" variant="standard">
-              <Select
-                value={filters.fuel}
-                onChange={(e) => setFilters({...filters, fuel: e.target.value})}
-                displayEmpty
-                disableUnderline
-                sx={{ fontWeight: 500 }}
-              >
-                <MenuItem value=""><em>Fuel Type</em></MenuItem>
-                <MenuItem value="煤油">Kerosene (煤油)</MenuItem>
-                <MenuItem value="氢">Hydrogen (氢氧)</MenuItem>
-                <MenuItem value="甲烷">Methane (甲烷)</MenuItem>
-                <MenuItem value="固体">Solid (固体)</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          
-          {/* 国家 */}
-          <Grid item xs={6} md={2}>
-             <FormControl fullWidth size="small" variant="standard">
-              <Select
-                value={filters.country}
-                onChange={(e) => setFilters({...filters, country: e.target.value})}
-                displayEmpty
-                disableUnderline
-                sx={{ fontWeight: 500 }}
-              >
-                <MenuItem value=""><em>All Countries</em></MenuItem>
-                <MenuItem value="中国">China</MenuItem>
-                <MenuItem value="美国">USA</MenuItem>
-                <MenuItem value="欧洲">Europe</MenuItem>
-                <MenuItem value="俄罗斯">Russia</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-
-          {/* 可回收开关 */}
-          <Grid item xs={12} md={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-             <FormControlLabel
-              control={
-                <Switch 
-                  checked={filters.isReusable} 
-                  onChange={(e) => setFilters({...filters, isReusable: e.target.checked})}
+      {/* 下半部分：结果目录 (剩余高度，可滚动) */}
+      <Box sx={{ flexGrow: 1, overflowY: 'auto', bgcolor: '#fafafa', p: 0 }}>
+        <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 700, py: 2, px: 3, display: 'block', bgcolor: '#fafafa', position: 'sticky', top: 0, zIndex: 1 }}>
+          结果目录 ({rockets.length})
+        </Typography>
+        <List dense>
+          {rockets.map((rocket) => (
+            <ListItem key={rocket.id} disablePadding>
+              <ListItemButton onClick={() => setSelectedRocket(rocket)} sx={{ px: 3 }}>
+                <ListItemText 
+                  primary={rocket.name} 
+                  secondary={rocket.country}
+                  primaryTypographyProps={{ fontSize: '0.85rem', fontWeight: 600 }}
+                  secondaryTypographyProps={{ fontSize: '0.7rem' }}
                 />
-              }
-              label={<Typography variant="body2" sx={{ fontWeight: 500 }}>Reusable</Typography>}
-            />
-          </Grid>
-        </Grid>
-      </Paper>
+                <ArrowForwardIosIcon sx={{ fontSize: 10, color: '#ccc' }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+          {rockets.length === 0 && (
+             <Box sx={{ p: 3, textAlign: 'center', opacity: 0.5 }}>
+               <Typography variant="caption">无匹配结果</Typography>
+             </Box>
+          )}
+        </List>
+      </Box>
+    </Box>
+  );
 
-      {/* 数据网格 */}
-      <Grid container spacing={4}>
-        {rockets.map((rocket) => (
-          <Grid item xs={12} sm={6} md={4} key={rocket.id}>
-            <Fade in={true} timeout={500}>
-              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={rocket.imageUrl || `https://placehold.co/800x600/f5f5f7/1d1d1f?text=${rocket.name}`}
-                  alt={rocket.name}
-                  sx={{ objectFit: 'cover' }}
-                />
-                <CardContent sx={{ p: 3, flexGrow: 1 }}>
-                  <Stack direction="row" justifyContent="space-between" alignItems="flex-start" mb={1}>
-                    <Typography variant="overline" color="primary" sx={{ fontWeight: 700 }}>
-                      {rocket.series || rocket.manufacturer}
-                    </Typography>
-                    {rocket.isReusable && <Chip label="Reusable" size="small" color="success" variant="soft" sx={{ height: 20, fontSize: '0.65rem' }} />}
-                  </Stack>
-                  
-                  <Typography variant="h5" sx={{ mb: 1, letterSpacing: '-0.02em', fontWeight: 600 }}>
-                    {rocket.name}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" sx={{ mb: 3, minHeight: 40 }}>
-                    {rocket.description ? (rocket.description.length > 50 ? rocket.description.substring(0, 50) + '...' : rocket.description) : 'No description.'}
-                  </Typography>
-                  
-                  <Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                       <Typography variant="caption" color="textSecondary">LEO Payload</Typography>
-                       <Typography variant="caption" sx={{ fontWeight: 600 }}>{rocket.leoCapacity || 0}t</Typography>
+  return (
+    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f5f5f7' }}>
+      
+      {isMobile && (
+        <IconButton
+          onClick={() => setMobileOpen(true)}
+          sx={{ position: 'fixed', top: 16, left: 16, zIndex: 1200, bgcolor: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}
+        >
+          <MenuIcon />
+        </IconButton>
+      )}
+
+      <Box component="nav" sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}>
+        <Drawer
+          variant={isMobile ? "temporary" : "permanent"}
+          open={isMobile ? mobileOpen : true}
+          onClose={() => setMobileOpen(false)}
+          sx={{
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, border: 'none', boxShadow: '1px 0 20px rgba(0,0,0,0.02)' },
+          }}
+        >
+          {drawerContent}
+        </Drawer>
+      </Box>
+
+      <Box component="main" sx={{ flexGrow: 1, p: { xs: 2, md: 5 }, width: { md: `calc(100% - ${drawerWidth}px)` }, height: '100vh', overflowY: 'auto' }}>
+        <Container maxWidth="xl">
+          <Box sx={{ mb: 6, mt: { xs: 8, md: 0 } }}>
+            <Typography variant="h3" sx={{ fontWeight: 800, letterSpacing: -1 }}>
+              {filters.country ? `${filters.country}火箭` : '全球运载火箭库'}
+            </Typography>
+            <Typography variant="body1" color="textSecondary" sx={{ mt: 1 }}>
+              已筛选出 {rockets.length} 款型号
+            </Typography>
+          </Box>
+
+          <Grid container spacing={3} sx={{ pb: 10 }}>
+            {rockets.map((rocket) => (
+              <Grid item xs={12} sm={6} lg={4} xl={3} key={rocket.id}>
+                <Fade in={true}>
+                  <Card sx={{ 
+                    height: '100%', display: 'flex', flexDirection: 'column', 
+                    borderRadius: 4,
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    '&:hover': { transform: 'translateY(-8px)', boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }
+                  }}>
+                    <Box sx={{ position: 'relative' }}>
+                       <CardMedia
+                        component="img"
+                        height="200"
+                        image={rocket.imageUrl}
+                        alt={rocket.name}
+                        sx={{ bgcolor: '#f0f0f0' }}
+                      />
+                      <Box sx={{ position: 'absolute', top: 12, left: 12, display: 'flex', gap: 1 }}>
+                         <Chip label={rocket.status || '未知'} size="small" sx={{ bgcolor: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)', fontWeight: 700, fontSize: '0.7rem' }} />
+                      </Box>
                     </Box>
-                    <LinearProgress 
-                      variant="determinate" 
-                      value={Math.min(((rocket.leoCapacity || 0) / 150) * 100, 100)} 
-                      sx={{ height: 4, borderRadius: 2, bgcolor: '#f0f0f0' }} 
-                    />
-                  </Box>
-                </CardContent>
-                <CardActions sx={{ px: 3, pb: 3 }}>
-                  <Button variant="contained" fullWidth onClick={() => setSelectedRocket(rocket)}>
-                    View Specs
-                  </Button>
-                </CardActions>
-              </Card>
-            </Fade>
+                    
+                    <CardContent sx={{ p: 2.5, flexGrow: 1 }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+                        <Typography variant="overline" sx={{ fontWeight: 800, color: 'primary.main', fontSize: '0.7rem' }}>{rocket.country}</Typography>
+                        {rocket.isReusable && <Chip label="♻️" size="small" variant="outlined" sx={{ height: 20, border: 'none', bgcolor: '#e8f5e9' }} />}
+                      </Box>
+                      <Typography variant="h6" sx={{ fontWeight: 800, mb: 1, lineHeight: 1.2 }}>{rocket.name}</Typography>
+                      <Typography variant="body2" color="textSecondary" sx={{ mb: 2, height: 40, overflow: 'hidden', fontSize: '0.85rem' }}>
+                        {rocket.description}
+                      </Typography>
+                      
+                      <Box sx={{ bgcolor: '#f5f5f7', p: 1.5, borderRadius: 3 }}>
+                        <Stack direction="row" justifyContent="space-between" mb={0.5}>
+                          <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>LEO Payload</Typography>
+                          <Typography variant="caption" sx={{ fontWeight: 800 }}>{rocket.leoCapacity} t</Typography>
+                        </Stack>
+                        <LinearProgress variant="determinate" value={Math.min(((rocket.leoCapacity || 0) / 150) * 100, 100)} sx={{ height: 6, borderRadius: 3 }} />
+                      </Box>
+                    </CardContent>
+                    <CardActions sx={{ p: 2.5, pt: 0 }}>
+                      <Button variant="contained" fullWidth disableElevation onClick={() => setSelectedRocket(rocket)} sx={{ borderRadius: 3, fontWeight: 700, bgcolor: '#000', '&:hover': { bgcolor: '#333' } }}>
+                        View Specs
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Fade>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
+        </Container>
+      </Box>
 
-      {/* 详情模态框 */}
-      <Dialog 
-        open={!!selectedRocket} 
-        onClose={() => setSelectedRocket(null)}
-        maxWidth="md"
-        fullWidth
-        PaperProps={{
-          sx: { borderRadius: 6, overflow: 'hidden' }
-        }}
-      >
+      {/* 详情弹窗 */}
+      <Dialog open={!!selectedRocket} onClose={() => setSelectedRocket(null)} maxWidth="md" fullWidth PaperProps={{ sx: { borderRadius: 6, overflow: 'hidden' } }}>
         {selectedRocket && (
           <Grid container>
-            {/* 左侧图片区 (仅在大屏显示) */}
-            <Grid item xs={12} md={5} sx={{ bgcolor: '#f5f5f7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-               <Box 
-                 component="img" 
-                 src={selectedRocket.imageUrl} 
-                 sx={{ width: '100%', height: '100%', objectFit: 'cover', maxHeight: 600 }}
-               />
+            <Grid item xs={12} md={5} sx={{ bgcolor: '#f5f5f7' }}>
+               <Box component="img" src={selectedRocket.imageUrl} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </Grid>
-            
-            {/* 右侧信息区 */}
             <Grid item xs={12} md={7}>
-              <Box sx={{ p: 4, position: 'relative' }}>
-                <Button 
-                  onClick={() => setSelectedRocket(null)} 
-                  sx={{ position: 'absolute', right: 16, top: 16, minWidth: 0, p: 1, borderRadius: '50%', color: '#000' }}
-                >
-                   <CloseIcon />
-                </Button>
+              <Box sx={{ p: 5, position: 'relative' }}>
+                <IconButton onClick={() => setSelectedRocket(null)} sx={{ position: 'absolute', right: 16, top: 16 }}><CloseIcon /></IconButton>
+                <Stack direction="row" spacing={1} mb={1}>
+                  <Chip label={selectedRocket.country} size="small" />
+                  <Chip label={selectedRocket.status} size="small" color={selectedRocket.status === '现役' ? 'success' : 'default'} />
+                </Stack>
                 
-                <Typography variant="overline" color="textSecondary">{selectedRocket.manufacturer} / {selectedRocket.country}</Typography>
-                <Typography variant="h3" sx={{ mt: 1, mb: 3 }}>{selectedRocket.name}</Typography>
+                <Typography variant="h3" sx={{ fontWeight: 800, mb: 0.5 }}>{selectedRocket.name}</Typography>
+                <Typography variant="body1" color="textSecondary" sx={{ mb: 4 }}>{selectedRocket.manufacturer}</Typography>
                 
                 <Grid container spacing={4}>
-                  <Grid item xs={12} sm={6}>
-                    <Typography variant="h6" gutterBottom>Performance</Typography>
-                    <StatRow label="LEO Capacity" value={selectedRocket.leoCapacity} unit="t" />
-                    <StatRow label="GTO Capacity" value={selectedRocket.gtoCapacity} unit="t" />
-                    <StatRow label="Mars Transfer" value={selectedRocket.marsCapacity} unit="t" />
+                  <Grid item xs={6}>
+                    <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 800, mb: 2 }}>PERFORMANCE</Typography>
+                    <StatRow label="LEO 运力" value={selectedRocket.leoCapacity} unit="t" />
+                    <StatRow label="GTO 运力" value={selectedRocket.gtoCapacity} unit="t" />
+                    <StatRow label="起飞推力" value={selectedRocket.firstStageThrust} unit="" />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                     <Typography variant="h6" gutterBottom>Propulsion</Typography>
-                     <StatRow label="Fuel (Stage 1)" value={selectedRocket.firstStageFuel} unit="" />
-                     <StatRow label="Engine" value={selectedRocket.firstStageEngine} unit="" />
-                     <StatRow label="Thrust" value={selectedRocket.firstStageThrust} unit="" />
+                  <Grid item xs={6}>
+                     <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 800, mb: 2 }}>DIMENSIONS</Typography>
+                     <StatRow label="高度" value={selectedRocket.height} unit="m" />
+                     <StatRow label="直径" value={selectedRocket.diameter} unit="m" />
+                     <StatRow label="级数" value={selectedRocket.stages} unit="" />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Divider sx={{ my: 2 }} />
+                    <Grid container spacing={2}>
+                      <Grid item xs={6}><StatRow label="一级引擎" value={selectedRocket.firstStageEngine} unit="" /></Grid>
+                      <Grid item xs={6}><StatRow label="一级燃料" value={selectedRocket.firstStageFuel} unit="" /></Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
-
-                <Box sx={{ mt: 4, p: 3, bgcolor: '#fafafa', borderRadius: 4 }}>
-                   <Typography variant="subtitle2" gutterBottom>Mission Profile</Typography>
-                   <Typography variant="body2" color="textSecondary" align="justify">
-                    {selectedRocket.description}
-                  </Typography>
+                <Box sx={{ mt: 4 }}>
+                   <Typography variant="body2" sx={{ lineHeight: 1.8, color: '#555' }}>{selectedRocket.description}</Typography>
                 </Box>
               </Box>
             </Grid>
           </Grid>
         )}
       </Dialog>
-    </Container>
+    </Box>
   );
 }
 

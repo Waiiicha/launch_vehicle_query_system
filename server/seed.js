@@ -9,9 +9,18 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "退役",
+    height: 29.86,
+    diameter: 2.25,
+    mass: 81.6,
+    stages: "3",
+    boosters: "无",
     leoCapacity: 0.3,
-    firstStageFuel: "常温(毒)", // 归类便于筛选
-    description: "中国首枚火箭，发射东方红一号",
+    firstStageFuel: "硝酸-27S/偏二甲肼",
+    firstStageEngine: "YF-2A (4xYF-1A)",
+    firstStageThrust: "1020 kN",
+    secondStageFuel: "硝酸-27S/偏二甲肼",
+    secondStageEngine: "YF-3",
+    description: "中国航天奠基之作，由东风-4号导弹改进而来，成功发射东方红一号。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+1"
   },
   {
@@ -20,9 +29,18 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "现役",
+    height: 42.0,
+    diameter: 3.35,
+    mass: 233.0,
+    stages: "2",
+    boosters: "无",
     leoCapacity: 3.85,
-    firstStageFuel: "常温(毒)",
-    description: "中国金牌火箭，主要用于遥感卫星发射",
+    firstStageFuel: "N2O4/UDMH",
+    firstStageEngine: "4 x YF-21C",
+    firstStageThrust: "2961 kN",
+    secondStageFuel: "N2O4/UDMH",
+    secondStageEngine: "1 x YF-24E",
+    description: "“金牌火箭”，服役时间最长、可靠性最高的型号之一，常用于遥感卫星发射。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+2C"
   },
   {
@@ -31,9 +49,17 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天八院",
     status: "现役",
+    height: 41.0,
+    diameter: 3.35,
+    mass: 232.0,
+    stages: "2",
+    boosters: "无",
     leoCapacity: 3.5,
-    firstStageFuel: "常温(毒)",
-    description: "主要用于SSO轨道任务，发射频率极高",
+    firstStageFuel: "N2O4/UDMH",
+    firstStageEngine: "4 x YF-21C",
+    secondStageFuel: "N2O4/UDMH",
+    secondStageEngine: "1 x YF-24C",
+    description: "SSO 轨道主力运载工具，以快速响应和高发射成功率著称。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+2D"
   },
   {
@@ -42,9 +68,18 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "现役",
+    height: 58.34,
+    diameter: 3.35,
+    mass: 497.0,
+    stages: "2",
+    boosters: "4 x 2.25m 液体 (N2O4/UDMH)",
     leoCapacity: 8.6,
-    firstStageFuel: "常温(毒)",
-    description: "神箭，载人航天神舟飞船专用火箭，配备逃逸塔",
+    firstStageFuel: "N2O4/UDMH",
+    firstStageEngine: "4 x YF-20B (芯级)",
+    firstStageThrust: "5923 kN (全推力)",
+    secondStageFuel: "N2O4/UDMH",
+    secondStageEngine: "1 x YF-24B",
+    description: "“神箭”，中国载人航天工程专属火箭，顶部配有逃逸塔，安全性指标 0.97。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+2F"
   },
   {
@@ -53,23 +88,22 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "现役",
+    height: 56.3,
+    diameter: 3.35,
+    mass: 459.0,
+    stages: "3",
+    boosters: "4 x 2.25m 液体 (N2O4/UDMH)",
     leoCapacity: 11.5,
     gtoCapacity: 5.5,
-    firstStageFuel: "常温(毒)",
+    firstStageFuel: "N2O4/UDMH",
+    firstStageEngine: "4 x YF-20C",
+    firstStageThrust: "5923 kN",
+    secondStageFuel: "N2O4/UDMH",
+    secondStageEngine: "1 x YF-22E + 4 x YF-23C",
     thirdStageFuel: "液氢/液氧",
-    description: "北斗卫星、深空探测主力，掌握氢氧三级技术",
+    thirdStageEngine: "2 x YF-75",
+    description: "中国高轨发射主力，承担了绝大多数北斗导航卫星和通信卫星的发射任务。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+3B"
-  },
-  {
-    name: "CZ-4B/C",
-    series: "长征系列",
-    country: "中国",
-    manufacturer: "航天八院",
-    status: "现役",
-    leoCapacity: 4.2,
-    firstStageFuel: "常温(毒)",
-    description: "SSO轨道主力，风云气象卫星发射平台",
-    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+4"
   },
   {
     name: "CZ-5",
@@ -80,13 +114,17 @@ const rocketsData = [
     height: 56.97,
     diameter: 5.0,
     mass: 869.0,
-    leoCapacity: 25.0, // 修正为最大能力
+    stages: "2",
+    boosters: "4 x 3.35m 液体 (液氧/煤油)",
+    leoCapacity: 25.0, // 理论最大
     gtoCapacity: 14.0,
     marsCapacity: 6.0,
     firstStageFuel: "液氢/液氧",
-    firstStageEngine: "2*YF-77",
-    firstStageThrust: "10570 kN",
-    description: "胖五，中国现役最强，负责火星探测、月球采样返回",
+    firstStageEngine: "2 x YF-77",
+    firstStageThrust: "10570 kN (含助推)",
+    secondStageFuel: "液氢/液氧",
+    secondStageEngine: "2 x YF-75D",
+    description: "“胖五”，中国现役运力最强火箭，5米直径芯级，负责天问一号、嫦娥五号等重大深空任务。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+5"
   },
   {
@@ -95,9 +133,17 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "现役",
+    height: 53.7,
+    diameter: 5.0,
+    mass: 837.0,
+    stages: "1.5",
+    boosters: "4 x 3.35m 液体 (液氧/煤油)",
     leoCapacity: 25.0,
     firstStageFuel: "液氢/液氧",
-    description: "空间站舱段专用运载火箭",
+    firstStageEngine: "2 x YF-77",
+    firstStageThrust: "10570 kN",
+    secondStageEngine: "无 (一级半构型)",
+    description: "空间站专用构建，移除二级，一级直接入轨，拥有超大整流罩。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+5B"
   },
   {
@@ -106,9 +152,17 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天八院",
     status: "现役",
-    leoCapacity: 4.5,
+    height: 50.0,
+    diameter: 3.35,
+    mass: 530.0,
+    stages: "2",
+    boosters: "4 x 固体助推器 (2m直径)",
+    leoCapacity: 4.5, // 700km SSO
     firstStageFuel: "液氧/煤油",
-    description: "中国首款固液混合运载火箭",
+    firstStageEngine: "2 x YF-100",
+    secondStageFuel: "液氧/煤油",
+    secondStageEngine: "1 x YF-115",
+    description: "中国首款固液混合动力运载火箭，结合了固体的大推力和液体的可控性。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+6A"
   },
   {
@@ -117,9 +171,19 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "现役",
+    height: 53.1,
+    diameter: 3.35,
+    mass: 597.0,
+    stages: "2",
+    boosters: "4 x 2.25m 液体 (液氧/煤油)",
     leoCapacity: 13.5,
+    gtoCapacity: 7.0, // 需加上面级
     firstStageFuel: "液氧/煤油",
-    description: "天舟货运飞船发射，新一代中型火箭",
+    firstStageEngine: "2 x YF-100",
+    firstStageThrust: "7200 kN (含助推)",
+    secondStageFuel: "液氧/煤油",
+    secondStageEngine: "4 x YF-115",
+    description: "新一代中型运载火箭，全液氧煤油动力，专门用于发射天舟货运飞船。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+7"
   },
   {
@@ -128,10 +192,18 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "现役",
+    height: 50.3,
+    diameter: 3.35,
+    mass: 356.0,
+    stages: "2",
+    boosters: "2 x 2.25m 液体 (液氧/煤油)",
     leoCapacity: 8.1,
     firstStageFuel: "液氧/煤油",
+    firstStageEngine: "2 x YF-100",
+    secondStageFuel: "液氢/液氧",
+    secondStageEngine: "2 x YF-75",
     isReusable: true,
-    description: "太阳同步轨道主力，具备垂直回收潜力",
+    description: "面向商业发射市场，模块化设计，验证了侧向助推器不分离技术，具备回收潜力。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+8"
   },
   {
@@ -140,12 +212,20 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "研发中",
+    height: 114.0,
+    diameter: 10.6,
+    mass: 4350.0,
+    stages: "3",
+    boosters: "无 (单芯级)",
     leoCapacity: 150.0,
     marsCapacity: 44.0,
     firstStageFuel: "液氧/甲烷",
-    firstStageEngine: "30*YF-215",
+    firstStageEngine: "30 x YF-215 (200吨级)",
+    firstStageThrust: "60000 kN",
+    secondStageFuel: "液氧/甲烷",
+    secondStageEngine: "2 x 360吨级推力",
     isReusable: true,
-    description: "下一代超重型火箭，对标Starship，目标火星殖民",
+    description: "中国版“星舰”，采用全流量分级燃烧循环甲烷机，完全重复使用，目标载人火星。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+9"
   },
   {
@@ -154,10 +234,19 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "研发中",
+    height: 92.0,
+    diameter: 5.0,
+    mass: 2189.0,
+    stages: "3",
+    boosters: "2 x 5.0m CBC通用芯级",
     leoCapacity: 70.0,
-    marsCapacity: 27.0,
+    marsCapacity: 27.0, // TLI
     firstStageFuel: "液氧/煤油",
-    description: "载人登月核心工具，921火箭",
+    firstStageEngine: "21 x YF-100K (含助推)",
+    firstStageThrust: "26780 kN",
+    secondStageFuel: "液氢/液氧",
+    secondStageEngine: "2 x YF-75E",
+    description: "新一代载人运载火箭 (921)，专为2030年前载人登月设计，采用CBC构型。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+10"
   },
   {
@@ -166,118 +255,42 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天八院",
     status: "现役",
+    height: 62.0,
+    diameter: 3.8,
+    mass: 433.0,
+    stages: "2",
+    boosters: "无",
     leoCapacity: 12.0,
     firstStageFuel: "液氧/煤油",
-    description: "首个3.8米直径，兼容铁路运输",
+    firstStageEngine: "4 x YF-100K",
+    secondStageFuel: "液氧/煤油",
+    secondStageEngine: "2 x YF-115",
+    description: "首个3.8米直径火箭，打破了3.35米限制且仍可铁路运输，适配海南商业发射场。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+12"
   },
-  {
-    name: "CZ-12A",
-    series: "长征系列",
-    country: "中国",
-    manufacturer: "航天八院",
-    status: "测试中",
-    leoCapacity: 12.0,
-    firstStageFuel: "液氧/甲烷",
-    isReusable: true,
-    description: "长征12的回收版本，动力系统更换为甲烷机",
-    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+12A"
-  },
 
-  // --- 2. 中国商业航天 ---
-  {
-    name: "快舟1A",
-    series: "中国商业航天",
-    country: "中国",
-    manufacturer: "航天科工",
-    status: "现役",
-    leoCapacity: 0.3,
-    firstStageFuel: "固体",
-    description: "快速响应，车载机动发射",
-    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Kuaizhou-1A"
-  },
-  {
-    name: "朱雀二号",
-    series: "中国商业航天",
-    country: "中国",
-    manufacturer: "蓝箭航天",
-    status: "现役",
-    leoCapacity: 6.0,
-    firstStageFuel: "液氧/甲烷",
-    firstStageEngine: "TQ-12",
-    description: "全球首款入轨液氧甲烷火箭",
-    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Zhuque-2"
-  },
-  {
-    name: "朱雀三号",
-    series: "中国商业航天",
-    country: "中国",
-    manufacturer: "蓝箭航天",
-    status: "研发中",
-    leoCapacity: 21.0,
-    firstStageFuel: "液氧/甲烷",
-    isReusable: true,
-    description: "全不锈钢箭体，对标Falcon 9",
-    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Zhuque-3"
-  },
-  {
-    name: "力箭一号",
-    series: "中国商业航天",
-    country: "中国",
-    manufacturer: "中科宇航",
-    status: "现役",
-    leoCapacity: 2.0,
-    firstStageFuel: "固体",
-    description: "中国目前运力最大的固体火箭之一",
-    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Lijian-1"
-  },
-  {
-    name: "引力一号",
-    series: "中国商业航天",
-    country: "中国",
-    manufacturer: "东方空间",
-    status: "现役",
-    leoCapacity: 6.5,
-    firstStageFuel: "固体",
-    description: "全球运力最强固体火箭，海上发射",
-    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Gravity-1"
-  },
-  {
-    name: "谷神星一号",
-    series: "中国商业航天",
-    country: "中国",
-    manufacturer: "星河动力",
-    status: "现役",
-    leoCapacity: 0.4,
-    firstStageFuel: "固体",
-    description: "民营商业发射频率最高型号",
-    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Ceres-1"
-  },
-  {
-    name: "天龙二号",
-    series: "中国商业航天",
-    country: "中国",
-    manufacturer: "天兵科技",
-    status: "现役",
-    leoCapacity: 2.0,
-    firstStageFuel: "液氧/煤油",
-    description: "民营液体火箭首飞即成功",
-    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Tianlong-2"
-  },
-
-  // --- 3. 国际主流 ---
+  // --- 2. 国际主流 (International) ---
   {
     name: "Falcon 9",
     series: "SpaceX",
     country: "美国",
     manufacturer: "SpaceX",
     status: "现役",
+    height: 70.0,
+    diameter: 3.7,
+    mass: 549.0,
+    stages: "2",
+    boosters: "无",
     leoCapacity: 22.8,
     gtoCapacity: 8.3,
     marsCapacity: 4.0,
-    firstStageFuel: "液氧/煤油",
+    firstStageFuel: "液氧/煤油 (RP-1)",
+    firstStageEngine: "9 x Merlin 1D++",
+    firstStageThrust: "7607 kN",
+    secondStageFuel: "液氧/煤油 (RP-1)",
+    secondStageEngine: "1 x Merlin 1D Vacuum",
     isReusable: true,
-    description: "全球最成熟的复用火箭，星链建设主力",
+    description: "航天史上第一枚多次复用的轨道级火箭，单枚一级复用记录已突破20次。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Falcon+9"
   },
   {
@@ -286,12 +299,21 @@ const rocketsData = [
     country: "美国",
     manufacturer: "SpaceX",
     status: "现役",
+    height: 70.0,
+    diameter: 3.7, // 芯级
+    mass: 1420.0,
+    stages: "2",
+    boosters: "2 x Falcon 9 一级",
     leoCapacity: 63.8,
     marsCapacity: 16.8,
     plutoCapacity: 3.5,
     firstStageFuel: "液氧/煤油",
+    firstStageEngine: "27 x Merlin 1D (含助推)",
+    firstStageThrust: "22819 kN",
+    secondStageFuel: "液氧/煤油",
+    secondStageEngine: "1 x Merlin 1D Vacuum",
     isReusable: true,
-    description: "现役运力第二强，三枚芯级垂直回收",
+    description: "现役运力第二强的火箭，三个一级并联，助推器可同步回收。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Falcon+Heavy"
   },
   {
@@ -300,11 +322,20 @@ const rocketsData = [
     country: "美国",
     manufacturer: "SpaceX",
     status: "测试中",
+    height: 121.0,
+    diameter: 9.0,
+    mass: 5000.0,
+    stages: "2",
+    boosters: "无 (Super Heavy 为一级)",
     leoCapacity: 150.0,
-    marsCapacity: 100.0,
+    marsCapacity: 100.0, // 加油后
     firstStageFuel: "液氧/甲烷",
+    firstStageEngine: "33 x Raptor 2/3",
+    firstStageThrust: "74400 kN",
+    secondStageFuel: "液氧/甲烷",
+    secondStageEngine: "3 x Raptor Sea + 3 x Raptor Vac",
     isReusable: true,
-    description: "人类最强火箭，完全复用，目标火星",
+    description: "人类史上体积最大、推力最强的运载火箭，目标是将人类送往火星。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Starship"
   },
   {
@@ -313,10 +344,19 @@ const rocketsData = [
     country: "美国",
     manufacturer: "NASA",
     status: "现役",
+    height: 98.0,
+    diameter: 8.4,
+    mass: 2608.0,
+    stages: "2",
+    boosters: "2 x 五段式固体助推器 (SRB)",
     leoCapacity: 95.0,
-    marsCapacity: 20.0,
+    gtoCapacity: 27.0, // TLI
     firstStageFuel: "液氢/液氧",
-    description: "Artemis计划核心，重返月球",
+    firstStageEngine: "4 x RS-25D",
+    firstStageThrust: "39000 kN",
+    secondStageFuel: "液氢/液氧",
+    secondStageEngine: "1 x RL10B-2 (ICPS)",
+    description: "NASA 重返月球 Artemis 计划的基石，继承了航天飞机的主发动机和助推器技术。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=SLS"
   },
   {
@@ -325,34 +365,21 @@ const rocketsData = [
     country: "美国",
     manufacturer: "ULA",
     status: "现役",
+    height: 61.6,
+    diameter: 5.4,
+    mass: 546.0,
+    stages: "2",
+    boosters: "0-6 x GEM-63XL 固体",
     leoCapacity: 27.2,
+    gtoCapacity: 14.5,
     firstStageFuel: "液氧/甲烷",
+    firstStageEngine: "2 x BE-4",
+    firstStageThrust: "12300 kN",
+    secondStageFuel: "液氢/液氧",
+    secondStageEngine: "2 x RL10C",
     isReusable: true,
-    description: "替代Atlas V和Delta IV，ULA新一代主力",
+    description: "ULA 的下一代主力，结合了 Blue Origin 的甲烷引擎和经典的 Centaur 氢氧上面级。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Vulcan"
-  },
-  {
-    name: "New Glenn",
-    series: "Blue Origin",
-    country: "美国",
-    manufacturer: "Blue Origin",
-    status: "即将首飞",
-    leoCapacity: 45.0,
-    firstStageFuel: "液氧/甲烷",
-    isReusable: true,
-    description: "蓝色起源的重型复用火箭",
-    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=New+Glenn"
-  },
-  {
-    name: "Electron",
-    series: "Rocket Lab",
-    country: "美国",
-    manufacturer: "Rocket Lab",
-    status: "现役",
-    leoCapacity: 0.3,
-    firstStageFuel: "液氧/煤油",
-    description: "全碳纤维箭体，电泵压发动机",
-    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Electron"
   },
   {
     name: "Ariane 6",
@@ -360,39 +387,64 @@ const rocketsData = [
     country: "欧洲",
     manufacturer: "Arianespace",
     status: "现役",
+    height: 63.0,
+    diameter: 5.4,
+    mass: 860.0, // A64
+    stages: "2",
+    boosters: "2 或 4 x P120C 固体",
     leoCapacity: 21.6,
+    gtoCapacity: 11.5,
     firstStageFuel: "液氢/液氧",
-    description: "欧洲最新一代主力火箭",
+    firstStageEngine: "1 x Vulcain 2.1",
+    secondStageFuel: "液氢/液氧",
+    secondStageEngine: "1 x Vinci (可再点火)",
+    description: "欧洲重获太空独立自主权的希望，模块化设计可适应不同任务需求。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Ariane+6"
   },
+
+  // --- 3. 中国商业航天 ---
   {
-    name: "H3",
-    series: "H-II",
-    country: "日本",
-    manufacturer: "JAXA",
+    name: "朱雀二号",
+    series: "中国商业航天",
+    country: "中国",
+    manufacturer: "蓝箭航天",
     status: "现役",
-    leoCapacity: 16.5,
-    firstStageFuel: "液氢/液氧",
-    description: "日本新一代主力，追求低成本高可靠性",
-    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=H3"
+    height: 49.5,
+    diameter: 3.35,
+    mass: 219.0,
+    stages: "2",
+    boosters: "无",
+    leoCapacity: 6.0,
+    firstStageFuel: "液氧/甲烷",
+    firstStageEngine: "4 x TQ-12 (天鹊)",
+    firstStageThrust: "2680 kN",
+    secondStageFuel: "液氧/甲烷",
+    secondStageEngine: "1 x TQ-12 + 1 x TQ-11",
+    description: "全球首枚成功入轨的液氧甲烷火箭，标志着中国商业航天在新型动力领域的突破。",
+    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Zhuque-2"
   },
   {
-    name: "Angara A5",
-    series: "Angara",
-    country: "俄罗斯",
-    manufacturer: "Khrunichev",
+    name: "引力一号",
+    series: "中国商业航天",
+    country: "中国",
+    manufacturer: "东方空间",
     status: "现役",
-    leoCapacity: 24.5,
-    firstStageFuel: "液氧/煤油",
-    description: "俄罗斯后苏联时代研制的模块化重型火箭",
-    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Angara+A5"
+    height: 30.0,
+    diameter: 2.65, // 芯级
+    mass: 405.0,
+    stages: "3",
+    boosters: "4 x 固体助推器",
+    leoCapacity: 6.5,
+    firstStageFuel: "固体",
+    firstStageEngine: "7台推力引擎组合",
+    description: "全球起飞推力最大的固体运载火箭，采用独特的海上发射模式。",
+    imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Gravity-1"
   }
 ];
 
 async function seed() {
-  console.log('Starting Update with Images and Fuel...');
+  console.log('Injecting Professional Specs...');
   
-  // 使用 upsert 确保不破坏现有ID，但更新字段
   for (const r of rocketsData) {
     try {
       await prisma.rocket.upsert({
@@ -400,13 +452,13 @@ async function seed() {
         update: r,
         create: r
       });
-      console.log(`Updated: ${r.name}`);
+      console.log(`Updated Spec: ${r.name}`);
     } catch (e) {
       console.error(`Error processing ${r.name}: ${e.message}`);
     }
   }
   
-  console.log('Seed completed.');
+  console.log('Professional Data Seed completed.');
 }
 
 seed()

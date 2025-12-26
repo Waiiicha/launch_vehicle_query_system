@@ -17,7 +17,10 @@ app.get('/api/rockets', async (req, res) => {
     minLeo, 
     maxLeo, // 支持区间
     isReusable,
-    fuel // 新增: 燃料类型
+    fuel,
+    stages,
+    status,
+    manufacturer
   } = req.query;
 
   try {
@@ -38,6 +41,21 @@ app.get('/api/rockets', async (req, res) => {
     if (country) {
       const countries = country.split(',');
       where.AND.push({ country: { in: countries } });
+    }
+    
+    // 厂商筛选
+    if (manufacturer) {
+      where.AND.push({ manufacturer: { contains: manufacturer } });
+    }
+
+    // 状态筛选
+    if (status) {
+      where.AND.push({ status: { contains: status } });
+    }
+
+    // 级数筛选
+    if (stages) {
+      where.AND.push({ stages: { contains: stages } });
     }
 
     // LEO 运力范围
