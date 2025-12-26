@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
@@ -8,6 +9,8 @@ const PORT = 3001;
 
 app.use(cors());
 app.use(express.json());
+// 挂载 pic 目录到 /images 路径
+app.use('/images', express.static(path.join(__dirname, '../pic')));
 
 // 获取所有火箭 (支持复杂筛选)
 app.get('/api/rockets', async (req, res) => {
