@@ -9,6 +9,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "退役",
+    firstFlight: "1970-04-24",
     height: 29.86,
     diameter: 2.25,
     mass: 81.6,
@@ -20,7 +21,9 @@ const rocketsData = [
     firstStageThrust: "1020 kN",
     secondStageFuel: "硝酸-27S/偏二甲肼",
     secondStageEngine: "YF-3",
-    description: "中国航天奠基之作，由东风-4号导弹改进而来，成功发射东方红一号。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "中国航天奠基之作，由东风-4号导弹改进而来。1970年4月24日成功发射中国第一颗人造地球卫星“东方红一号”，使中国成为世界上第五个独立研制和发射卫星的国家。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+1"
   },
   {
@@ -29,6 +32,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "现役",
+    firstFlight: "1982-09-09",
     height: 42.0,
     diameter: 3.35,
     mass: 233.0,
@@ -40,7 +44,9 @@ const rocketsData = [
     firstStageThrust: "2961 kN",
     secondStageFuel: "N2O4/UDMH",
     secondStageEngine: "1 x YF-24E",
-    description: "“金牌火箭”，服役时间最长、可靠性最高的型号之一，常用于遥感卫星发射。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "“金牌火箭”，中国服役时间最长、执飞次数最多的火箭之一。基于东风-5号洲际导弹研制，以高可靠性著称，主要承担太阳同步轨道和低地球轨道这类遥感卫星的发射任务。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+2C"
   },
   {
@@ -49,6 +55,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天八院",
     status: "现役",
+    firstFlight: "1992-08-09",
     height: 41.0,
     diameter: 3.35,
     mass: 232.0,
@@ -59,7 +66,9 @@ const rocketsData = [
     firstStageEngine: "4 x YF-21C",
     secondStageFuel: "N2O4/UDMH",
     secondStageEngine: "1 x YF-24C",
-    description: "SSO 轨道主力运载工具，以快速响应和高发射成功率著称。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "一款常温液体两级运载火箭，主要用于发射低地球轨道和太阳同步轨道卫星。以发射周期短、可靠性高、成本低廉著称，广泛应用于遥感卫星发射，具备一箭多星发射能力。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+2D"
   },
   {
@@ -68,6 +77,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "现役",
+    firstFlight: "1999-11-19",
     height: 58.34,
     diameter: 3.35,
     mass: 497.0,
@@ -79,7 +89,9 @@ const rocketsData = [
     firstStageThrust: "5923 kN (全推力)",
     secondStageFuel: "N2O4/UDMH",
     secondStageEngine: "1 x YF-24B",
-    description: "“神箭”，中国载人航天工程专属火箭，顶部配有逃逸塔，安全性指标 0.97。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "“神箭”，中国载人航天工程专属火箭，是中国目前唯一认证的载人运载火箭。顶部配有逃逸塔，在发射危急情况下可带航天员逃逸，安全性指标高达0.97，成功发射了所有“神舟”系列飞船。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+2F"
   },
   {
@@ -88,6 +100,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "现役",
+    firstFlight: "1996-02-14",
     height: 56.3,
     diameter: 3.35,
     mass: 459.0,
@@ -102,7 +115,9 @@ const rocketsData = [
     secondStageEngine: "1 x YF-22E + 4 x YF-23C",
     thirdStageFuel: "液氢/液氧",
     thirdStageEngine: "2 x YF-75",
-    description: "中国高轨发射主力，承担了绝大多数北斗导航卫星和通信卫星的发射任务。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "中国高轨发射主力，地球同步转移轨道运力达5.5吨。承担了绝大多数北斗导航卫星、通信卫星以及早期探月工程（嫦娥一号至四号）的发射任务，是中国商业发射服务的核心型号。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+3B"
   },
   {
@@ -111,6 +126,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "现役",
+    firstFlight: "2016-11-03",
     height: 56.97,
     diameter: 5.0,
     mass: 869.0,
@@ -124,7 +140,9 @@ const rocketsData = [
     firstStageThrust: "10570 kN (含助推)",
     secondStageFuel: "液氢/液氧",
     secondStageEngine: "2 x YF-75D",
-    description: "“胖五”，中国现役运力最强火箭，5米直径芯级，负责天问一号、嫦娥五号等重大深空任务。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "“胖五”，中国现役运力最强火箭，芯级直径5米。采用液氢液氧和液氧煤油发动机，地球同步转移轨道运力14吨。成功发射了天问一号火星探测器、嫦娥五号月球采样返回器等重大深空探测器。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+5"
   },
   {
@@ -133,6 +151,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "现役",
+    firstFlight: "2020-05-05",
     height: 53.7,
     diameter: 5.0,
     mass: 837.0,
@@ -143,7 +162,9 @@ const rocketsData = [
     firstStageEngine: "2 x YF-77",
     firstStageThrust: "10570 kN",
     secondStageEngine: "无 (一级半构型)",
-    description: "空间站专用构建，移除二级，一级直接入轨，拥有超大整流罩。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "长征五号的衍生型号，专为中国空间站建设设计。移除芯二级，采用一级半构型，拥有长度超过20米的超大整流罩，近地轨道运力达25吨，成功发射了天和核心舱及问天、梦天实验舱。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+5B"
   },
   {
@@ -152,6 +173,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天八院",
     status: "现役",
+    firstFlight: "2022-03-29",
     height: 50.0,
     diameter: 3.35,
     mass: 530.0,
@@ -162,7 +184,9 @@ const rocketsData = [
     firstStageEngine: "2 x YF-100",
     secondStageFuel: "液氧/煤油",
     secondStageEngine: "1 x YF-115",
-    description: "中国首款固液混合动力运载火箭，结合了固体的大推力和液体的可控性。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "中国首款固液混合动力运载火箭，芯级采用液氧煤油发动机，捆绑4枚2米直径固体助推器。结合了液体火箭的高性能和固体助推器的大推力，实现了运载能力跨越，主要用于太阳同步轨道卫星发射。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+6A"
   },
   {
@@ -171,6 +195,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "现役",
+    firstFlight: "2016-06-25",
     height: 53.1,
     diameter: 3.35,
     mass: 597.0,
@@ -183,7 +208,9 @@ const rocketsData = [
     firstStageThrust: "7200 kN (含助推)",
     secondStageFuel: "液氧/煤油",
     secondStageEngine: "4 x YF-115",
-    description: "新一代中型运载火箭，全液氧煤油动力，专门用于发射天舟货运飞船。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "新一代中型运载火箭，采用无毒无污染的液氧煤油推进剂。专为发射天舟货运飞船研制，近地轨道运力13.5吨，不仅服务于空间站货运任务，也是未来主力中型火箭的替代者。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+7"
   },
   {
@@ -192,6 +219,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "现役",
+    firstFlight: "2020-12-22",
     height: 50.3,
     diameter: 3.35,
     mass: 356.0,
@@ -202,8 +230,9 @@ const rocketsData = [
     firstStageEngine: "2 x YF-100",
     secondStageFuel: "液氢/液氧",
     secondStageEngine: "2 x YF-75",
+    recoveryMethod: "垂直回收 (研发中)",
     isReusable: true,
-    description: "面向商业发射市场，模块化设计，验证了侧向助推器不分离技术，具备回收潜力。",
+    description: "面向商业发射市场的新一代中型运载火箭，采用模块化设计。芯一级继承长征七号，芯二级继承长征三号甲。设计之初就考虑了可回收性（CZ-8R），目前正在进行垂直回收技术的验证。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+8"
   },
   {
@@ -212,6 +241,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "研发中",
+    firstFlight: "2033 (预计)",
     height: 114.0,
     diameter: 10.6,
     mass: 4350.0,
@@ -224,8 +254,9 @@ const rocketsData = [
     firstStageThrust: "60000 kN",
     secondStageFuel: "液氧/甲烷",
     secondStageEngine: "2 x 360吨级推力",
+    recoveryMethod: "垂直回收 (计划)",
     isReusable: true,
-    description: "中国版“星舰”，采用全流量分级燃烧循环甲烷机，完全重复使用，目标载人火星。",
+    description: "研制中的重型运载火箭，设计目标是载人登月和深空探测。采用10米级直径箭体和全流量分级燃烧循环发动机，近地轨道运力预计达150吨，计划实现完全重复使用，对标SpaceX星舰。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+9"
   },
   {
@@ -234,6 +265,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天一院",
     status: "研发中",
+    firstFlight: "2027 (预计)",
     height: 92.0,
     diameter: 5.0,
     mass: 2189.0,
@@ -246,7 +278,9 @@ const rocketsData = [
     firstStageThrust: "26780 kN",
     secondStageFuel: "液氢/液氧",
     secondStageEngine: "2 x YF-75E",
-    description: "新一代载人运载火箭 (921)，专为2030年前载人登月设计，采用CBC构型。",
+    recoveryMethod: "垂直回收 (计划)",
+    isReusable: false,
+    description: "新一代载人运载火箭（原名921火箭），专为2030年前载人登月任务设计。采用CBC（通用芯级）构型，由三枚5米直径箭体并联而成，地月转移轨道运力约27吨。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+10"
   },
   {
@@ -255,6 +289,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天八院",
     status: "现役",
+    firstFlight: "2024-11-30",
     height: 62.0,
     diameter: 3.8,
     mass: 433.0,
@@ -265,7 +300,9 @@ const rocketsData = [
     firstStageEngine: "4 x YF-100K",
     secondStageFuel: "液氧/煤油",
     secondStageEngine: "2 x YF-115",
-    description: "首个3.8米直径火箭，打破了3.35米限制且仍可铁路运输，适配海南商业发射场。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "中国首款3.8米直径运载火箭，打破了传统3.35米直径的铁路运输限制。专为海南商业发射场设计，采用液氧煤油发动机，旨在满足日益增长的商业卫星星座发射需求。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Long+March+12"
   },
 
@@ -276,6 +313,7 @@ const rocketsData = [
     country: "美国",
     manufacturer: "SpaceX",
     status: "现役",
+    firstFlight: "2010-06-04",
     height: 70.0,
     diameter: 3.7,
     mass: 549.0,
@@ -289,8 +327,9 @@ const rocketsData = [
     firstStageThrust: "7607 kN",
     secondStageFuel: "液氧/煤油 (RP-1)",
     secondStageEngine: "1 x Merlin 1D Vacuum",
+    recoveryMethod: "垂直着陆 (陆地/海上驳船)",
     isReusable: true,
-    description: "航天史上第一枚多次复用的轨道级火箭，单枚一级复用记录已突破20次。",
+    description: "SpaceX的主力火箭，也是世界上第一枚实现一级助推器多次重复使用的轨道级火箭。凭借极高的发射频率和可靠性，大幅降低了进入太空的成本，彻底改变了全球航天发射市场。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Falcon+9"
   },
   {
@@ -299,6 +338,7 @@ const rocketsData = [
     country: "美国",
     manufacturer: "SpaceX",
     status: "现役",
+    firstFlight: "2018-02-06",
     height: 70.0,
     diameter: 3.7, // 芯级
     mass: 1420.0,
@@ -312,8 +352,9 @@ const rocketsData = [
     firstStageThrust: "22819 kN",
     secondStageFuel: "液氧/煤油",
     secondStageEngine: "1 x Merlin 1D Vacuum",
+    recoveryMethod: "垂直着陆 (助推器)",
     isReusable: true,
-    description: "现役运力第二强的火箭，三个一级并联，助推器可同步回收。",
+    description: "现役运力第二强的运载火箭，由三枚猎鹰9号一级并联而成。起飞推力巨大，具备将重型载荷送入高能轨道的能力，且三个助推器均设计为可回收，展示了卓越的工程性价比。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Falcon+Heavy"
   },
   {
@@ -322,6 +363,7 @@ const rocketsData = [
     country: "美国",
     manufacturer: "SpaceX",
     status: "测试中",
+    firstFlight: "2023-04-20",
     height: 121.0,
     diameter: 9.0,
     mass: 5000.0,
@@ -334,8 +376,9 @@ const rocketsData = [
     firstStageThrust: "74400 kN",
     secondStageFuel: "液氧/甲烷",
     secondStageEngine: "3 x Raptor Sea + 3 x Raptor Vac",
+    recoveryMethod: "塔架捕获 (筷子夹)",
     isReusable: true,
-    description: "人类史上体积最大、推力最强的运载火箭，目标是将人类送往火星。",
+    description: "SpaceX正在研发的超重型运载火箭，由“超级重型”助推器和“星舰”飞船组成。旨在实现完全、快速重复使用，拥有人类历史上最大的起飞推力和运载能力，终极目标是实现火星殖民。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Starship"
   },
   {
@@ -344,6 +387,7 @@ const rocketsData = [
     country: "美国",
     manufacturer: "NASA",
     status: "现役",
+    firstFlight: "2022-11-16",
     height: 98.0,
     diameter: 8.4,
     mass: 2608.0,
@@ -356,7 +400,9 @@ const rocketsData = [
     firstStageThrust: "39000 kN",
     secondStageFuel: "液氢/液氧",
     secondStageEngine: "1 x RL10B-2 (ICPS)",
-    description: "NASA 重返月球 Artemis 计划的基石，继承了航天飞机的主发动机和助推器技术。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "NASA“阿尔忒弥斯”重返月球计划的核心运载工具。继承了航天飞机的RS-25发动机和固体助推器技术，拥有强大的深空运载能力，成功执行了Artemis I无人绕月任务。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=SLS"
   },
   {
@@ -365,6 +411,7 @@ const rocketsData = [
     country: "美国",
     manufacturer: "ULA",
     status: "现役",
+    firstFlight: "2024-01-08",
     height: 61.6,
     diameter: 5.4,
     mass: 546.0,
@@ -377,8 +424,9 @@ const rocketsData = [
     firstStageThrust: "12300 kN",
     secondStageFuel: "液氢/液氧",
     secondStageEngine: "2 x RL10C",
-    isReusable: true,
-    description: "ULA 的下一代主力，结合了 Blue Origin 的甲烷引擎和经典的 Centaur 氢氧上面级。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "ULA的下一代主力火箭，旨在替代Atlas V和Delta IV。芯一级采用Blue Origin的BE-4甲烷发动机，配合经典的Centaur氢氧上面级，旨在满足美国国家安全发射需求并兼顾商业市场。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Vulcan"
   },
   {
@@ -387,6 +435,7 @@ const rocketsData = [
     country: "欧洲",
     manufacturer: "Arianespace",
     status: "现役",
+    firstFlight: "2024-07-09",
     height: 63.0,
     diameter: 5.4,
     mass: 860.0, // A64
@@ -398,7 +447,9 @@ const rocketsData = [
     firstStageEngine: "1 x Vulcain 2.1",
     secondStageFuel: "液氢/液氧",
     secondStageEngine: "1 x Vinci (可再点火)",
-    description: "欧洲重获太空独立自主权的希望，模块化设计可适应不同任务需求。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "欧洲空间局（ESA）的新一代运载火箭，旨在维持欧洲独立进入太空的能力。采用模块化设计（A62和A64构型），通过优化生产流程降低成本，以应对日益激烈的国际商业发射竞争。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Ariane+6"
   },
 
@@ -409,6 +460,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "蓝箭航天",
     status: "现役",
+    firstFlight: "2022-12-14",
     height: 49.5,
     diameter: 3.35,
     mass: 219.0,
@@ -420,7 +472,9 @@ const rocketsData = [
     firstStageThrust: "2680 kN",
     secondStageFuel: "液氧/甲烷",
     secondStageEngine: "1 x TQ-12 + 1 x TQ-11",
-    description: "全球首枚成功入轨的液氧甲烷火箭，标志着中国商业航天在新型动力领域的突破。",
+    recoveryMethod: "不可回收 (未来计划回收)",
+    isReusable: false,
+    description: "蓝箭航天研制的中型液体运载火箭，是全球首枚成功入轨的液氧甲烷火箭。标志着中国民营航天在新型低成本液体推进剂应用方面取得了重大突破，为未来可回收火箭技术奠定了基础。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Zhuque-2"
   },
   {
@@ -429,6 +483,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "东方空间",
     status: "现役",
+    firstFlight: "2024-01-11",
     height: 30.0,
     diameter: 2.65, // 芯级
     mass: 405.0,
@@ -437,7 +492,9 @@ const rocketsData = [
     leoCapacity: 6.5,
     firstStageFuel: "固体",
     firstStageEngine: "7台推力引擎组合",
-    description: "全球起飞推力最大的固体运载火箭，采用独特的海上发射模式。",
+    recoveryMethod: "不可回收",
+    isReusable: false,
+    description: "东方空间研制的全固体运载火箭，是目前全球起飞推力最大的固体火箭。采用独特的捆绑式设计和海上发射模式，具有发射准备周期短、运载能力强的特点，适合大规模星座组网发射。",
     imageUrl: "https://placehold.co/800x600/f5f5f7/1d1d1f?text=Gravity-1"
   }
 ];
