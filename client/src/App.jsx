@@ -401,9 +401,22 @@ function App() {
       </Box>
 
       {/* 详情弹窗 */}
-      <Dialog open={!!selectedRocket} onClose={() => setSelectedRocket(null)} maxWidth="lg" fullWidth PaperProps={{ sx: { borderRadius: 4, overflow: 'hidden' } }}>
+      <Dialog 
+        open={!!selectedRocket} 
+        onClose={() => setSelectedRocket(null)} 
+        maxWidth="lg" 
+        fullWidth 
+        PaperProps={{ 
+          sx: { 
+            borderRadius: 4, 
+            overflow: 'hidden',
+            height: { xs: 'calc(100% - 32px)', md: '80vh' }, // Mobile: almost full height; Desktop: 80vh
+            maxHeight: '100%'
+          } 
+        }}
+      >
         {selectedRocket && (
-          <Grid container sx={{ minHeight: '80vh', height: { md: '80vh', xs: 'auto' }, overflowY: { xs: 'auto', md: 'hidden' } }}>
+          <Grid container sx={{ height: '100%', overflowY: { xs: 'auto', md: 'hidden' } }}>
             {/* 左侧：图片区 */}
             <Grid item xs={12} md={4} sx={{ bgcolor: '#f5f5f7', display: 'flex', flexDirection: 'column', borderRight: '1px solid #eee' }}>
                <Box sx={{ flexGrow: 1, position: 'relative', minHeight: 300, cursor: 'zoom-in' }} onClick={() => setLightboxOpen(true)}>
@@ -414,7 +427,7 @@ function App() {
                </Box>
                
                {getRocketImages(selectedRocket).length > 1 && (
-                 <Box sx={{ p: 2, display: 'flex', gap: 1, overflowX: 'auto', bgcolor: '#fff', borderTop: '1px solid #eee' }}>
+                 <Box sx={{ p: 2, pb: 3, display: 'flex', gap: 1, overflowX: 'auto', bgcolor: '#fff', borderTop: '1px solid #eee', flexShrink: 0 }}>
                    {getRocketImages(selectedRocket).map((img, idx) => (
                      <Box 
                        key={idx}
@@ -424,7 +437,8 @@ function App() {
                        sx={{ 
                          width: 70, height: 70, objectFit: 'cover', borderRadius: 2, cursor: 'pointer',
                          border: activeImage === img ? '2px solid #0066cc' : '2px solid transparent',
-                         transition: 'border 0.2s'
+                         transition: 'border 0.2s',
+                         flexShrink: 0 
                        }} 
                      />
                    ))}
