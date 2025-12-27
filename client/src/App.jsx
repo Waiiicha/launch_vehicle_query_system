@@ -389,7 +389,7 @@ function App() {
                     </CardContent>
                     <CardActions sx={{ p: 2.5, pt: 0 }}>
                       <Button variant="contained" fullWidth disableElevation onClick={() => setSelectedRocket(rocket)} sx={{ borderRadius: 3, fontWeight: 700, bgcolor: '#000', '&:hover': { bgcolor: '#333' } }}>
-                        View Specs
+                        查看详情
                       </Button>
                     </CardActions>
                   </Card>
@@ -403,11 +403,11 @@ function App() {
       {/* 详情弹窗 */}
       <Dialog open={!!selectedRocket} onClose={() => setSelectedRocket(null)} maxWidth="lg" fullWidth PaperProps={{ sx: { borderRadius: 4, overflow: 'hidden' } }}>
         {selectedRocket && (
-          <Grid container sx={{ minHeight: '80vh' }}>
+          <Grid container sx={{ minHeight: '80vh', height: { md: '80vh', xs: 'auto' }, overflowY: { xs: 'auto', md: 'hidden' } }}>
             {/* 左侧：图片区 */}
             <Grid item xs={12} md={4} sx={{ bgcolor: '#f5f5f7', display: 'flex', flexDirection: 'column', borderRight: '1px solid #eee' }}>
                <Box sx={{ flexGrow: 1, position: 'relative', minHeight: 300, cursor: 'zoom-in' }} onClick={() => setLightboxOpen(true)}>
-                 <Box component="img" src={activeImage} sx={{ width: '100%', height: '100%', objectFit: 'contain', position: 'absolute', p: 2 }} />
+                 <Box component="img" src={activeImage} sx={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute' }} />
                  <Box sx={{ position: 'absolute', bottom: 16, right: 16, bgcolor: 'rgba(0,0,0,0.5)', color: 'white', borderRadius: '50%', p: 1, display: 'flex' }}>
                     <ZoomInIcon fontSize="small" />
                  </Box>
@@ -434,7 +434,7 @@ function App() {
             
             {/* 右侧：信息区 */}
             <Grid item xs={12} md={8}>
-              <Box sx={{ p: 5, position: 'relative', height: '100%', overflowY: 'auto' }}>
+              <Box sx={{ p: 5, position: 'relative', height: { md: '100%', xs: 'auto' }, overflowY: { md: 'auto', xs: 'visible' } }}>
                 <IconButton onClick={() => setSelectedRocket(null)} sx={{ position: 'absolute', right: 16, top: 16 }}><CloseIcon /></IconButton>
                 
                 <Stack direction="row" spacing={1} mb={2}>
