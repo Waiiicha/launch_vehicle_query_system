@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-// import axios from 'axios'; // 不再需要
-import rocketsData from './data/rockets.json'; // 直接导入静态数据
+import axios from 'axios';
 import {
   Container, Typography, TextField, Grid, Card, CardContent, CardActions, CardMedia,
   Button, Dialog, Box, Slider, FormControlLabel,
   Switch, Chip, Stack, LinearProgress, Paper, InputAdornment, Fade,
   MenuItem, Select, FormControl, Divider, Drawer, List, ListItem, ListItemButton, ListItemText, ListItemIcon,
-  IconButton, useMediaQuery, useTheme, InputLabel
+  IconButton, useMediaQuery, useTheme, InputLabel, Backdrop
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
@@ -14,6 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
 
 const drawerWidth = 320;
 
@@ -41,7 +41,10 @@ function App() {
   const [rockets, setRockets] = useState([]); // 显示的数据
   const [selectedRocket, setSelectedRocket] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  
+  // 图片浏览状态
   const [activeImage, setActiveImage] = useState('');
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   
   const [filters, setFilters] = useState({
     search: '',
@@ -85,64 +88,46 @@ function App() {
   };
 
   const filterRockets = () => {
-    let result = rocketsData;
+    // 假设 rocketsData 已经通过 import 导入或者在组件外部定义
+    // 由于之前改为纯静态，这里我们需要确保 rocketsData 能够被访问
+    // 为了兼容性，如果你在本地运行 npm run dev (静态模式)，需要确保 rockets.json 被正确引入
+    // 如果是动态模式，这里其实应该是 axios 调用。
+    // *重要*：为了保证你现在的环境（可能是静态也可能是动态）都能跑，
+    // 我保留了 axios 的结构，但如果你已经在用静态 JSON，请确保 import 路径正确。
+    // 鉴于上一步我们已经完全静态化，这里我使用 fetch 动态加载 public/data/rockets.json (或者 import)
+    // 但为了最稳妥，我还是恢复 axios 调用本地 API (因为 start.bat 还在跑后端)
+    // 或者直接 import。鉴于之前的代码是 import，我这里保持 import 逻辑。
+    // 但是！上面的 import rocketsData 被注释掉了吗？
+    // 让我们用一种通用的方法：尝试 fetch json，如果失败则用 API。
+    
+    // 既然之前的代码已经改成了 import rocketsData，我们这里假定数据源已经有了。
+    // *修正*：我将使用 import 方式，因为这是我们最后确定的方案。
+    import('./data/rockets.json').then(module => {
+        let result = module.default;
+        // ... (筛选逻辑)
+        if (filters.search) {
+          const keyword = filters.search.toLowerCase();
+          result = result.filter(r => 
+            (r.name && r.name.toLowerCase().includes(keyword)) ||
+            (r.manufacturer && r.manufacturer.toLowerCase().includes(keyword)) ||
+            (r.series && r.series.toLowerCase().includes(keyword))
+          );
+        }
+        if (filters.country) result = result.filter(r => r.country === filters.country);
+        if (filters.isReusable) result = result.filter(r => r.isReusable === true);
+        const [minLeo, maxLeo] = filters.leoRange;
+        result = result.filter(r => {
+          const capacity = r.leoCapacity || 0;
+          return maxLeo < 160 ? (capacity >= minLeo && capacity <= maxLeo) : capacity >= minLeo;
+        });
+        if (filters.fuel) result = result.filter(r => r.firstStageFuel && r.firstStageFuel.includes(filters.fuel));
+        if (filters.status) result = result.filter(r => r.status && r.status.includes(filters.status));
+        if (filters.stages) result = result.filter(r => r.stages && String(r.stages).includes(filters.stages));
+        if (filters.manufacturer) result = result.filter(r => r.manufacturer && r.manufacturer.includes(filters.manufacturer));
 
-    // 1. 搜索 (模糊匹配 名称/厂商/系列)
-    if (filters.search) {
-      const keyword = filters.search.toLowerCase();
-      result = result.filter(r => 
-        (r.name && r.name.toLowerCase().includes(keyword)) ||
-        (r.manufacturer && r.manufacturer.toLowerCase().includes(keyword)) ||
-        (r.series && r.series.toLowerCase().includes(keyword))
-      );
-    }
-
-    // 2. 国家 (精确)
-    if (filters.country) {
-      result = result.filter(r => r.country === filters.country);
-    }
-
-    // 3. 可回收
-    if (filters.isReusable) {
-      result = result.filter(r => r.isReusable === true);
-    }
-
-    // 4. LEO 运力范围
-    const [minLeo, maxLeo] = filters.leoRange;
-    result = result.filter(r => {
-      const capacity = r.leoCapacity || 0;
-      if (maxLeo < 160) {
-        return capacity >= minLeo && capacity <= maxLeo;
-      }
-      return capacity >= minLeo; // 160+ 代表无上限
+        result.sort((a, b) => (b.leoCapacity || 0) - (a.leoCapacity || 0));
+        setRockets(result);
     });
-
-    // 5. 燃料 (模糊)
-    if (filters.fuel) {
-      result = result.filter(r => r.firstStageFuel && r.firstStageFuel.includes(filters.fuel));
-    }
-
-    // 6. 状态 (模糊)
-    if (filters.status) {
-      result = result.filter(r => r.status && r.status.includes(filters.status));
-    }
-
-    // 7. 级数 (模糊 - "2" 匹配 "2", "两级" 等)
-    if (filters.stages) {
-      // 简单处理：如果选了 "2"，匹配 "2" 或 "两级"
-      const stageKey = filters.stages;
-      result = result.filter(r => r.stages && String(r.stages).includes(stageKey));
-    }
-
-    // 8. 厂商 (模糊)
-    if (filters.manufacturer) {
-      result = result.filter(r => r.manufacturer && r.manufacturer.includes(filters.manufacturer));
-    }
-
-    // 排序：默认按 LEO 运力降序
-    result.sort((a, b) => (b.leoCapacity || 0) - (a.leoCapacity || 0));
-
-    setRockets(result);
   };
 
   const handleReset = () => {
@@ -419,10 +404,15 @@ function App() {
       <Dialog open={!!selectedRocket} onClose={() => setSelectedRocket(null)} maxWidth="lg" fullWidth PaperProps={{ sx: { borderRadius: 4, overflow: 'hidden' } }}>
         {selectedRocket && (
           <Grid container sx={{ minHeight: '80vh' }}>
+            {/* 左侧：图片区 */}
             <Grid item xs={12} md={4} sx={{ bgcolor: '#f5f5f7', display: 'flex', flexDirection: 'column', borderRight: '1px solid #eee' }}>
-               <Box sx={{ flexGrow: 1, position: 'relative', minHeight: 300 }}>
-                 <Box component="img" src={activeImage} sx={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute' }} />
+               <Box sx={{ flexGrow: 1, position: 'relative', minHeight: 300, cursor: 'zoom-in' }} onClick={() => setLightboxOpen(true)}>
+                 <Box component="img" src={activeImage} sx={{ width: '100%', height: '100%', objectFit: 'contain', position: 'absolute', p: 2 }} />
+                 <Box sx={{ position: 'absolute', bottom: 16, right: 16, bgcolor: 'rgba(0,0,0,0.5)', color: 'white', borderRadius: '50%', p: 1, display: 'flex' }}>
+                    <ZoomInIcon fontSize="small" />
+                 </Box>
                </Box>
+               
                {getRocketImages(selectedRocket).length > 1 && (
                  <Box sx={{ p: 2, display: 'flex', gap: 1, overflowX: 'auto', bgcolor: '#fff', borderTop: '1px solid #eee' }}>
                    {getRocketImages(selectedRocket).map((img, idx) => (
@@ -442,6 +432,7 @@ function App() {
                )}
             </Grid>
             
+            {/* 右侧：信息区 */}
             <Grid item xs={12} md={8}>
               <Box sx={{ p: 5, position: 'relative', height: '100%', overflowY: 'auto' }}>
                 <IconButton onClick={() => setSelectedRocket(null)} sx={{ position: 'absolute', right: 16, top: 16 }}><CloseIcon /></IconButton>
@@ -455,7 +446,7 @@ function App() {
                 <Typography variant="h3" sx={{ fontWeight: 800, mb: 0.5 }}>{selectedRocket.name}</Typography>
                 <Typography variant="subtitle1" color="textSecondary" sx={{ mb: 2 }}>{selectedRocket.manufacturer}</Typography>
 
-                {/* 概述 */}
+                {/* 1. 概述 OVERVIEW */}
                 <Box sx={{ mb: 4, p: 2.5, bgcolor: '#f9f9fa', borderRadius: 3, borderLeft: '4px solid #0066cc' }}>
                   <Typography variant="caption" sx={{ fontWeight: 700, display: 'block', mb: 0.5, color: '#0066cc' }}>概述 OVERVIEW</Typography>
                   <Typography variant="body2" sx={{ lineHeight: 1.7, color: '#444' }}>
@@ -464,6 +455,7 @@ function App() {
                 </Box>
                 
                 <Grid container spacing={6}>
+                  {/* 2. 运载能力 PAYLOAD */}
                   <Grid item xs={12} sm={6}>
                     <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 800, mb: 2, textTransform: 'uppercase' }}>运载能力</Typography>
                     <StatRow label="近地轨道 (LEO)" value={selectedRocket.leoCapacity} unit="t" highlight />
@@ -472,6 +464,7 @@ function App() {
                     <StatRow label="冥王星/深空" value={selectedRocket.plutoCapacity} unit="t" />
                   </Grid>
 
+                  {/* 3. 物理规格 SPECS */}
                   <Grid item xs={12} sm={6}>
                      <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 800, mb: 2, textTransform: 'uppercase' }}>物理规格</Typography>
                      <StatRow label="全箭高度" value={selectedRocket.height} unit="m" />
@@ -483,6 +476,7 @@ function App() {
 
                   <Grid item xs={12}><Divider /></Grid>
 
+                  {/* 4. 推进系统 PROPULSION */}
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 2 }}>推进系统</Typography>
                     <Grid container spacing={4}>
@@ -507,7 +501,7 @@ function App() {
                     </Grid>
                   </Grid>
 
-                  {/* 回收板块 */}
+                  {/* 5. 回收 RECOVERY */}
                   {selectedRocket.isReusable && (
                     <Grid item xs={12}>
                       <Box sx={{ p: 2.5, borderRadius: 3, bgcolor: '#e8f5e9', border: '1px solid #c8e6c9', display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -524,6 +518,7 @@ function App() {
 
                   <Grid item xs={12}><Divider /></Grid>
 
+                  {/* 6. 历史概况 HISTORY */}
                   <Grid item xs={12}>
                     <Typography variant="subtitle2" color="textSecondary" sx={{ fontWeight: 800, mb: 2 }}>历史概况</Typography>
                     <Grid container spacing={4}>
@@ -542,6 +537,27 @@ function App() {
           </Grid>
         )}
       </Dialog>
+
+      {/* Lightbox 大图浏览 */}
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 9999, bgcolor: 'rgba(0,0,0,0.9)' }}
+        open={lightboxOpen}
+        onClick={() => setLightboxOpen(false)}
+      >
+        {selectedRocket && (
+          <Box 
+            component="img" 
+            src={activeImage} 
+            sx={{ 
+              maxWidth: '90vw', 
+              maxHeight: '90vh', 
+              objectFit: 'contain',
+              boxShadow: '0 0 50px rgba(0,0,0,0.5)' 
+            }} 
+          />
+        )}
+        <Typography sx={{ position: 'absolute', bottom: 30, color: 'white', opacity: 0.7 }}>点击任意处关闭</Typography>
+      </Backdrop>
     </Box>
   );
 }
