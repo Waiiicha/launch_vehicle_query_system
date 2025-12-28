@@ -19,21 +19,25 @@ const drawerWidth = 320;
 
 // 厂商数据
 const allManufacturers = [
-  { value: '航天一院', label: 'CASC 一院', country: '中国' },
-  { value: '航天八院', label: 'CASC 八院', country: '中国' },
+  { value: '航天一院', label: 'CASC 一院 (CALT)', country: '中国' },
+  { value: '航天八院', label: 'CASC 八院 (SAST)', country: '中国' },
   { value: '航天科工', label: '航天科工 (ExPace)', country: '中国' },
   { value: '蓝箭', label: '蓝箭航天 (LandSpace)', country: '中国' },
-  { value: '星河', label: '星河动力 (Galactic)', country: '中国' },
+  { value: '星河', label: '星河动力 (Galactic Energy)', country: '中国' },
   { value: '东方空间', label: '东方空间 (Orienspace)', country: '中国' },
   { value: '中科宇航', label: '中科宇航 (CAS Space)', country: '中国' },
   { value: '天兵', label: '天兵科技 (Space Pioneer)', country: '中国' },
+  { value: '星际荣耀', label: '星际荣耀 (i-Space)', country: '中国' },
+  { value: '深蓝航天', label: '深蓝航天 (Deep Blue)', country: '中国' },
   { value: 'SpaceX', label: 'SpaceX', country: '美国' },
   { value: 'NASA', label: 'NASA', country: '美国' },
-  { value: 'ULA', label: 'ULA', country: '美国' },
+  { value: 'ULA', label: 'ULA (Atlas/Delta/Vulcan)', country: '美国' },
   { value: 'Blue Origin', label: 'Blue Origin', country: '美国' },
   { value: 'Rocket Lab', label: 'Rocket Lab', country: '美国' },
+  { value: 'Northrop Grumman', label: 'Northrop Grumman', country: '美国' },
+  { value: 'Firefly', label: 'Firefly Aerospace', country: '美国' },
   { value: 'Arianespace', label: 'Arianespace', country: '欧洲' },
-  { value: 'Khrunichev', label: '赫鲁尼切夫', country: '俄罗斯' },
+  { value: 'Khrunichev', label: '赫鲁尼切夫 (Khrunichev)', country: '俄罗斯' },
   { value: 'JAXA', label: 'JAXA', country: '日本' },
 ];
 
