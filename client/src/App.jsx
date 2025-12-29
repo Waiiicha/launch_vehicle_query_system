@@ -14,6 +14,12 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
+
+import EngineList from './components/EngineList';
+import EngineDetailModal from './components/EngineDetailModal';
+import enginesData from './data/engines.json';
 
 const drawerWidth = 320;
 
@@ -42,8 +48,11 @@ const allManufacturers = [
 ];
 
 function App() {
+  const [viewMode, setViewMode] = useState('rockets'); // 'rockets' or 'engines'
   const [rockets, setRockets] = useState([]); // 显示的数据
+  const [filteredEngines, setFilteredEngines] = useState([]); // Filtered engines data
   const [selectedRocket, setSelectedRocket] = useState(null);
+  const [selectedEngineName, setSelectedEngineName] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   
   // 图片浏览状态
@@ -61,6 +70,13 @@ function App() {
     manufacturer: ''
   });
 
+  const [engineFilters, setEngineFilters] = useState({
+    search: '',
+    country: '',
+    manufacturer: '',
+    propellant: ''
+  });
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -68,10 +84,37 @@ function App() {
     ? allManufacturers.filter(m => m.country === filters.country)
     : allManufacturers;
 
+  // Engine Manufacturer Cascade
+  const availableEngineManufacturers = engineFilters.country
+    ? Array.from(new Set(enginesData.filter(e => e.country === engineFilters.country).map(e => e.manufacturer)))
+    : Array.from(new Set(enginesData.map(e => e.manufacturer)));
+
   // 核心改动：本地筛选逻辑
   useEffect(() => {
     filterRockets();
   }, [filters]);
+
+  useEffect(() => {
+    filterEngines();
+  }, [engineFilters]);
+
+  const filterEngines = () => {
+    let result = enginesData;
+    if (engineFilters.search) {
+        const key = engineFilters.search.toLowerCase();
+        result = result.filter(e => e.name.toLowerCase().includes(key));
+    }
+    if (engineFilters.country) {
+        result = result.filter(e => e.country === engineFilters.country);
+    }
+    if (engineFilters.manufacturer) {
+        result = result.filter(e => e.manufacturer && e.manufacturer.includes(engineFilters.manufacturer));
+    }
+    if (engineFilters.propellant) {
+        result = result.filter(e => e.propellant && e.propellant.includes(engineFilters.propellant));
+    }
+    setFilteredEngines(result);
+  };
 
   useEffect(() => {
     if (selectedRocket) {
@@ -157,14 +200,29 @@ function App() {
     setFilters({ ...filters, country: newCountry, manufacturer: newManufacturer });
   };
 
-  const StatRow = ({ label, value, unit, highlight }) => {
+  const StatRow = ({ label, value, unit, highlight, isLink, onClick }) => {
     if (value === null || value === undefined || value === '') return null;
     return (
       <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 1.2, borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
         <Typography variant="body2" color="textSecondary">{label}</Typography>
-        <Typography variant="body2" sx={{ fontWeight: 600, color: highlight ? 'primary.main' : 'inherit' }}>
-          {value} {unit}
-        </Typography>
+        {isLink ? (
+          <Button 
+            size="small" 
+            variant="text" 
+            onClick={onClick}
+            sx={{ 
+              p: 0, minWidth: 0, fontSize: '0.85rem', fontWeight: 700, 
+              textTransform: 'none', color: '#0066cc',
+              '&:hover': { bgcolor: 'transparent', textDecoration: 'underline' }
+            }}
+          >
+            {value} {unit}
+          </Button>
+        ) : (
+          <Typography variant="body2" sx={{ fontWeight: 600, color: highlight ? 'primary.main' : 'inherit' }}>
+            {value} {unit}
+          </Typography>
+        )}
       </Box>
     );
   };
@@ -203,115 +261,461 @@ function App() {
            <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 500 }}>Control Center (Static)</Typography>
         </Box>
 
-        <TextField
-          placeholder="搜索型号 / Search..."
-          variant="outlined"
-          fullWidth
-          size="small"
-          value={filters.search}
-          onChange={(e) => setFilters({...filters, search: e.target.value})}
-          InputProps={{
-            startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" sx={{ color: 'text.secondary' }} /></InputAdornment>,
-            sx: filterInputStyle
-          }}
-          sx={{ mb: 3 }}
-        />
+        <Stack direction="row" spacing={1} sx={{ mb: 3 }}>
+          <Button 
+            variant={viewMode === 'rockets' ? 'contained' : 'outlined'} 
+            fullWidth 
+            size="small"
+            startIcon={<RocketLaunchIcon />}
+            onClick={() => setViewMode('rockets')}
+            sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 700 }}
+          >
+            火箭
+          </Button>
+          <Button 
+            variant={viewMode === 'engines' ? 'contained' : 'outlined'} 
+            fullWidth 
+            size="small"
+            startIcon={<PrecisionManufacturingIcon />}
+            onClick={() => setViewMode('engines')}
+            sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 700 }}
+          >
+            发动机
+          </Button>
+        </Stack>
 
-        <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 700, mb: 2, display: 'block', px: 1 }}>筛选条件 / FILTERS</Typography>
+                {viewMode === 'rockets' ? (
+
+                  <>
+
+                    <TextField
+
+                      placeholder="搜索型号 / Search..."
+
+                      variant="outlined"
+
+                      fullWidth
+
+                      size="small"
+
+                      value={filters.search}
+
+                      onChange={(e) => setFilters({...filters, search: e.target.value})}
+
+                      InputProps={{
+
+                        startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" sx={{ color: 'text.secondary' }} /></InputAdornment>,
+
+                        sx: filterInputStyle
+
+                      }}
+
+                      sx={{ mb: 3 }}
+
+                    />
+
         
-        <FilterSelect 
-          label="国家 / Country"
-          value={filters.country}
-          onChange={handleCountryChange}
-          options={[
-            { value: '中国', label: '🇨🇳 中国 (China)' },
-            { value: '美国', label: '🇺🇸 美国 (USA)' },
-            { value: '欧洲', label: '🇪🇺 欧洲 (Europe)' },
-            { value: '俄罗斯', label: '🇷🇺 俄罗斯 (Russia)' },
-            { value: '日本', label: '🇯🇵 日本 (Japan)' },
-          ]}
-        />
 
-        <FilterSelect 
-          label="研制单位 / Manufacturer"
-          value={filters.manufacturer}
-          onChange={(e) => setFilters({...filters, manufacturer: e.target.value})}
-          options={availableManufacturers}
-        />
+                    <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 700, mb: 2, display: 'block', px: 1 }}>筛选条件 / FILTERS</Typography>
 
-        <FilterSelect 
-          label="服役状态 / Status"
-          value={filters.status}
-          onChange={(e) => setFilters({...filters, status: e.target.value})}
-          options={[
-            { value: '现役', label: '🟢 现役 (Active)' },
-            { value: '研发', label: '🔵 研发中 (In Dev)' },
-            { value: '退役', label: '⚪️ 退役 (Retired)' },
-          ]}
-        />
+                    
 
-        <Box sx={{ px: 1, mb: 2, bgcolor: '#f5f5f7', p: 2, borderRadius: 3 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-            <Typography variant="caption" sx={{ fontWeight: 600 }}>近地轨道运力 (LEO)</Typography>
-            <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 700 }}>{filters.leoRange[0]}-{filters.leoRange[1]}t</Typography>
-          </Box>
-          <Slider
-            value={filters.leoRange}
-            onChange={(e, val) => setFilters({...filters, leoRange: val})}
-            min={0} max={160} size="small"
-          />
-        </Box>
+                    <FilterSelect 
 
-        <FilterSelect 
-          label="燃料类型 / Fuel"
-          value={filters.fuel}
-          onChange={(e) => setFilters({...filters, fuel: e.target.value})}
-          options={[
-            { value: '煤油', label: '🛢️ 煤油 (Kerosene)' },
-            { value: '甲烷', label: '💨 甲烷 (Methane)' },
-            { value: '氢', label: '💧 氢氧 (Hydrogen)' },
-            { value: '固体', label: '🧱 固体 (Solid)' },
-          ]}
-        />
+                      label="国家 / Country"
 
-        <Box sx={{ mt: 1, px: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-           <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8rem' }}>可回收型号</Typography>
-           <Switch checked={filters.isReusable} onChange={(e) => setFilters({...filters, isReusable: e.target.checked})} size="small" />
-        </Box>
+                      value={filters.country}
 
-        <Button 
-          fullWidth 
-          size="small"
-          variant="text" 
-          onClick={handleReset}
-          sx={{ mt: 2, color: 'text.secondary', fontSize: '0.75rem' }}
-        >
-          重置所有筛选
-        </Button>
+                      onChange={handleCountryChange}
+
+                      options={[
+
+                        { value: '中国', label: '🇨🇳 中国 (China)' },
+
+                        { value: '美国', label: '🇺🇸 美国 (USA)' },
+
+                        { value: '欧洲', label: '🇪🇺 欧洲 (Europe)' },
+
+                        { value: '俄罗斯', label: '🇷🇺 俄罗斯 (Russia)' },
+
+                        { value: '日本', label: '🇯🇵 日本 (Japan)' },
+
+                      ]}
+
+                    />
+
+        
+
+                    <FilterSelect 
+
+                      label="研制单位 / Manufacturer"
+
+                      value={filters.manufacturer}
+
+                      onChange={(e) => setFilters({...filters, manufacturer: e.target.value})}
+
+                      options={availableManufacturers}
+
+                    />
+
+        
+
+                    <FilterSelect 
+
+                      label="服役状态 / Status"
+
+                      value={filters.status}
+
+                      onChange={(e) => setFilters({...filters, status: e.target.value})}
+
+                      options={[
+
+                        { value: '现役', label: '🟢 现役 (Active)' },
+
+                        { value: '研发', label: '🔵 研发中 (In Dev)' },
+
+                        { value: '退役', label: '⚪️ 退役 (Retired)' },
+
+                      ]}
+
+                    />
+
+        
+
+                    <Box sx={{ px: 1, mb: 2, bgcolor: '#f5f5f7', p: 2, borderRadius: 3 }}>
+
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+
+                        <Typography variant="caption" sx={{ fontWeight: 600 }}>近地轨道运力 (LEO)</Typography>
+
+                        <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 700 }}>{filters.leoRange[0]}-{filters.leoRange[1]}t</Typography>
+
+                      </Box>
+
+                      <Slider
+
+                        value={filters.leoRange}
+
+                        onChange={(e, val) => setFilters({...filters, leoRange: val})}
+
+                        min={0} max={160} size="small"
+
+                      />
+
+                    </Box>
+
+        
+
+                    <FilterSelect 
+
+                      label="燃料类型 / Fuel"
+
+                      value={filters.fuel}
+
+                      onChange={(e) => setFilters({...filters, fuel: e.target.value})}
+
+                      options={[
+
+                        { value: '煤油', label: '🛢️ 煤油 (Kerosene)' },
+
+                        { value: '甲烷', label: '💨 甲烷 (Methane)' },
+
+                        { value: '氢', label: '💧 氢氧 (Hydrogen)' },
+
+                        { value: '固体', label: '🧱 固体 (Solid)' },
+
+                      ]}
+
+                    />
+
+        
+
+                    <Box sx={{ mt: 1, px: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+                       <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8rem' }}>可回收型号</Typography>
+
+                       <Switch checked={filters.isReusable} onChange={(e) => setFilters({...filters, isReusable: e.target.checked})} size="small" />
+
+                    </Box>
+
+        
+
+                    <Button 
+
+                      fullWidth 
+
+                      size="small"
+
+                      variant="text" 
+
+                      onClick={handleReset}
+
+                      sx={{ mt: 2, color: 'text.secondary', fontSize: '0.75rem' }}
+
+                    >
+
+                      重置所有筛选
+
+                    </Button>
+
+                  </>
+
+                ) : (
+
+                  <>
+
+                    <TextField
+
+                      placeholder="搜索发动机型号..."
+
+                      variant="outlined"
+
+                      fullWidth
+
+                      size="small"
+
+                      value={engineFilters.search}
+
+                      onChange={(e) => setEngineFilters({...engineFilters, search: e.target.value})}
+
+                      InputProps={{
+
+                        startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" sx={{ color: 'text.secondary' }} /></InputAdornment>,
+
+                        sx: filterInputStyle
+
+                      }}
+
+                      sx={{ mb: 3 }}
+
+                    />
+
+        
+
+                    <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 700, mb: 2, display: 'block', px: 1 }}>发动机筛选 / FILTERS</Typography>
+
+                    
+
+                    <FilterSelect 
+
+                      label="推进剂类型 / Propellant"
+
+                      value={engineFilters.propellant}
+
+                      onChange={(e) => setEngineFilters({...engineFilters, propellant: e.target.value})}
+
+                      options={[
+
+                        { value: '煤油', label: '🛢️ 煤油 (Kerosene)' },
+
+                        { value: '甲烷', label: '💨 甲烷 (Methane)' },
+
+                        { value: '氢', label: '💧 氢氧 (Hydrogen)' },
+
+                        { value: '固体', label: '🧱 固体 (Solid)' },
+
+                      ]}
+
+                    />
+
+        
+
+                    <FilterSelect 
+                      label="国家 / Country"
+                      value={engineFilters.country}
+                      onChange={(e) => {
+                          setEngineFilters({...engineFilters, country: e.target.value, manufacturer: ''})
+                      }}
+                      options={[
+                        { value: '中国', label: '🇨🇳 中国 (China)' },
+                        { value: '美国', label: '🇺🇸 美国 (USA)' },
+                        { value: '俄罗斯', label: '🇷🇺 俄罗斯 (Russia)' },
+                      ]}
+                    />
+
+                    <FilterSelect 
+                      label="研制单位 / Manufacturer"
+                      value={engineFilters.manufacturer}
+                      onChange={(e) => setEngineFilters({...engineFilters, manufacturer: e.target.value})}
+                      options={availableEngineManufacturers.map(m => ({ value: m, label: m }))}
+                    />
+
+                    <Button 
+                      fullWidth 
+                      size="small"
+                      variant="text" 
+                      onClick={() => setEngineFilters({ search: '', manufacturer: '', propellant: '' })}
+                      sx={{ mt: 2, color: 'text.secondary', fontSize: '0.75rem' }}
+                    >
+                      重置发动机筛选
+                    </Button>
+                  </>
+                )}
       </Box>
 
-      <Box sx={{ flexGrow: 1, overflowY: 'auto', bgcolor: '#fafafa', p: 0 }}>
-        <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 700, py: 2, px: 3, display: 'block', bgcolor: '#fafafa', position: 'sticky', top: 0, zIndex: 1, borderBottom: '1px solid #eee' }}>
-          结果目录 ({rockets.length})
-        </Typography>
-        <List dense>
-          {rockets.map((rocket) => (
-            <ListItem key={rocket.id} disablePadding>
-              <ListItemButton onClick={() => setSelectedRocket(rocket)} sx={{ px: 3, py: 1 }}>
-                <ListItemText 
-                  primary={rocket.name} 
-                  secondary={rocket.country}
-                  primaryTypographyProps={{ fontSize: '0.85rem', fontWeight: 600 }}
-                  secondaryTypographyProps={{ fontSize: '0.7rem' }}
-                />
-                <ArrowForwardIosIcon sx={{ fontSize: 10, color: '#ccc' }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
-    </Box>
-  );
+        
+
+                    
+
+        
+
+                          {/* 结果目录区 */}
+
+        
+
+                          <Box sx={{ flexGrow: 1, overflowY: 'auto', bgcolor: '#fafafa', p: 0 }}>
+
+        
+
+                            <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 700, py: 2, px: 3, display: 'block', bgcolor: '#fafafa', position: 'sticky', top: 0, zIndex: 1, borderBottom: '1px solid #eee' }}>
+
+        
+
+                              结果目录 ({viewMode === 'rockets' ? rockets.length : filteredEngines.length})
+
+        
+
+                            </Typography>
+
+        
+
+                            <List dense>
+
+        
+
+                              {viewMode === 'rockets' ? (
+
+        
+
+                                rockets.map((rocket) => (
+
+        
+
+                                  <ListItem key={rocket.id} disablePadding>
+
+        
+
+                                    <ListItemButton onClick={() => setSelectedRocket(rocket)} sx={{ px: 3, py: 1 }}>
+
+        
+
+                                      <ListItemText 
+
+        
+
+                                        primary={rocket.name} 
+
+        
+
+                                        secondary={rocket.country}
+
+        
+
+                                        primaryTypographyProps={{ fontSize: '0.85rem', fontWeight: 600 }}
+
+        
+
+                                        secondaryTypographyProps={{ fontSize: '0.7rem' }}
+
+        
+
+                                      />
+
+        
+
+                                      <ArrowForwardIosIcon sx={{ fontSize: 10, color: '#ccc' }} />
+
+        
+
+                                    </ListItemButton>
+
+        
+
+                                  </ListItem>
+
+        
+
+                                ))
+
+        
+
+                              ) : (
+
+        
+
+                                filteredEngines.map((engine) => (
+
+        
+
+                                  <ListItem key={engine.id} disablePadding>
+
+        
+
+                                    <ListItemButton onClick={() => setSelectedEngineName(engine.name)} sx={{ px: 3, py: 1 }}>
+
+        
+
+                                      <ListItemText 
+
+        
+
+                                        primary={engine.name} 
+
+        
+
+                                        secondary={engine.manufacturer}
+
+        
+
+                                        primaryTypographyProps={{ fontSize: '0.85rem', fontWeight: 600 }}
+
+        
+
+                                        secondaryTypographyProps={{ fontSize: '0.7rem' }}
+
+        
+
+                                      />
+
+        
+
+                                      <ArrowForwardIosIcon sx={{ fontSize: 10, color: '#ccc' }} />
+
+        
+
+                                    </ListItemButton>
+
+        
+
+                                  </ListItem>
+
+        
+
+                                ))
+
+        
+
+                              )}
+
+        
+
+                            </List>
+
+        
+
+                          </Box>
+
+        
+
+                        </Box>
+
+        
+
+                      );
+
+        
+
+                    
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f5f5f7' }}>
@@ -339,70 +743,91 @@ function App() {
       </Box>
 
       <Box component="main" sx={{ flexGrow: 1, p: { xs: 2, md: 5 }, width: { md: `calc(100% - ${drawerWidth}px)` }, height: '100vh', overflowY: 'auto' }}>
-        <Container maxWidth="xl">
-          <Box sx={{ mb: 6, mt: { xs: 8, md: 0 } }}>
-            <Typography variant="h3" sx={{ fontWeight: 800, letterSpacing: -1 }}>
-              {filters.country ? `${filters.country}火箭` : '全球运载火箭库'}
-            </Typography>
-            <Typography variant="body1" color="textSecondary" sx={{ mt: 1 }}>
-              已筛选出 {rockets.length} 款型号
-            </Typography>
-          </Box>
+        {viewMode === 'rockets' ? (
+          <Container maxWidth="xl">
+            <Box sx={{ mb: 6, mt: { xs: 8, md: 0 } }}>
+              <Typography variant="h3" sx={{ fontWeight: 800, letterSpacing: -1 }}>
+                {filters.country ? `${filters.country}火箭` : '全球运载火箭库'}
+              </Typography>
+              <Typography variant="body1" color="textSecondary" sx={{ mt: 1 }}>
+                已筛选出 {rockets.length} 款型号
+              </Typography>
+            </Box>
 
-          <Grid container spacing={3} sx={{ pb: 10 }}>
-            {rockets.map((rocket) => (
-              <Grid item xs={12} sm={6} lg={4} xl={3} key={rocket.id}>
-                <Fade in={true}>
-                  <Card sx={{ 
-                    height: '100%', display: 'flex', flexDirection: 'column', 
-                    borderRadius: 4,
-                    boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    '&:hover': { transform: 'translateY(-8px)', boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }
-                  }}>
-                    <Box sx={{ position: 'relative' }}>
-                       <CardMedia
-                        component="img"
-                        height="200"
-                        image={getRocketImages(rocket)[0]}
-                        alt={rocket.name}
-                        sx={{ bgcolor: '#f0f0f0' }}
-                      />
-                      <Box sx={{ position: 'absolute', top: 12, left: 12, display: 'flex', gap: 1 }}>
-                         <Chip label={rocket.status || '未知'} size="small" sx={{ bgcolor: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)', fontWeight: 700, fontSize: '0.7rem' }} />
+            <Grid container spacing={3} sx={{ pb: 10 }}>
+              {rockets.map((rocket) => (
+                <Grid item xs={12} sm={6} lg={4} xl={3} key={rocket.id}>
+                  <Fade in={true}>
+                    <Card sx={{ 
+                      height: '100%', display: 'flex', flexDirection: 'column', 
+                      borderRadius: 4,
+                      boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      '&:hover': { transform: 'translateY(-8px)', boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }
+                    }}>
+                      <Box sx={{ position: 'relative' }}>
+                         <CardMedia
+                          component="img"
+                          height="200"
+                          image={getRocketImages(rocket)[0]}
+                          alt={rocket.name}
+                          sx={{ bgcolor: '#f0f0f0' }}
+                        />
+                        <Box sx={{ position: 'absolute', top: 12, left: 12, display: 'flex', gap: 1 }}>
+                           <Chip label={rocket.status || '未知'} size="small" sx={{ bgcolor: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)', fontWeight: 700, fontSize: '0.7rem' }} />
+                        </Box>
                       </Box>
-                    </Box>
-                    
-                    <CardContent sx={{ p: 2.5, flexGrow: 1 }}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                        <Typography variant="overline" sx={{ fontWeight: 800, color: 'primary.main', fontSize: '0.7rem' }}>{rocket.country}</Typography>
-                        {rocket.isReusable && <Chip label="♻️" size="small" variant="outlined" sx={{ height: 20, border: 'none', bgcolor: '#e8f5e9' }} />}
-                      </Box>
-                      <Typography variant="h6" sx={{ fontWeight: 800, mb: 1, lineHeight: 1.2 }}>{rocket.name}</Typography>
-                      <Typography variant="body2" color="textSecondary" sx={{ mb: 2, height: 40, overflow: 'hidden', fontSize: '0.85rem' }}>
-                        {rocket.description}
-                      </Typography>
                       
-                      <Box sx={{ bgcolor: '#f5f5f7', p: 1.5, borderRadius: 3 }}>
-                        <Stack direction="row" justifyContent="space-between" mb={0.5}>
-                          <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>LEO Payload</Typography>
-                          <Typography variant="caption" sx={{ fontWeight: 800 }}>{rocket.leoCapacity} t</Typography>
-                        </Stack>
-                        <LinearProgress variant="determinate" value={Math.min(((rocket.leoCapacity || 0) / 150) * 100, 100)} sx={{ height: 6, borderRadius: 3 }} />
-                      </Box>
-                    </CardContent>
-                    <CardActions sx={{ p: 2.5, pt: 0 }}>
-                      <Button variant="contained" fullWidth disableElevation onClick={() => setSelectedRocket(rocket)} sx={{ borderRadius: 3, fontWeight: 700, bgcolor: '#000', '&:hover': { bgcolor: '#333' } }}>
-                        查看详情
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Fade>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
+                      <CardContent sx={{ p: 2.5, flexGrow: 1 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+                          <Typography variant="overline" sx={{ fontWeight: 800, color: 'primary.main', fontSize: '0.7rem' }}>{rocket.country}</Typography>
+                          {rocket.isReusable && <Chip label="♻️" size="small" variant="outlined" sx={{ height: 20, border: 'none', bgcolor: '#e8f5e9' }} />}
+                        </Box>
+                        <Typography variant="h6" sx={{ fontWeight: 800, mb: 1, lineHeight: 1.2 }}>{rocket.name}</Typography>
+                        <Typography variant="body2" color="textSecondary" sx={{ mb: 2, height: 40, overflow: 'hidden', fontSize: '0.85rem' }}>
+                          {rocket.description}
+                        </Typography>
+                        
+                        <Box sx={{ bgcolor: '#f5f5f7', p: 1.5, borderRadius: 3 }}>
+                          <Stack direction="row" justifyContent="space-between" mb={0.5}>
+                            <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>LEO Payload</Typography>
+                            <Typography variant="caption" sx={{ fontWeight: 800 }}>{rocket.leoCapacity} t</Typography>
+                          </Stack>
+                          <LinearProgress variant="determinate" value={Math.min(((rocket.leoCapacity || 0) / 150) * 100, 100)} sx={{ height: 6, borderRadius: 3 }} />
+                        </Box>
+                      </CardContent>
+                      <CardActions sx={{ p: 2.5, pt: 0 }}>
+                        <Button variant="contained" fullWidth disableElevation onClick={() => setSelectedRocket(rocket)} sx={{ borderRadius: 3, fontWeight: 700, bgcolor: '#000', '&:hover': { bgcolor: '#333' } }}>
+                          查看详情
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Fade>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        ) : (
+          <EngineList 
+            engines={filteredEngines} 
+            onSelectEngine={(name) => setSelectedEngineName(name)} 
+          />
+        )}
       </Box>
+
+      {/* 发动机详情弹窗 */}
+      <EngineDetailModal 
+        engineName={selectedEngineName} 
+        currentList={filteredEngines}
+        onClose={() => setSelectedEngineName(null)} 
+        onSelectRocket={(liteRocket) => {
+          // Fix: Find the full rocket object from the main list using the name/id
+          const fullRocket = rockets.find(r => r.name === liteRocket.name) || liteRocket;
+          setSelectedEngineName(null);
+          setSelectedRocket(fullRocket);
+        }}
+        onSelectEngine={(name) => setSelectedEngineName(name)}
+      />
 
       {/* 详情弹窗 */}
       <Dialog 
@@ -500,18 +925,65 @@ function App() {
                     <Grid container spacing={4}>
                       <Grid item xs={12} sm={6}>
                         <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 700 }}>一级 & 助推 (Stage 1)</Typography>
-                        <StatRow label="一级引擎" value={selectedRocket.firstStageEngine} unit="" />
+                        <StatRow 
+                          label="一级引擎" 
+                          value={selectedRocket.firstStageEngine} 
+                          isLink 
+                          onClick={() => {
+                            const raw = selectedRocket.firstStageEngine;
+                            if (!raw) return;
+                            // Try to match any known engine name inside the string
+                            const matched = enginesData.find(e => raw.includes(e.name));
+                            if (matched) {
+                                setSelectedEngineName(matched.name);
+                            } else {
+                                // Fallback: try simple split
+                                const simple = raw.split(' x ')[0].split(' * ')[0].trim();
+                                setSelectedEngineName(simple);
+                            }
+                          }}
+                        />
                         <StatRow label="一级燃料" value={selectedRocket.firstStageFuel} unit="" />
                         <StatRow label="助推器配置" value={selectedRocket.boosters} unit="" />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 700 }}>上面级 (Upper Stages)</Typography>
-                        <StatRow label="二级引擎" value={selectedRocket.secondStageEngine} unit="" />
+                        <StatRow 
+                          label="二级引擎" 
+                          value={selectedRocket.secondStageEngine} 
+                          isLink 
+                          onClick={() => {
+                            const raw = selectedRocket.secondStageEngine;
+                            if (!raw) return;
+                            const matched = enginesData.find(e => raw.includes(e.name));
+                            if (matched) {
+                                setSelectedEngineName(matched.name);
+                            } else {
+                                const simple = raw.split(' x ')[0].split(' * ')[0].trim();
+                                setSelectedEngineName(simple);
+                            }
+                          }}
+                        />
                         <StatRow label="二级燃料" value={selectedRocket.secondStageFuel} unit="" />
                         {selectedRocket.thirdStageEngine && (
                           <>
                             <Box sx={{ my: 1, borderTop: '1px dashed #eee' }} />
-                            <StatRow label="三级引擎" value={selectedRocket.thirdStageEngine} unit="" />
+                            <StatRow 
+                              label="三级引擎" 
+                              value={selectedRocket.thirdStageEngine} 
+                              isLink 
+                              onClick={() => {
+                                const raw = selectedRocket.thirdStageEngine;
+                                if (!raw) return;
+                                const matched = enginesData.find(e => raw.includes(e.name));
+                                if (matched) {
+                                    setSelectedEngineName(matched.name);
+                                } else {
+                                    const simple = raw.split(' x ')[0].split(' * ')[0].trim();
+                                    setSelectedEngineName(simple);
+                                }
+                              }}
+                            />
                             <StatRow label="三级燃料" value={selectedRocket.thirdStageFuel} unit="" />
                           </>
                         )}

@@ -100,6 +100,58 @@ app.get('/api/rockets/:id', async (req, res) => {
   }
 });
 
+// --- Engine APIs ---
+
+// Get all engines (with basic filtering)
+app.get('/api/engines', async (req, res) => {
+  const { search, manufacturer, propellant } = req.query;
+  try {
+    const where = { AND: [] };
+    if (search) where.AND.push({ name: { contains: search } });
+    if (manufacturer) where.AND.push({ manufacturer: { contains: manufacturer } });
+    if (propellant) where.AND.push({ propellant: { contains: propellant } });
+
+    const engines = await prisma.engine.findMany({ where, orderBy: { name: 'asc' } });
+    res.json(engines);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch engines' });
+  }
+});
+
+// Get engine details by name (include related rockets)
+app.get('/api/engines/:name', async (req, res) => {
+  const { name } = req.params;
+  try {
+    const engine = await prisma.engine.findUnique({
+      where: { name },
+    });
+    if (!engine) return res.status(404).json({ error: 'Engine not found' });
+
+    // Fuzzy match related rockets
+    // Look for this engine name in rocket engine fields
+    const relatedRockets = await prisma.rocket.findMany({
+      where: {
+        OR: [
+          { firstStageEngine: { contains: name } },
+          { secondStageEngine: { contains: name } },
+          { thirdStageEngine: { contains: name } },
+        ]
+      },
+      select: {
+        id: true,
+        name: true,
+        imageUrl: true,
+        manufacturer: true
+      }
+    });
+
+    res.json({ ...engine, relatedRockets });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch engine details' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

@@ -53,6 +53,61 @@ async function exportData() {
   // 4. 写入文件
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(staticRockets, null, 2));
   console.log(`Successfully exported ${staticRockets.length} rockets to ${OUTPUT_FILE}`);
+
+  // --- 导出 Engines ---
+  console.log('Exporting engines...');
+  const engines = await prisma.engine.findMany({
+    orderBy: { name: 'asc' }
+  });
+
+  const staticEngines = await Promise.all(engines.map(async (eng) => {
+    // 查找关联火箭 (Fuzzy Match)
+    const relatedRockets = await prisma.rocket.findMany({
+      where: {
+        OR: [
+          { firstStageEngine: { contains: eng.name } },
+          { secondStageEngine: { contains: eng.name } },
+          { thirdStageEngine: { contains: eng.name } },
+        ]
+      },
+      select: {
+        id: true,
+        name: true,
+        imageUrl: true,
+        manufacturer: true
+      }
+    });
+
+    // 处理关联火箭的图片路径
+    const processedRelated = relatedRockets.map(r => {
+        let newImg = null;
+        if (r.imageUrl) {
+            try {
+                const parsed = JSON.parse(r.imageUrl);
+                if (Array.isArray(parsed)) {
+                     newImg = JSON.stringify(parsed.map(url => `./images/${url.split('/').pop()}`));
+                }
+            } catch (e) {
+                const filename = r.imageUrl.split('/').pop();
+                if (r.imageUrl.includes('localhost')) {
+                   newImg = `./images/${filename}`;
+                } else {
+                   newImg = r.imageUrl;
+                }
+            }
+        }
+        return { ...r, imageUrl: newImg };
+    });
+
+    return {
+      ...eng,
+      relatedRockets: processedRelated
+    };
+  }));
+
+  const OUTPUT_ENGINE_FILE = path.join(OUTPUT_DIR, 'engines.json');
+  fs.writeFileSync(OUTPUT_ENGINE_FILE, JSON.stringify(staticEngines, null, 2));
+  console.log(`Successfully exported ${staticEngines.length} engines to ${OUTPUT_ENGINE_FILE}`);
 }
 
 exportData()

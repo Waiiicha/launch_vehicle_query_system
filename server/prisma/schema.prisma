@@ -51,3 +51,30 @@ model Rocket {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
+
+model Engine {
+  id              Int      @id @default(autoincrement())
+  name            String   @unique
+  country         String?  // 国家
+  manufacturer    String?
+  propellant      String?
+  cycle           String?
+  thrust          String?
+  specificImpulse String?
+  description     String?
+  usedBy          String?
+  imageUrl        String?
+  
+  // 新增详细参数
+  restartCount    String? // 启动次数
+  weight          String? // 发动机重量
+  twRatio         String? // 推重比
+  throttleRange   String? // 推力调节范围
+  gimbalAngle     String? // 最大摇摆角度
+  clustering      String? // 现有成组方式
+  neededFor750t   String? // 750t所需数量
+  neededFor7500t  String? // 7500t所需数量
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
