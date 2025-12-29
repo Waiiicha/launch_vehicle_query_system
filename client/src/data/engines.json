@@ -3,7 +3,7 @@
     "id": 202,
     "name": "CQ-50",
     "country": "中国",
-    "manufacturer": "星河动力",
+    "manufacturer": "星河动力 (Galactic Energy)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "500 kN (海平面)",
@@ -20,13 +20,13 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.763Z",
-    "updatedAt": "2025-12-29T12:53:03.686Z",
+    "updatedAt": "2025-12-29T13:04:40.789Z",
     "relatedRockets": [
       {
         "id": 225,
         "name": "智神星一号",
         "imageUrl": "[\"./images/rockets/智神星一号.png\"]",
-        "manufacturer": "星河动力"
+        "manufacturer": "星河动力 (Galactic Energy)"
       }
     ]
   },
@@ -34,7 +34,7 @@
     "id": 201,
     "name": "JD-2",
     "country": "中国",
-    "manufacturer": "星际荣耀",
+    "manufacturer": "星际荣耀 (i-Space)",
     "propellant": "液氧 / 甲烷",
     "cycle": "燃气发生器循环",
     "thrust": "850 kN (海平面)",
@@ -51,7 +51,7 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.755Z",
-    "updatedAt": "2025-12-29T12:53:03.680Z",
+    "updatedAt": "2025-12-29T13:04:40.783Z",
     "relatedRockets": []
   },
   {
@@ -120,7 +120,7 @@
     "id": 199,
     "name": "TH-12",
     "country": "中国",
-    "manufacturer": "天兵科技",
+    "manufacturer": "天兵科技 (Space Pioneer)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "1100 kN (海平面)",
@@ -137,13 +137,13 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.742Z",
-    "updatedAt": "2025-12-29T12:53:03.667Z",
+    "updatedAt": "2025-12-29T13:04:40.769Z",
     "relatedRockets": [
       {
         "id": 223,
         "name": "天龙三号",
         "imageUrl": null,
-        "manufacturer": "天兵科技"
+        "manufacturer": "天兵科技 (Space Pioneer)"
       }
     ]
   },
@@ -151,7 +151,7 @@
     "id": 200,
     "name": "TH-12V",
     "country": "中国",
-    "manufacturer": "天兵科技",
+    "manufacturer": "天兵科技 (Space Pioneer)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "约1078 kN",
@@ -168,14 +168,14 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.749Z",
-    "updatedAt": "2025-12-29T12:53:03.673Z",
+    "updatedAt": "2025-12-29T13:04:40.777Z",
     "relatedRockets": []
   },
   {
     "id": 197,
     "name": "TQ-12A",
     "country": "中国",
-    "manufacturer": "蓝箭航天",
+    "manufacturer": "蓝箭航天 (LandSpace)",
     "propellant": "液氧 / 甲烷",
     "cycle": "燃气发生器循环",
     "thrust": "720 kN (海平面) / 836 kN (真空)",
@@ -192,14 +192,14 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.727Z",
-    "updatedAt": "2025-12-29T12:53:03.661Z",
+    "updatedAt": "2025-12-29T13:04:40.757Z",
     "relatedRockets": []
   },
   {
     "id": 198,
     "name": "TQ-12B",
     "country": "中国",
-    "manufacturer": "蓝箭航天",
+    "manufacturer": "蓝箭航天 (LandSpace)",
     "propellant": "液氧 / 甲烷",
     "cycle": "燃气发生器循环",
     "thrust": "1000 kN (海平面)",
@@ -216,13 +216,13 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.734Z",
-    "updatedAt": "2025-12-29T07:23:57.025Z",
+    "updatedAt": "2025-12-29T13:04:40.763Z",
     "relatedRockets": [
       {
         "id": 96,
         "name": "朱雀三号",
         "imageUrl": "[\"./images/rockets/朱雀三号.webp\"]",
-        "manufacturer": "蓝箭航天"
+        "manufacturer": "蓝箭航天 (LandSpace)"
       }
     ]
   },
@@ -230,7 +230,7 @@
     "id": 205,
     "name": "Thunder-RS",
     "country": "中国",
-    "manufacturer": "深蓝航天",
+    "manufacturer": "深蓝航天 (Deep Blue)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "地面 130 t (约1275 kN)",
@@ -247,14 +247,14 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.781Z",
-    "updatedAt": "2025-12-29T12:53:03.698Z",
+    "updatedAt": "2025-12-29T13:04:40.807Z",
     "relatedRockets": []
   },
   {
     "id": 195,
     "name": "YF-100K",
     "country": "中国",
-    "manufacturer": "航天六院",
+    "manufacturer": "航天六院 (AALPT)",
     "propellant": "液氧 / 煤油",
     "cycle": "高压补燃循环",
     "thrust": "1250 kN (海平面)",
@@ -271,19 +271,19 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.711Z",
-    "updatedAt": "2025-12-29T07:23:57.003Z",
+    "updatedAt": "2025-12-29T13:04:40.745Z",
     "relatedRockets": [
       {
         "id": 91,
         "name": "CZ-10",
         "imageUrl": "[\"./images/rockets/CZ-10(2).png\"]",
-        "manufacturer": "航天一院"
+        "manufacturer": "航天一院 (CALT)"
       },
       {
         "id": 92,
         "name": "CZ-12",
         "imageUrl": "[\"./images/rockets/CZ-12.jpg\",\"./images/rockets/CZ-12(2).jpg\"]",
-        "manufacturer": "航天八院"
+        "manufacturer": "航天八院 (SAST)"
       }
     ]
   },
@@ -291,7 +291,7 @@
     "id": 196,
     "name": "YF-102",
     "country": "中国",
-    "manufacturer": "航天六院",
+    "manufacturer": "航天六院 (AALPT)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "835 kN (海平面)",
@@ -308,13 +308,13 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.719Z",
-    "updatedAt": "2025-12-29T07:23:57.011Z",
+    "updatedAt": "2025-12-29T13:04:40.751Z",
     "relatedRockets": [
       {
         "id": 100,
         "name": "天龙二号",
         "imageUrl": "[\"./images/rockets/天龙二号.jpg\",\"./images/rockets/天龙二号(2).jpg\"]",
-        "manufacturer": "天兵科技"
+        "manufacturer": "天兵科技 (Space Pioneer)"
       }
     ]
   },
@@ -322,7 +322,7 @@
     "id": 193,
     "name": "YF-209",
     "country": "中国",
-    "manufacturer": "航天六院",
+    "manufacturer": "航天六院 (AALPT)",
     "propellant": "液氧 / 甲烷",
     "cycle": "燃气发生器循环",
     "thrust": "780 kN (真空)",
@@ -339,14 +339,14 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.696Z",
-    "updatedAt": "2025-12-29T07:23:56.989Z",
+    "updatedAt": "2025-12-29T13:04:40.732Z",
     "relatedRockets": []
   },
   {
     "id": 194,
     "name": "YF-215",
     "country": "中国",
-    "manufacturer": "航天六院",
+    "manufacturer": "航天六院 (AALPT)",
     "propellant": "液氧 / 甲烷",
     "cycle": "全流量分级燃烧循环",
     "thrust": "2000 kN (海平面)",
@@ -363,13 +363,13 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.704Z",
-    "updatedAt": "2025-12-29T07:23:56.995Z",
+    "updatedAt": "2025-12-29T13:04:40.739Z",
     "relatedRockets": [
       {
         "id": 90,
         "name": "CZ-9",
         "imageUrl": null,
-        "manufacturer": "航天一院"
+        "manufacturer": "航天一院 (CALT)"
       }
     ]
   },
@@ -377,7 +377,7 @@
     "id": 208,
     "name": "YS-20",
     "country": "中国",
-    "manufacturer": "宇石空间",
+    "manufacturer": "宇石空间 (Yushi Space)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "200 kN (海平面)",
@@ -394,14 +394,14 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.801Z",
-    "updatedAt": "2025-12-29T07:23:57.093Z",
+    "updatedAt": "2025-12-29T13:04:40.825Z",
     "relatedRockets": []
   },
   {
     "id": 204,
     "name": "Yuanli-110",
     "country": "中国",
-    "manufacturer": "东方空间",
+    "manufacturer": "东方空间 (Orienspace)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "1100 kN (海平面)",
@@ -418,14 +418,14 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.775Z",
-    "updatedAt": "2025-12-29T07:23:57.067Z",
+    "updatedAt": "2025-12-29T13:04:40.801Z",
     "relatedRockets": []
   },
   {
     "id": 203,
     "name": "力擎二号",
     "country": "中国",
-    "manufacturer": "中科宇航",
+    "manufacturer": "中科宇航 (CAS Space)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "1100 kN (海平面)",
@@ -442,14 +442,14 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.769Z",
-    "updatedAt": "2025-12-29T12:53:03.691Z",
+    "updatedAt": "2025-12-29T13:04:40.795Z",
     "relatedRockets": []
   },
   {
     "id": 207,
     "name": "跃迁-1号",
     "country": "中国",
-    "manufacturer": "大航跃迁",
+    "manufacturer": "大航跃迁 (Dahang Yueqian)",
     "propellant": "液氧 / 甲烷",
     "cycle": "未公开",
     "thrust": "800 kN (海平面)",
@@ -466,14 +466,14 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.795Z",
-    "updatedAt": "2025-12-29T07:23:57.087Z",
+    "updatedAt": "2025-12-29T13:04:40.819Z",
     "relatedRockets": []
   },
   {
     "id": 206,
     "name": "龙云",
     "country": "中国",
-    "manufacturer": "九州云箭",
+    "manufacturer": "九州云箭 (JZYJ)",
     "propellant": "液氧 / 甲烷",
     "cycle": "燃气发生器循环",
     "thrust": "676 kN (海平面)",
@@ -490,7 +490,7 @@
     "neededFor750t": null,
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.789Z",
-    "updatedAt": "2025-12-29T12:53:03.706Z",
+    "updatedAt": "2025-12-29T13:04:40.813Z",
     "relatedRockets": []
   }
 ]
