@@ -42,12 +42,12 @@
     "firstFlight": "1982-09-09",
     "history": "超过70次发射",
     "status": "现役",
-    "height": 42,
+    "height": 43,
     "diameter": 3.35,
-    "mass": 233,
+    "mass": 243,
     "stages": "2",
     "boosters": "无",
-    "leoCapacity": 3.85,
+    "leoCapacity": 4,
     "gtoCapacity": null,
     "marsCapacity": null,
     "plutoCapacity": null,
@@ -65,7 +65,7 @@
     "imageUrl": null,
     "description": "中国航天的“金牌火箭”。主要用于执行低轨遥感、科学实验卫星发射。近期加装了栅格舵以进行落区控制验证。",
     "createdAt": "2025-12-25T08:10:36.996Z",
-    "updatedAt": "2025-12-29T07:23:56.633Z"
+    "updatedAt": "2025-12-29T12:53:03.488Z"
   },
   {
     "id": 81,
@@ -78,10 +78,10 @@
     "status": "现役",
     "height": 41,
     "diameter": 3.35,
-    "mass": 232,
+    "mass": 250,
     "stages": "2",
     "boosters": "无",
-    "leoCapacity": 3.5,
+    "leoCapacity": 4,
     "gtoCapacity": null,
     "marsCapacity": null,
     "plutoCapacity": null,
@@ -99,7 +99,7 @@
     "imageUrl": "[\"./images/rockets/CZ-2D.jpg\",\"./images/rockets/CZ-2D(2).jpg\"]",
     "description": "上海航天研制的常温液体火箭。以高可靠性和快速响应著称，是太阳同步轨道任务的主力。",
     "createdAt": "2025-12-25T08:10:37.004Z",
-    "updatedAt": "2025-12-29T07:23:56.641Z"
+    "updatedAt": "2025-12-29T12:53:03.496Z"
   },
   {
     "id": 82,
@@ -146,7 +146,7 @@
     "status": "现役",
     "height": 56.3,
     "diameter": 3.35,
-    "mass": 459,
+    "mass": 456,
     "stages": "3",
     "boosters": "4 x 2.25m 液体",
     "leoCapacity": 11.5,
@@ -167,7 +167,7 @@
     "imageUrl": "[\"./images/rockets/CZ-3B.jpg\",\"./images/rockets/CZ-3B.png\",\"./images/rockets/CZ-3B(2).jpg\"]",
     "description": "中国高轨道发射的主力。承担了北斗导航、嫦娥工程等重大任务。",
     "createdAt": "2025-12-25T08:10:37.016Z",
-    "updatedAt": "2025-12-29T07:23:56.661Z"
+    "updatedAt": "2025-12-29T12:53:03.504Z"
   },
   {
     "id": 84,
@@ -217,7 +217,7 @@
     "mass": 869,
     "stages": "2.5",
     "boosters": "4 x 3.35m 液体",
-    "leoCapacity": 32,
+    "leoCapacity": 25,
     "gtoCapacity": 14,
     "marsCapacity": 6,
     "plutoCapacity": 4.5,
@@ -235,7 +235,7 @@
     "imageUrl": "[\"./images/rockets/CZ-5.jpg\"]",
     "description": "“胖五”，中国现役最强火箭。负责天问、嫦娥、空间站等重型任务。",
     "createdAt": "2025-12-25T08:10:37.030Z",
-    "updatedAt": "2025-12-29T07:23:56.675Z"
+    "updatedAt": "2025-12-29T12:53:03.510Z"
   },
   {
     "id": 86,
@@ -353,8 +353,8 @@
     "mass": 356,
     "stages": "2",
     "boosters": "2 x 2.25m 液体",
-    "leoCapacity": 8.1,
-    "gtoCapacity": 4.5,
+    "leoCapacity": 7.6,
+    "gtoCapacity": 2.5,
     "marsCapacity": null,
     "plutoCapacity": null,
     "firstStageFuel": "液氧 / 煤油",
@@ -371,7 +371,7 @@
     "imageUrl": "[\"./images/rockets/CZ-8.jpg\",\"./images/rockets/CZ-8(2).jpg\"]",
     "description": "面向商业市场开发。CZ-8R改型将实现集束回收。",
     "createdAt": "2025-12-25T08:10:37.062Z",
-    "updatedAt": "2025-12-29T07:23:56.706Z"
+    "updatedAt": "2025-12-29T12:53:03.518Z"
   },
   {
     "id": 90,
@@ -586,7 +586,7 @@
     "firstFlight": "预计2025",
     "history": null,
     "status": "研发中",
-    "height": 76.6,
+    "height": 66.1,
     "diameter": 4.5,
     "mass": null,
     "stages": null,
@@ -609,7 +609,7 @@
     "imageUrl": "[\"./images/rockets/朱雀三号.webp\"]",
     "description": "不锈钢材质复用火箭，目标复用20次。",
     "createdAt": "2025-12-25T08:10:37.114Z",
-    "updatedAt": "2025-12-29T07:23:56.755Z"
+    "updatedAt": "2025-12-29T12:53:03.526Z"
   },
   {
     "id": 97,
@@ -754,7 +754,7 @@
     "country": "美国",
     "manufacturer": "SpaceX",
     "firstFlight": "2010-06-04",
-    "history": "300+次发射，一级复用超20次",
+    "history": "500+次发射，一级复用超20次",
     "status": "现役",
     "height": 70,
     "diameter": 3.7,
@@ -779,7 +779,7 @@
     "imageUrl": "[\"./images/rockets/Falcon9.jpg\"]",
     "description": "全球最成熟的轨道级可回收火箭。",
     "createdAt": "2025-12-25T08:10:37.148Z",
-    "updatedAt": "2025-12-29T07:23:56.791Z"
+    "updatedAt": "2025-12-29T12:53:03.532Z"
   },
   {
     "id": 102,
@@ -788,7 +788,7 @@
     "country": "美国",
     "manufacturer": "SpaceX",
     "firstFlight": "2018-02-06",
-    "history": null,
+    "history": "11次",
     "status": "现役",
     "height": 70,
     "diameter": 3.7,
@@ -813,7 +813,7 @@
     "imageUrl": "[\"./images/rockets/FalconHeavy.jpg\",\"./images/rockets/FalconHeavy.webp\"]",
     "description": "三枚Falcon 9一级并联，运力惊人。",
     "createdAt": "2025-12-25T08:10:37.154Z",
-    "updatedAt": "2025-12-29T07:23:56.799Z"
+    "updatedAt": "2025-12-29T12:53:03.538Z"
   },
   {
     "id": 103,
@@ -830,12 +830,12 @@
     "stages": "2 (Super Heavy + Starship)",
     "boosters": "无",
     "leoCapacity": 150,
-    "gtoCapacity": 27,
+    "gtoCapacity": 21,
     "marsCapacity": 100,
     "plutoCapacity": 10,
     "firstStageFuel": "液氧 / 甲烷",
     "firstStageEngine": "33 x Raptor 2",
-    "firstStageThrust": "74400 kN",
+    "firstStageThrust": "74500kN",
     "secondStageFuel": "液氧 / 甲烷",
     "secondStageEngine": "3 x Raptor Sea + 3 x Raptor Vac",
     "secondStageThrust": null,
@@ -847,7 +847,7 @@
     "imageUrl": "[\"./images/rockets/Starship.jpg\"]",
     "description": "完全复用的星际运输系统。旨在殖民火星。",
     "createdAt": "2025-12-25T08:10:37.160Z",
-    "updatedAt": "2025-12-29T08:28:54.451Z"
+    "updatedAt": "2025-12-29T12:53:03.546Z"
   },
   {
     "id": 104,
@@ -860,7 +860,7 @@
     "status": "现役",
     "height": 98,
     "diameter": 8.4,
-    "mass": 2608,
+    "mass": 2610,
     "stages": "2",
     "boosters": "2 x 五段式固体助推器 (SRB)",
     "leoCapacity": 95,
@@ -881,7 +881,7 @@
     "imageUrl": "[\"./images/rockets/SLS Block 1.png\"]",
     "description": "Artemis计划载人登月的核心。",
     "createdAt": "2025-12-25T08:10:37.168Z",
-    "updatedAt": "2025-12-29T07:23:56.815Z"
+    "updatedAt": "2025-12-29T12:53:03.554Z"
   },
   {
     "id": 105,
@@ -898,12 +898,12 @@
     "stages": "2",
     "boosters": "0/2/4/6 x GEM-63XL 固体",
     "leoCapacity": 27.2,
-    "gtoCapacity": 14.5,
+    "gtoCapacity": 14.4,
     "marsCapacity": null,
     "plutoCapacity": null,
     "firstStageFuel": "液氧 / 甲烷",
     "firstStageEngine": "2 x BE-4",
-    "firstStageThrust": "12300 kN",
+    "firstStageThrust": "4900kN",
     "secondStageFuel": "液氢 / 液氧",
     "secondStageEngine": "2 x RL10C",
     "secondStageThrust": null,
@@ -915,7 +915,7 @@
     "imageUrl": "[\"./images/rockets/VulcanCentaur.jpg\"]",
     "description": "ULA的新一代主力，旨在替代Atlas和Delta。",
     "createdAt": "2025-12-25T08:10:37.176Z",
-    "updatedAt": "2025-12-29T07:23:56.823Z"
+    "updatedAt": "2025-12-29T12:53:03.561Z"
   },
   {
     "id": 106,
@@ -962,7 +962,7 @@
     "status": "现役",
     "height": 18,
     "diameter": 1.2,
-    "mass": 12.5,
+    "mass": 13,
     "stages": "2",
     "boosters": null,
     "leoCapacity": 0.3,
@@ -983,7 +983,7 @@
     "imageUrl": "[\"./images/rockets/Electron.jpg\"]",
     "description": "小卫星发射市场的王者。它采用了独特的“电泵压”循环发动机（用电池驱动泵），全碳纤维黑色箭体极具辨识度。虽然是一次性设计，但也尝试过通过直升机空中回收一级。",
     "createdAt": "2025-12-25T08:10:37.190Z",
-    "updatedAt": "2025-12-29T07:23:56.837Z"
+    "updatedAt": "2025-12-29T12:53:03.568Z"
   },
   {
     "id": 108,
@@ -1034,7 +1034,7 @@
     "stages": "2",
     "boosters": "0/2/4 x SRB-3",
     "leoCapacity": 16.5,
-    "gtoCapacity": 7.9,
+    "gtoCapacity": 6.5,
     "marsCapacity": null,
     "plutoCapacity": null,
     "firstStageFuel": "液氢 / 液氧",
@@ -1051,7 +1051,7 @@
     "imageUrl": null,
     "description": "日本新旗舰。首款采用膨胀排放循环一级引擎的火箭。",
     "createdAt": "2025-12-25T08:10:37.202Z",
-    "updatedAt": "2025-12-29T07:23:56.849Z"
+    "updatedAt": "2025-12-29T12:53:03.574Z"
   },
   {
     "id": 110,
@@ -1065,7 +1065,7 @@
     "height": 55.4,
     "diameter": 8.9,
     "mass": 775,
-    "stages": "2 + 4助推",
+    "stages": "3",
     "boosters": "4 x URM-1 (液氧/煤油)",
     "leoCapacity": 26,
     "gtoCapacity": 5.4,
@@ -1085,7 +1085,7 @@
     "imageUrl": null,
     "description": "俄罗斯自研的新一代重型火箭。取代质子号。",
     "createdAt": "2025-12-25T08:10:37.208Z",
-    "updatedAt": "2025-12-29T07:23:56.857Z"
+    "updatedAt": "2025-12-29T12:53:03.579Z"
   },
   {
     "id": 199,
@@ -1130,7 +1130,7 @@
     "firstFlight": "2008-04-25",
     "history": null,
     "status": "现役",
-    "height": 54.8,
+    "height": 56.5,
     "diameter": 3.35,
     "mass": 345,
     "stages": "3",
@@ -1153,7 +1153,7 @@
     "imageUrl": "[\"./images/rockets/CZ-3C.jpg\",\"./images/rockets/CZ-3C(2).jpg\"]",
     "description": "介于3A和3B之间的型号，拥有2个助推器，主要用于发射天链、北斗等卫星。",
     "createdAt": "2025-12-28T03:26:21.136Z",
-    "updatedAt": "2025-12-29T07:23:56.874Z"
+    "updatedAt": "2025-12-29T12:53:03.586Z"
   },
   {
     "id": 202,
@@ -1195,7 +1195,7 @@
     "name": "CZ-4C",
     "country": "中国",
     "manufacturer": "航天八院",
-    "firstFlight": "2006-04-26",
+    "firstFlight": "27",
     "history": null,
     "status": "现役",
     "height": 48,
@@ -1221,7 +1221,7 @@
     "imageUrl": "[\"./images/rockets/CZ-4C.jpg\"]",
     "description": "CZ-4B的改进型，三级发动机具备二次启动能力，支持更复杂的轨道部署。",
     "createdAt": "2025-12-28T03:26:21.152Z",
-    "updatedAt": "2025-12-29T07:23:56.891Z"
+    "updatedAt": "2025-12-29T12:53:03.594Z"
   },
   {
     "id": 206,
@@ -1297,7 +1297,7 @@
     "name": "CZ-7A",
     "country": "中国",
     "manufacturer": "航天一院",
-    "firstFlight": "2020-03-16",
+    "firstFlight": "12",
     "history": null,
     "status": "现役",
     "height": 60.13,
@@ -1323,7 +1323,7 @@
     "imageUrl": "[\"./images/rockets/CZ-7A.jpg\",\"./images/rockets/CZ-7A(2).jpg\"]",
     "description": "高轨改进型，结合了CZ-7的芯一级和CZ-3A的氢氧三级，是主力高轨火箭。",
     "createdAt": "2025-12-28T03:26:21.204Z",
-    "updatedAt": "2025-12-29T07:23:56.911Z"
+    "updatedAt": "2025-12-29T12:53:03.602Z"
   },
   {
     "id": 214,
@@ -1399,7 +1399,7 @@
     "name": "双曲线一号",
     "country": "中国",
     "manufacturer": "星际荣耀",
-    "firstFlight": "2019-07-25",
+    "firstFlight": "2018/9",
     "history": null,
     "status": "现役",
     "height": 20.8,
@@ -1425,7 +1425,7 @@
     "imageUrl": "[\"./images/rockets/双曲线一号.jpg\"]",
     "description": "中国首个入轨成功的民营火箭型号。",
     "createdAt": "2025-12-28T03:26:21.310Z",
-    "updatedAt": "2025-12-29T07:23:56.935Z"
+    "updatedAt": "2025-12-29T12:53:03.610Z"
   },
   {
     "id": 225,
@@ -1436,12 +1436,12 @@
     "firstFlight": "预计2025",
     "history": null,
     "status": "研发中",
-    "height": 49.6,
+    "height": 52,
     "diameter": 3.35,
-    "mass": 220,
+    "mass": 283,
     "stages": null,
     "boosters": null,
-    "leoCapacity": 5,
+    "leoCapacity": 7,
     "gtoCapacity": null,
     "marsCapacity": null,
     "plutoCapacity": null,
@@ -1459,7 +1459,7 @@
     "imageUrl": "[\"./images/rockets/智神星一号.png\"]",
     "description": "“苍穹”引擎驱动的复用液体火箭。",
     "createdAt": "2025-12-28T03:26:21.316Z",
-    "updatedAt": "2025-12-29T07:23:56.943Z"
+    "updatedAt": "2025-12-29T12:53:03.618Z"
   },
   {
     "id": 230,
@@ -1472,7 +1472,7 @@
     "status": "退役",
     "height": 111,
     "diameter": 10,
-    "mass": 2822,
+    "mass": 3000,
     "stages": null,
     "boosters": null,
     "leoCapacity": 140,
@@ -1493,7 +1493,7 @@
     "imageUrl": "[\"./images/rockets/SaturnV.jpg\"]",
     "description": "阿波罗登月计划的功勋火箭。人类推力最大的飞船载具。",
     "createdAt": "2025-12-28T03:26:21.356Z",
-    "updatedAt": "2025-12-29T07:23:56.951Z"
+    "updatedAt": "2025-12-29T12:53:03.625Z"
   },
   {
     "id": 231,
@@ -1509,12 +1509,12 @@
     "mass": 2030,
     "stages": null,
     "boosters": null,
-    "leoCapacity": 24.4,
+    "leoCapacity": 27.5,
     "gtoCapacity": null,
     "marsCapacity": null,
     "plutoCapacity": null,
     "firstStageFuel": "固体+液氢/液氧",
-    "firstStageEngine": "3 x RS-25",
+    "firstStageEngine": "2 × RSRM",
     "firstStageThrust": null,
     "secondStageFuel": null,
     "secondStageEngine": null,
@@ -1527,7 +1527,7 @@
     "imageUrl": "[\"./images/rockets/STS（航天飞机）.jpg\"]",
     "description": "轨道飞行器+外储箱+双助推器。定义了一个航天时代。",
     "createdAt": "2025-12-28T03:26:21.364Z",
-    "updatedAt": "2025-12-29T07:23:56.957Z"
+    "updatedAt": "2025-12-29T12:53:03.631Z"
   },
   {
     "id": 232,
@@ -1572,7 +1572,7 @@
     "firstFlight": "2002-08-21",
     "history": null,
     "status": "现役/退役中",
-    "height": 58.3,
+    "height": 62.5,
     "diameter": 3.8,
     "mass": 590,
     "stages": null,
@@ -1595,6 +1595,6 @@
     "imageUrl": "[\"./images/rockets/AtlasV.jpg\",\"./images/rockets/AtlasV.webp\"]",
     "description": "极高可靠性。采用俄制RD-180引擎。",
     "createdAt": "2025-12-28T03:26:21.380Z",
-    "updatedAt": "2025-12-29T07:23:56.969Z"
+    "updatedAt": "2025-12-29T12:53:03.637Z"
   }
 ]
