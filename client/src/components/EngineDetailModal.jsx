@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import enginesData from '../data/engines.json';
 import {
   Dialog, Box, Typography, IconButton, Grid, Chip, Divider,
-  Stack, Card, CardContent, CardMedia, Button, List, ListItem, ListItemButton, ListItemText
+  Stack, Card, CardContent, CardMedia, Button, List, ListItem, ListItemButton, ListItemText, Backdrop
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
 
 // Helper function moved outside component to avoid initialization issues
 const getEngineImages = (eng) => {
@@ -24,6 +25,7 @@ const getEngineImages = (eng) => {
 export default function EngineDetailModal({ engineName, currentList, onClose, onSelectRocket, onSelectEngine }) {
   const [engine, setEngine] = useState(null);
   const [activeImage, setActiveImage] = useState('');
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   useEffect(() => {
     if (engineName) {
@@ -57,20 +59,31 @@ export default function EngineDetailModal({ engineName, currentList, onClose, on
       onClose={onClose} 
       maxWidth="lg" 
       fullWidth
-      PaperProps={{ 
-        sx: { 
-          borderRadius: 4, 
+      PaperProps={{
+        sx: {
+          borderRadius: 4,
           height: { xs: 'calc(100% - 32px)', md: '80vh' },
           maxHeight: '100%',
           overflow: 'hidden'
-        } 
+        }
       }}
     >
       <Grid container sx={{ height: '100%' }}>
         {/* Left Column: Image & Navigation List */}
         <Grid item xs={12} md={4} sx={{ bgcolor: '#f5f5f7', display: 'flex', flexDirection: 'column', borderRight: '1px solid #eee' }}>
            {/* Image Display */}
-           <Box sx={{ flexGrow: 1, position: 'relative', bgcolor: '#fff' }}>
+           <Box 
+             sx={{ 
+               flexGrow: 1, 
+               position: 'relative', 
+               bgcolor: '#fff', 
+               display: 'flex', 
+               alignItems: 'center', 
+               justifyContent: 'center',
+               cursor: 'zoom-in'
+             }}
+             onClick={() => setLightboxOpen(true)}
+           >
              <Box 
                component="img" 
                src={activeImage} 
@@ -78,6 +91,9 @@ export default function EngineDetailModal({ engineName, currentList, onClose, on
              />
              <Box sx={{ position: 'absolute', bottom: 12, left: 12 }}>
                 <Chip label="ENGINE VIEW" size="small" sx={{ bgcolor: 'rgba(255,255,255,0.8)', fontWeight: 700, fontSize: '0.65rem' }} />
+             </Box>
+             <Box sx={{ position: 'absolute', bottom: 12, right: 12, bgcolor: 'rgba(0,0,0,0.5)', color: 'white', borderRadius: '50%', p: 0.5, display: 'flex' }}>
+                <ZoomInIcon fontSize="small" />
              </Box>
            </Box>
 
@@ -89,7 +105,7 @@ export default function EngineDetailModal({ engineName, currentList, onClose, on
                    key={idx}
                    component="img" 
                    src={img} 
-                   onClick={() => setActiveImage(img)}
+                   onClick={(e) => { e.stopPropagation(); setActiveImage(img); }}
                    sx={{ 
                      width: 60, height: 60, objectFit: 'cover', borderRadius: 2, cursor: 'pointer',
                      border: activeImage === img ? '2px solid #0066cc' : '2px solid transparent',
@@ -175,6 +191,27 @@ export default function EngineDetailModal({ engineName, currentList, onClose, on
           </Box>
         </Grid>
       </Grid>
+      
+      {/* Lightbox */}
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 9999, bgcolor: 'rgba(0,0,0,0.95)' }}
+        open={lightboxOpen}
+        onClick={() => setLightboxOpen(false)}
+      >
+        {engine && (
+          <Box 
+            component="img" 
+            src={activeImage} 
+            sx={{ 
+              maxWidth: '90vw', 
+              maxHeight: '90vh', 
+              objectFit: 'contain',
+              boxShadow: '0 0 50px rgba(0,0,0,0.5)' 
+            }} 
+          />
+        )}
+        <Typography sx={{ position: 'absolute', bottom: 30, color: 'white', opacity: 0.7 }}>点击任意处关闭</Typography>
+      </Backdrop>
     </Dialog>
   );
 }

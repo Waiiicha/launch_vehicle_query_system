@@ -1,117 +1,68 @@
-# Global Launch Vehicle Database (全球运载火箭全息数据库)
+# 全球运载火箭及发动机查询系统
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg) ![React](https://img.shields.io/badge/frontend-React%20%2B%20Vite-61DAFB) ![Node](https://img.shields.io/badge/backend-Node.js%20%2B%20Prisma-339933) ![Style](https://img.shields.io/badge/style-Apple%20Design-000000)
+这是一个现代化的、基于 React 和 Node.js 开发的运载火箭与发动机数据库系统。系统采用 Apple 风格的 UI 设计，支持多维度筛选、详细参数对比以及高清图片展示。
 
-一个现代化、高性能的全球运载火箭信息查询系统。采用 Apple 官网风格的 UI 设计，提供详尽的火箭物理规格、动力参数、运载能力及回收技术解析。支持中英文双语界面。
+## 🚀 核心功能
 
-## ✨ 核心特性 (Features)
+- **火箭数据库**：收录全球主流运载火箭，支持按国家、厂商、运力、燃料类型、可回收性等筛选。
+- **发动机引擎库**：收录 18+ 款主流液体火箭发动机，包含循环方式、推力、比冲等关键参数。
+- **智能关联**：自动关联发动机与其驱动的火箭型号（例如：Raptor 2 关联 Starship）。
+- **交互体验**：支持多图浏览、大图缩放（Lightbox）、以及全屏详情模态框。
+- **静态化支持**：支持将数据库数据导出为静态 JSON，实现无后端的前端独立部署。
 
-*   **全息数据详情**: 收录全球主流火箭（长征系列、SpaceX、ULA、Ariane 等）的 30+ 项硬核参数，包括多级发动机配置、各轨道运力及物理尺寸。
-*   **Apple 风格 UI**: 极简设计，大字号排版，磨砂玻璃特效，配合平滑的交互动画。
-*   **多维级联筛选**:
-    *   支持按 **国家/地区** -> **研制单位** 的级联筛选（智能防错）。
-    *   支持按 **LEO 运力范围** (0-160t) 滑块筛选。
-    *   支持按 **燃料类型**、**服役状态**、**级数** 精确过滤。
-*   **沉浸式画廊**: 支持多角度图片展示，集成横向滚动缩略图与 Lightbox 大图查看模式。
-*   **结果目录**: 侧边栏集成实时结果列表，支持快速导航。
-*   **混合架构**: 
-    *   **开发态**: 使用 Node.js + SQLite 管理数据。
-    *   **运行态**: 编译为纯静态站点 (JSON + React)，无需后端即可运行，完美支持 GitHub Pages。
+## 📂 目录结构规范
 
-## 🛠 技术栈 (Tech Stack)
+- `client/`: 前端 React 源码 (Vite)
+  - `public/images/rockets/`: 火箭图片存放处
+  - `public/images/engines/`: 发动机图片存放处
+  - `src/data/`: 导出的静态 JSON 数据
+- `server/`: 后端 API 与 数据管理脚本
+  - `prisma/`: 数据库模型定义 (SQLite)
+  - `seed.js`: 火箭数据种子
+  - `seed_engines_manual.js`: 发动机数据种子
+  - `export_static.js`: 静态数据导出脚本 (DB -> JSON)
+- `pic/`: 原始图片素材库 (用于开发同步)
 
-*   **Frontend**: React 18, Vite, Material UI (MUI v5)
-*   **Backend (Data Management)**: Node.js, Express.js
-*   **Database**: SQLite, Prisma ORM
-*   **Tools**: PowerShell Scripts (`start.bat`), GitHub Actions (GH-Pages)
+## 🛠️ 快速启动
 
-## 🚀 快速开始 (Getting Started)
+### 1. 环境准备
+确保已安装 Node.js (v18+)。
 
-### 环境要求
-*   Node.js v18+
-*   npm
-
-### 方式一：一键启动 (推荐)
-本项目内置了 Windows 启动脚本。双击根目录下的 **`start.bat`** 即可自动启动前端服务。
-访问地址: `http://localhost:5173`
-
-### 方式二：手动启动
-```powershell
-# 1. 安装前端依赖
-cd client
-npm install
-
-# 2. 启动前端 (静态模式)
-npm run dev
-```
-
----
-
-## 💾 数据维护与更新 (Data Workflow)
-
-本项目采用**“后端管理数据，前端静态展示”**的模式。如果您需要添加新火箭或修改数据，请遵循以下流程：
-
-### 1. 修改数据源
-编辑 `server/seed.js` 文件。这里包含了所有火箭的 JSON 源数据。
-
-### 2. 更新数据库
-在 `server` 目录下运行：
-```powershell
+### 2. 初始化数据库 (首次运行)
+```bash
 cd server
-npm install  # 初次运行需要
+npm install
 npx prisma db push
 npm run seed
 ```
 
-### 3. 关联本地图片
-将新图片放入 `pic` 文件夹（文件名需包含火箭型号），然后运行：
-```powershell
-node link_images.js
-```
-*该脚本会自动扫描图片并更新数据库中的 `imageUrl` 字段。*
-
-### 4. 导出静态数据 (关键步骤)
-为了让前端（静态版）获取最新数据，必须将数据库内容导出为 JSON：
-```powershell
-node export_static.js
-```
-*此命令会生成 `client/src/data/rockets.json`，前端页面将立即更新。*
-
----
-
-## 📦 部署 (Deployment)
-
-本项目已配置好 **GitHub Pages** 的自动化部署脚本。
-
-1.  **提交代码**: 确保所有改动已 commit 并 push 到远程仓库。
-2.  **执行部署**:
-    ```powershell
-    cd client
-    npm run deploy
-    ```
-    *脚本会自动执行 `vite build` 打包项目，并将 `dist` 目录推送到 `gh-pages` 分支。*
-
-## 📂 项目结构 (Structure)
-
-```text
-launch_vehicle_query_system/
-├── client/                 # 前端项目
-│   ├── public/images/      # 静态图片资源 (由 pic/ 复制而来)
-│   ├── src/
-│   │   ├── data/           # rockets.json (静态数据源)
-│   │   ├── App.jsx         # 主应用逻辑
-│   │   └── theme.js        # MUI 主题配置
-│   └── vite.config.js      # Vite 配置
-├── server/                 # 后端项目 (数据管理)
-│   ├── prisma/             # 数据库 Schema
-│   ├── seed.js             # 数据填充脚本
-│   ├── link_images.js      # 图片关联脚本
-│   └── export_static.js    # 静态化导出脚本
-├── pic/                    # 原始图片素材库
-├── doc/                    # 项目文档
-└── start.bat               # Windows 启动脚本
+### 3. 同步图片并导出数据
+将图片放入 `pic/rocket_pic` 和 `pic/engine_pic` 后，运行：
+```bash
+cd server
+# 将图片同步到前端 public 目录
+# 目前手动操作或使用 copy 命令
+# 导出数据到静态 JSON
+npm run export
 ```
 
-## 📄 许可证 (License)
+### 4. 运行应用
+```bash
+# 根目录下运行 (Windows)
+start.bat
 
-MIT License.
+# 或者手动启动
+cd client
+npm run dev
+```
+
+## 📸 图片命名规范
+
+- **精确匹配**：图片文件名应与数据库中的 `name` 字段一致。
+- **多图支持**：支持 `型号(2).jpg`, `型号(3).png` 等格式，系统会自动识别为图集。
+- **分类存放**：
+  - 火箭图片：`client/public/images/rockets/`
+  - 发动机图片：`client/public/images/engines/`
+
+## 📄 开源协议
+MIT License
