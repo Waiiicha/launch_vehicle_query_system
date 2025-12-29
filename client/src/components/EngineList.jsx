@@ -1,8 +1,19 @@
 import React from 'react';
 import {
   Container, Typography, Grid, Card, CardContent, CardActions,
-  Button, Box, Fade, Chip, Stack
+  Button, Box, Fade, Chip, Stack, CardMedia
 } from '@mui/material';
+
+const getEngineImage = (engine) => {
+  if (!engine.imageUrl) return `https://placehold.co/600x400/f5f5f7/1d1d1f?text=${engine.name}`;
+  try {
+    const parsed = JSON.parse(engine.imageUrl);
+    if (Array.isArray(parsed) && parsed.length > 0) return parsed[0];
+    return engine.imageUrl; // Fallback if not array
+  } catch (e) {
+    return engine.imageUrl; // Fallback if parsing fails (plain string)
+  }
+};
 
 export default function EngineList({ engines, onSelectEngine }) {
   
@@ -25,6 +36,13 @@ export default function EngineList({ engines, onSelectEngine }) {
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 10px 30px rgba(0,0,0,0.08)' }
               }}>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={getEngineImage(engine)}
+                  alt={engine.name}
+                  sx={{ bgcolor: '#f9f9fa', objectFit: 'cover' }}
+                />
                 <CardContent sx={{ p: 3, flexGrow: 1 }}>
                   <Stack direction="row" justifyContent="space-between" mb={1}>
                     <Chip label={engine.propellant || '未知燃料'} size="small" sx={{ bgcolor: '#f0f0f0', fontWeight: 600, fontSize: '0.7rem' }} />

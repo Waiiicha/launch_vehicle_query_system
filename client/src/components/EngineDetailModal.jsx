@@ -9,18 +9,40 @@ import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
+// Helper function moved outside component to avoid initialization issues
+const getEngineImages = (eng) => {
+  if (!eng || !eng.imageUrl) return [`https://placehold.co/800x600/f5f5f7/1d1d1f?text=${eng ? eng.name : 'No Image'}`];
+  try {
+    const parsed = JSON.parse(eng.imageUrl);
+    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    return [eng.imageUrl];
+  } catch (e) {
+    return [eng.imageUrl];
+  }
+};
+
 export default function EngineDetailModal({ engineName, currentList, onClose, onSelectRocket, onSelectEngine }) {
   const [engine, setEngine] = useState(null);
+  const [activeImage, setActiveImage] = useState('');
 
   useEffect(() => {
     if (engineName) {
         // Find engine from static data
         const found = enginesData.find(e => e.name === engineName);
-        setEngine(found || null);
+        if (found) {
+            setEngine(found);
+            const images = getEngineImages(found);
+            setActiveImage(images[0]);
+        } else {
+            setEngine(null);
+        }
     }
   }, [engineName]);
 
   if (!engine) return null;
+
+  const engineImages = getEngineImages(engine);
+
 
   const StatRow = ({ label, value }) => (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 1.5, borderBottom: '1px solid #f0f0f0' }}>
@@ -47,14 +69,36 @@ export default function EngineDetailModal({ engineName, currentList, onClose, on
       <Grid container sx={{ height: '100%' }}>
         {/* Left Column: Image & Navigation List */}
         <Grid item xs={12} md={4} sx={{ bgcolor: '#f5f5f7', display: 'flex', flexDirection: 'column', borderRight: '1px solid #eee' }}>
-           {/* Image Placeholder */}
-           <Box sx={{ height: '100%', bgcolor: '#e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-             {/* Future: Add engine image logic here */}
-             <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 600 }}>NO ENGINE IMAGE AVAILABLE</Typography>
+           {/* Image Display */}
+           <Box sx={{ flexGrow: 1, position: 'relative', bgcolor: '#fff' }}>
+             <Box 
+               component="img" 
+               src={activeImage} 
+               sx={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+             />
              <Box sx={{ position: 'absolute', bottom: 12, left: 12 }}>
                 <Chip label="ENGINE VIEW" size="small" sx={{ bgcolor: 'rgba(255,255,255,0.8)', fontWeight: 700, fontSize: '0.65rem' }} />
              </Box>
            </Box>
+
+           {/* Thumbnails (if multiple) */}
+           {engineImages.length > 1 && (
+             <Box sx={{ p: 2, display: 'flex', gap: 1, overflowX: 'auto', bgcolor: '#fff', borderTop: '1px solid #eee', flexShrink: 0 }}>
+               {engineImages.map((img, idx) => (
+                 <Box 
+                   key={idx}
+                   component="img" 
+                   src={img} 
+                   onClick={() => setActiveImage(img)}
+                   sx={{ 
+                     width: 60, height: 60, objectFit: 'cover', borderRadius: 2, cursor: 'pointer',
+                     border: activeImage === img ? '2px solid #0066cc' : '2px solid transparent',
+                     flexShrink: 0 
+                   }} 
+                 />
+               ))}
+             </Box>
+           )}
         </Grid>
 
         {/* Right Column: Info */}
