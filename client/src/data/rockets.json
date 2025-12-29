@@ -834,7 +834,7 @@
     "marsCapacity": 100,
     "plutoCapacity": 10,
     "firstStageFuel": "液氧 / 甲烷",
-    "firstStageEngine": "33 x Raptor",
+    "firstStageEngine": "33 x Raptor 2",
     "firstStageThrust": "74400 kN",
     "secondStageFuel": "液氧 / 甲烷",
     "secondStageEngine": "3 x Raptor Sea + 3 x Raptor Vac",
@@ -847,7 +847,7 @@
     "imageUrl": "[\"./images/rockets/Starship.jpg\"]",
     "description": "完全复用的星际运输系统。旨在殖民火星。",
     "createdAt": "2025-12-25T08:10:37.160Z",
-    "updatedAt": "2025-12-29T07:23:56.807Z"
+    "updatedAt": "2025-12-29T08:28:54.451Z"
   },
   {
     "id": 104,

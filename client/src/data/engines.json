@@ -107,7 +107,14 @@
     "neededFor7500t": null,
     "createdAt": "2025-12-29T04:06:26.680Z",
     "updatedAt": "2025-12-29T07:23:56.976Z",
-    "relatedRockets": []
+    "relatedRockets": [
+      {
+        "id": 103,
+        "name": "Starship",
+        "imageUrl": "[\"./images/rockets/Starship.jpg\"]",
+        "manufacturer": "SpaceX"
+      }
+    ]
   },
   {
     "id": 199,
