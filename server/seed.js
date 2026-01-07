@@ -181,7 +181,7 @@ const rocketsData = [
     country: "中国",
     manufacturer: "航天八院",
     status: "现役",
-    firstFlight: "2006-04-26",
+    firstFlight: "2006-04-27",
     height: 48.0,
     diameter: 3.35,
     mass: 250.0,
@@ -804,6 +804,10 @@ const rocketsData = [
 
 async function seed() {
   console.log('Starting Global Rocket Database enriched seeding...');
+  
+  // 清空现有火箭数据，确保与 seed 数据严格同步
+  await prisma.rocket.deleteMany({});
+  console.log('Existing rocket data cleared.');
   
   for (const r of rocketsData) {
     try {
