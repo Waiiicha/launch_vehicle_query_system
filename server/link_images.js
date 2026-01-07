@@ -3,8 +3,8 @@ const path = require('path');
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
-const PIC_DIR = path.join(__dirname, '../pic');
-const SERVER_URL = 'http://localhost:3001/images';
+const PIC_DIR = path.join(__dirname, '../pic/rocket_pic');
+const SERVER_URL = 'http://localhost:3001/images/rocket_pic';
 
 async function linkImages() {
   console.log('Scanning for multiple images...');
