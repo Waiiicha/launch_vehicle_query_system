@@ -5,9 +5,37 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const OUTPUT_DIR = path.join(__dirname, '../client/src/data');
 const OUTPUT_FILE = path.join(OUTPUT_DIR, 'rockets.json');
+const ROCKET_PIC_DIR = path.join(__dirname, '../pic/rocket_pic');
+const ENGINE_PIC_DIR = path.join(__dirname, '../pic/engine_pic');
+const ROCKET_PUBLIC_DIR = path.join(__dirname, '../client/public/images/rockets');
+const ENGINE_PUBLIC_DIR = path.join(__dirname, '../client/public/images/engines');
+
+// Copy images from source to public directory
+function copyImages(srcDir, destDir, category) {
+  if (!fs.existsSync(srcDir)) {
+    console.warn(`${category} source directory not found: ${srcDir}`);
+    return;
+  }
+
+  if (!fs.existsSync(destDir)) {
+    fs.mkdirSync(destDir, { recursive: true });
+  }
+
+  const files = fs.readdirSync(srcDir).filter(f => /\.(jpg|jpeg|png|webp|gif)$/i.test(f));
+  files.forEach(f => {
+    const src = path.join(srcDir, f);
+    const dest = path.join(destDir, f);
+    fs.copyFileSync(src, dest);
+  });
+  console.log(`Copied ${files.length} ${category} images to public directory.`);
+}
 
 async function exportData() {
   console.log('Exporting data for static site...');
+  
+  // Copy images first
+  copyImages(ROCKET_PIC_DIR, ROCKET_PUBLIC_DIR, 'rocket');
+  copyImages(ENGINE_PIC_DIR, ENGINE_PUBLIC_DIR, 'engine');
   
   if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });

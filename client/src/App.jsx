@@ -26,8 +26,10 @@ const drawerWidth = 320;
 // 厂商数据
 const allManufacturers = [
   { value: '航天一院 (CALT)', label: '航天一院 (CALT)', country: '中国' },
+  { value: '航天六院 (CAST)', label: '航天六院 (CAST)', country: '中国' },
   { value: '航天八院 (SAST)', label: '航天八院 (SAST)', country: '中国' },
   { value: '航天科工 (ExPace)', label: '航天科工 (ExPace)', country: '中国' },
+  { value: '西安航天动力研究所 (XADRI)', label: '西安航天动力研究所 (XADRI)', country: '中国' },
   { value: '蓝箭航天 (LandSpace)', label: '蓝箭航天 (LandSpace)', country: '中国' },
   { value: '星河动力 (Galactic Energy)', label: '星河动力 (Galactic Energy)', country: '中国' },
   { value: '东方空间 (Orienspace)', label: '东方空间 (Orienspace)', country: '中国' },
@@ -77,7 +79,9 @@ function App() {
     search: '',
     country: '',
     manufacturer: '',
-    propellant: ''
+    propellant: '',
+    cycle: '',
+    seaLevelThrustRange: [0, 3000]
   });
 
   const theme = useTheme();
@@ -115,6 +119,32 @@ function App() {
     }
     if (engineFilters.propellant) {
         result = result.filter(e => e.propellant && e.propellant.includes(engineFilters.propellant));
+    }
+    if (engineFilters.cycle) {
+        result = result.filter(e => e.cycle && e.cycle.includes(engineFilters.cycle));
+    }
+    // 海平面推力范围筛选 - 从 thrust 字段中提取数值
+    if (engineFilters.seaLevelThrustRange[0] > 0 || engineFilters.seaLevelThrustRange[1] < 3000) {
+        result = result.filter(e => {
+            if (!e.thrust) return false;
+            let thrustValue = null;
+            
+            // 首先尝试解析海平面推力
+            const seaLevelMatch = e.thrust.match(/(\d+(?:\.\d+)?)\s*kN\s*\(海平面\)/);
+            if (seaLevelMatch) {
+                thrustValue = parseFloat(seaLevelMatch[1]);
+            } else {
+                // 如果没有海平面推力，尝试提取任何数值
+                const anyMatch = e.thrust.match(/(\d+(?:\.\d+)?)\s*kN/);
+                if (anyMatch) {
+                    thrustValue = parseFloat(anyMatch[1]);
+                }
+            }
+            
+            if (thrustValue === null) return false;
+            return thrustValue >= engineFilters.seaLevelThrustRange[0] && 
+                   thrustValue <= engineFilters.seaLevelThrustRange[1];
+        });
     }
     setFilteredEngines(result);
   };
@@ -543,11 +573,42 @@ function App() {
                       options={availableEngineManufacturers.map(m => ({ value: m, label: m }))}
                     />
 
+                    <FilterSelect 
+                      label="循环方式 / Cycle"
+                      value={engineFilters.cycle}
+                      onChange={(e) => setEngineFilters({...engineFilters, cycle: e.target.value})}
+                      options={[
+                        { value: '燃气发生器循环', label: '燃气发生器循环' },
+                        { value: '全流量分级燃烧循环', label: '全流量分级燃烧循环' },
+                        { value: '高压补燃富氧分级燃烧循环', label: '高压补燃富氧分级燃烧循环' },
+                        { value: '高压补燃循环', label: '高压补燃循环' },
+                      ]}
+                    />
+
+                    <Box sx={{ mt: 2, mb: 2 }}>
+                      <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 700, mb: 1, display: 'block' }}>
+                        海平面推力 / Sea Level Thrust (kN)
+                      </Typography>
+                      <Slider
+                        value={engineFilters.seaLevelThrustRange}
+                        onChange={(e, newValue) => setEngineFilters({...engineFilters, seaLevelThrustRange: newValue})}
+                        min={0}
+                        max={3000}
+                        step={50}
+                        valueLabelDisplay="auto"
+                        marks={[
+                          { value: 0, label: '0' },
+                          { value: 1500, label: '1500' },
+                          { value: 3000, label: '3000' }
+                        ]}
+                      />
+                    </Box>
+
                     <Button 
                       fullWidth 
                       size="small"
                       variant="text" 
-                      onClick={() => setEngineFilters({ search: '', manufacturer: '', propellant: '' })}
+                      onClick={() => setEngineFilters({ search: '', manufacturer: '', propellant: '', country: '', cycle: '', seaLevelThrustRange: [0, 3000] })}
                       sx={{ mt: 2, color: 'text.secondary', fontSize: '0.75rem' }}
                     >
                       重置发动机筛选

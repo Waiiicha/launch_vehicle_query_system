@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
-    "seed": "node seed.js && node seed_engines_manual.js",
+    "seed": "node seed.js && node seed_engines_manual.js && node link_images.js && node export_static.js",
+    "seed:quick": "node seed.js && node seed_engines_manual.js",
+    "link": "node link_images.js",
     "export": "node export_static.js",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push"
