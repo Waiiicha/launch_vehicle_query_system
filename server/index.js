@@ -104,12 +104,16 @@ app.get('/api/rockets/:id', async (req, res) => {
 
 // Get all engines (with basic filtering)
 app.get('/api/engines', async (req, res) => {
-  const { search, manufacturer, propellant } = req.query;
+  const { search, manufacturer, propellant, minIsp, maxIsp } = req.query;
   try {
     const where = { AND: [] };
     if (search) where.AND.push({ name: { contains: search } });
     if (manufacturer) where.AND.push({ manufacturer: { contains: manufacturer } });
     if (propellant) where.AND.push({ propellant: { contains: propellant } });
+    
+    // Specific impulse range filtering (in seconds)
+    if (minIsp) where.AND.push({ specificImpulseSecond: { gte: parseFloat(minIsp) } });
+    if (maxIsp) where.AND.push({ specificImpulseSecond: { lte: parseFloat(maxIsp) } });
 
     const engines = await prisma.engine.findMany({ where, orderBy: { name: 'asc' } });
     res.json(engines);

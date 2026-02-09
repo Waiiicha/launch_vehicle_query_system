@@ -60,7 +60,8 @@ model Engine {
   propellant      String?
   cycle           String?
   thrust          String?
-  specificImpulse String?
+  specificImpulse String?  // 比冲(s) / 有效喷气速度(m/s) 的统一格式
+  specificImpulseSecond Float?  // 比冲值（单位：秒），用于筛选
   description     String?
   usedBy          String?
   imageUrl        String?

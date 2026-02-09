@@ -81,7 +81,8 @@ function App() {
     manufacturer: '',
     propellant: '',
     cycle: '',
-    seaLevelThrustRange: [0, 3000]
+    seaLevelThrustRange: [0, 3000],
+    specificImpulseRange: [250, 350]
   });
 
   const theme = useTheme();
@@ -144,6 +145,14 @@ function App() {
             if (thrustValue === null) return false;
             return thrustValue >= engineFilters.seaLevelThrustRange[0] && 
                    thrustValue <= engineFilters.seaLevelThrustRange[1];
+        });
+    }
+    // 比冲范围筛选 - 使用 specificImpulseSecond 字段
+    if (engineFilters.specificImpulseRange[0] > 250 || engineFilters.specificImpulseRange[1] < 350) {
+        result = result.filter(e => {
+            if (e.specificImpulseSecond === null || e.specificImpulseSecond === undefined) return false;
+            return e.specificImpulseSecond >= engineFilters.specificImpulseRange[0] && 
+                   e.specificImpulseSecond <= engineFilters.specificImpulseRange[1];
         });
     }
     setFilteredEngines(result);
@@ -604,11 +613,30 @@ function App() {
                       />
                     </Box>
 
+                    <Box sx={{ mt: 2, mb: 2 }}>
+                      <Typography variant="caption" color="textSecondary" sx={{ fontWeight: 700, mb: 1, display: 'block' }}>
+                        比冲 / Specific Impulse (s)
+                      </Typography>
+                      <Slider
+                        value={engineFilters.specificImpulseRange}
+                        onChange={(e, newValue) => setEngineFilters({...engineFilters, specificImpulseRange: newValue})}
+                        min={200}
+                        max={350}
+                        step={5}
+                        valueLabelDisplay="auto"
+                        marks={[
+                          { value: 200, label: '200' },
+                          { value: 275, label: '275' },
+                          { value: 350, label: '350' }
+                        ]}
+                      />
+                    </Box>
+
                     <Button 
                       fullWidth 
                       size="small"
                       variant="text" 
-                      onClick={() => setEngineFilters({ search: '', manufacturer: '', propellant: '', country: '', cycle: '', seaLevelThrustRange: [0, 3000] })}
+                      onClick={() => setEngineFilters({ search: '', manufacturer: '', propellant: '', country: '', cycle: '', seaLevelThrustRange: [0, 3000], specificImpulseRange: [250, 350] })}
                       sx={{ mt: 2, color: 'text.secondary', fontSize: '0.75rem' }}
                     >
                       重置发动机筛选

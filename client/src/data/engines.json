@@ -1,13 +1,14 @@
 [
   {
-    "id": 196,
+    "id": 219,
     "name": "CQ-50",
     "country": "中国",
     "manufacturer": "星河动力 (Galactic Energy)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "500 kN (海平面)",
-    "specificImpulse": "282 s (海平面)",
+    "specificImpulse": "282 s / 2763.6 m/s (海平面)",
+    "specificImpulseSecond": 282,
     "description": "苍穹-50，50吨级液氧煤油发动机，支持重复使用，将作为智神星一号的一级动力。",
     "usedBy": "智神星一号 (Pallas-1)",
     "imageUrl": "[\"./images/engines/CQ-50.png\"]",
@@ -19,11 +20,11 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.415Z",
-    "updatedAt": "2026-02-09T03:55:20.796Z",
+    "createdAt": "2026-02-09T04:13:52.751Z",
+    "updatedAt": "2026-02-09T04:13:53.186Z",
     "relatedRockets": [
       {
-        "id": 383,
+        "id": 471,
         "name": "智神星一号",
         "imageUrl": "[\"./images/rockets/智神星一号.png\"]",
         "manufacturer": "星河动力 (Galactic Energy)"
@@ -31,14 +32,15 @@
     ]
   },
   {
-    "id": 195,
+    "id": 218,
     "name": "JD-2",
     "country": "中国",
     "manufacturer": "星际荣耀 (i-Space)",
     "propellant": "液氧 / 甲烷",
     "cycle": "燃气发生器循环",
     "thrust": "850 kN (海平面)",
-    "specificImpulse": "280 s (海平面)",
+    "specificImpulse": "280 s / 2744 m/s (海平面)",
+    "specificImpulseSecond": 280,
     "description": "焦点二号，85吨级液氧甲烷发动机，支持深度变推和多次启动，用于双曲线三号可回收火箭。",
     "usedBy": "双曲线三号 (SQX-3)",
     "imageUrl": "[\"./images/engines/JD-2.png\"]",
@@ -50,19 +52,20 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.411Z",
-    "updatedAt": "2026-02-09T03:55:20.792Z",
+    "createdAt": "2026-02-09T04:13:52.746Z",
+    "updatedAt": "2026-02-09T04:13:53.182Z",
     "relatedRockets": []
   },
   {
-    "id": 181,
+    "id": 204,
     "name": "Merlin 1D++",
     "country": "美国",
     "manufacturer": "SpaceX",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "845 kN (海平面) / 981 kN (真空)",
-    "specificImpulse": "282 s (海平面) / 311 s (真空)",
+    "specificImpulse": "282 s / 2763.6 m/s (海平面) / 311 s / 3047.8 m/s (真空)",
+    "specificImpulseSecond": 282,
     "description": "猎鹰9号的主力发动机，拥有极高的推重比和可靠性，支持多次重复使用。",
     "usedBy": "Falcon 9 (猎鹰9号)",
     "imageUrl": "[\"./images/engines/Merlin 1D++.png\"]",
@@ -74,11 +77,11 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.357Z",
-    "updatedAt": "2026-02-09T03:55:20.734Z",
+    "createdAt": "2026-02-09T04:13:52.683Z",
+    "updatedAt": "2026-02-09T04:13:53.114Z",
     "relatedRockets": [
       {
-        "id": 384,
+        "id": 472,
         "name": "Falcon 9",
         "imageUrl": "[\"./images/rockets/Falcon9.jpg\"]",
         "manufacturer": "SpaceX"
@@ -86,14 +89,15 @@
     ]
   },
   {
-    "id": 180,
+    "id": 203,
     "name": "Raptor 2",
     "country": "美国",
     "manufacturer": "SpaceX",
     "propellant": "液氧 / 甲烷",
     "cycle": "全流量分级燃烧循环",
     "thrust": "2260 kN (海平面)",
-    "specificImpulse": "327 s (海平面)",
+    "specificImpulse": "327 s / 3204.6 m/s (海平面)",
+    "specificImpulseSecond": 327,
     "description": "SpaceX星舰使用的第二代全流量分级燃烧循环发动机，推力大幅提升，结构更简化。",
     "usedBy": "Starship (星舰)",
     "imageUrl": "[\"./images/engines/Raptor 2.jpg\"]",
@@ -105,11 +109,11 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.352Z",
-    "updatedAt": "2026-02-09T03:55:20.730Z",
+    "createdAt": "2026-02-09T04:13:52.621Z",
+    "updatedAt": "2026-02-09T04:13:53.106Z",
     "relatedRockets": [
       {
-        "id": 386,
+        "id": 474,
         "name": "Starship",
         "imageUrl": "[\"./images/rockets/Starship.jpg\"]",
         "manufacturer": "SpaceX"
@@ -117,30 +121,31 @@
     ]
   },
   {
-    "id": 193,
+    "id": 216,
     "name": "TH-12",
     "country": "中国",
     "manufacturer": "天兵科技 (Space Pioneer)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "1100 kN (海平面)",
-    "specificImpulse": "285 s (海平面)",
+    "specificImpulse": "285 s / 2793 m/s (海平面)",
+    "specificImpulseSecond": 285,
     "description": "天火-12，国内首款110吨级大推力液氧煤油火箭发动机，对标Merlin 1D，用于天龙三号。",
-    "usedBy": "天龙三号 (TL-3)",
+    "usedBy": null,
     "imageUrl": "[\"./images/engines/TH-12.png\"]",
     "restartCount": "多次",
     "weight": null,
     "twRatio": null,
-    "throttleRange": "50% - 110%",
-    "gimbalAngle": "±8°",
+    "throttleRange": null,
+    "gimbalAngle": null,
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.403Z",
-    "updatedAt": "2026-02-09T03:55:20.784Z",
+    "createdAt": "2026-02-09T04:13:52.736Z",
+    "updatedAt": "2026-02-09T04:13:53.173Z",
     "relatedRockets": [
       {
-        "id": 381,
+        "id": 469,
         "name": "天龙三号",
         "imageUrl": "[\"./images/rockets/天龙三号.png\"]",
         "manufacturer": "天兵科技 (Space Pioneer)"
@@ -148,14 +153,15 @@
     ]
   },
   {
-    "id": 194,
+    "id": 217,
     "name": "TH-12V",
     "country": "中国",
     "manufacturer": "天兵科技 (Space Pioneer)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "约 1200 kN (真空)",
-    "specificImpulse": "335 s (真空)",
+    "specificImpulse": "335 s / 3283 m/s (真空)",
+    "specificImpulseSecond": 335,
     "description": "天火-12的真空版，用于天龙三号的二级推进。",
     "usedBy": "天龙三号 (二级)",
     "imageUrl": "[\"./images/engines/TH-12V.png\"]",
@@ -167,11 +173,11 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.407Z",
-    "updatedAt": "2026-02-09T03:55:20.788Z",
+    "createdAt": "2026-02-09T04:13:52.742Z",
+    "updatedAt": "2026-02-09T04:13:53.178Z",
     "relatedRockets": [
       {
-        "id": 381,
+        "id": 469,
         "name": "天龙三号",
         "imageUrl": "[\"./images/rockets/天龙三号.png\"]",
         "manufacturer": "天兵科技 (Space Pioneer)"
@@ -179,14 +185,15 @@
     ]
   },
   {
-    "id": 191,
+    "id": 214,
     "name": "TQ-12A",
     "country": "中国",
     "manufacturer": "蓝箭航天 (LandSpace)",
     "propellant": "液氧 / 甲烷",
     "cycle": "燃气发生器循环",
     "thrust": "720 kN (海平面) / 836 kN (真空)",
-    "specificImpulse": "2840 m/s (海平面)",
+    "specificImpulse": "290 s / 2840 m/s (海平面)",
+    "specificImpulseSecond": 290,
     "description": "天鹊-12的改进型，推力和比冲提升，支持多次启动和推力调节，用于朱雀二号改进型。",
     "usedBy": "朱雀二号 (ZQ-2)",
     "imageUrl": "[\"./images/engines/TQ-12A.png\"]",
@@ -198,11 +205,11 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.396Z",
-    "updatedAt": "2026-02-09T03:55:20.776Z",
+    "createdAt": "2026-02-09T04:13:52.728Z",
+    "updatedAt": "2026-02-09T04:13:53.164Z",
     "relatedRockets": [
       {
-        "id": 375,
+        "id": 463,
         "name": "朱雀二号",
         "imageUrl": "[\"./images/rockets/朱雀二号(2).webp\",\"./images/rockets/朱雀二号.png\"]",
         "manufacturer": "蓝箭航天 (LandSpace)"
@@ -210,14 +217,15 @@
     ]
   },
   {
-    "id": 192,
+    "id": 215,
     "name": "TQ-12B",
     "country": "中国",
     "manufacturer": "蓝箭航天 (LandSpace)",
     "propellant": "液氧 / 甲烷",
     "cycle": "燃气发生器循环",
     "thrust": "1000 kN (海平面)",
-    "specificImpulse": "285 s (海平面)",
+    "specificImpulse": "285 s / 2793 m/s (海平面)",
+    "specificImpulseSecond": 285,
     "description": "天鹊-12系列的深度改进型，推力达到100吨级，专为大型可重复使用火箭朱雀三号设计。",
     "usedBy": "朱雀三号 (ZQ-3)",
     "imageUrl": "[\"./images/engines/TQ-12B.png\"]",
@@ -229,11 +237,11 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.400Z",
-    "updatedAt": "2026-02-09T03:55:20.780Z",
+    "createdAt": "2026-02-09T04:13:52.732Z",
+    "updatedAt": "2026-02-09T04:13:53.169Z",
     "relatedRockets": [
       {
-        "id": 376,
+        "id": 464,
         "name": "朱雀三号",
         "imageUrl": "[\"./images/rockets/朱雀三号.webp\"]",
         "manufacturer": "蓝箭航天 (LandSpace)"
@@ -241,7 +249,7 @@
     ]
   },
   {
-    "id": 199,
+    "id": 222,
     "name": "Thunder-RS",
     "country": "中国",
     "manufacturer": "深蓝航天 (Deep Blue)",
@@ -249,6 +257,7 @@
     "cycle": "燃气发生器循环",
     "thrust": "1000 kN",
     "specificImpulse": "未公开",
+    "specificImpulseSecond": null,
     "description": "雷霆-RS，深蓝航天研发的大推力可复用液氧煤油发动机。",
     "usedBy": "星云系列",
     "imageUrl": "[\"./images/engines/Thunder-RS.png\"]",
@@ -260,19 +269,20 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.426Z",
-    "updatedAt": "2026-02-09T03:55:20.809Z",
+    "createdAt": "2026-02-09T04:13:52.764Z",
+    "updatedAt": "2026-02-09T04:13:53.200Z",
     "relatedRockets": []
   },
   {
-    "id": 188,
+    "id": 211,
     "name": "YF-100",
     "country": "中国",
     "manufacturer": "西安航天动力研究所 (XADRI)",
     "propellant": "液氧 / 煤油",
     "cycle": "高压补燃富氧分级燃烧循环",
     "thrust": "1200 kN (海平面)",
-    "specificImpulse": "2940 m/s (有效喷气速度)",
+    "specificImpulse": "300 s / 2940 m/s (有效喷气速度)",
+    "specificImpulseSecond": 300,
     "description": "新一代液氧煤油大推力发动机，应用于多型长征火箭。",
     "usedBy": "长征五助推器, 长征六/七/八",
     "imageUrl": "[\"./images/engines/YF-100.png\"]",
@@ -284,65 +294,65 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.385Z",
-    "updatedAt": "2026-02-09T03:55:20.764Z",
+    "createdAt": "2026-02-09T04:13:52.715Z",
+    "updatedAt": "2026-02-09T04:13:53.150Z",
     "relatedRockets": [
       {
-        "id": 362,
+        "id": 450,
         "name": "CZ-5",
         "imageUrl": "[\"./images/rockets/CZ-5.jpg\"]",
         "manufacturer": "航天一院 (CALT)"
       },
       {
-        "id": 363,
+        "id": 451,
         "name": "CZ-5B",
         "imageUrl": "[\"./images/rockets/CZ-5B.png\"]",
         "manufacturer": "航天一院 (CALT)"
       },
       {
-        "id": 364,
+        "id": 452,
         "name": "CZ-6",
         "imageUrl": "[\"./images/rockets/CZ-6(2).jpg\",\"./images/rockets/CZ-6(3).png\",\"./images/rockets/CZ-6.jpg\"]",
         "manufacturer": "航天八院 (SAST)"
       },
       {
-        "id": 365,
+        "id": 453,
         "name": "CZ-6A",
         "imageUrl": "[\"./images/rockets/CZ-6A.png\"]",
         "manufacturer": "航天八院 (SAST)"
       },
       {
-        "id": 366,
+        "id": 454,
         "name": "CZ-6C",
         "imageUrl": "[\"./images/rockets/CZ-6C.jpg\"]",
         "manufacturer": "航天八院 (SAST)"
       },
       {
-        "id": 367,
+        "id": 455,
         "name": "CZ-7",
         "imageUrl": "[\"./images/rockets/CZ-7(2).jpg\",\"./images/rockets/CZ-7.png\"]",
         "manufacturer": "航天一院 (CALT)"
       },
       {
-        "id": 368,
+        "id": 456,
         "name": "CZ-7A",
         "imageUrl": "[\"./images/rockets/CZ-7A(2).jpg\",\"./images/rockets/CZ-7A.jpg\"]",
         "manufacturer": "航天一院 (CALT)"
       },
       {
-        "id": 369,
+        "id": 457,
         "name": "CZ-8",
         "imageUrl": "[\"./images/rockets/CZ-8(2).jpg\",\"./images/rockets/CZ-8.jpg\"]",
         "manufacturer": "航天一院 (CALT)"
       },
       {
-        "id": 371,
+        "id": 459,
         "name": "CZ-10",
         "imageUrl": "[\"./images/rockets/CZ-10(2).png\"]",
         "manufacturer": "航天一院 (CALT)"
       },
       {
-        "id": 373,
+        "id": 461,
         "name": "CZ-12",
         "imageUrl": "[\"./images/rockets/CZ-12(2).jpg\",\"./images/rockets/CZ-12.jpg\"]",
         "manufacturer": "航天八院 (SAST)"
@@ -350,14 +360,15 @@
     ]
   },
   {
-    "id": 184,
+    "id": 207,
     "name": "YF-100K",
     "country": "中国",
     "manufacturer": "航天六院 (CAST)",
     "propellant": "液氧 / 煤油",
     "cycle": "高压补燃循环",
     "thrust": "1250 kN (海平面)",
-    "specificImpulse": "301.8 s (海平面)",
+    "specificImpulse": "301.8 s / 2957.6 m/s (海平面)",
+    "specificImpulseSecond": 301.8,
     "description": "基于YF-100改进的泵后摆发动机，结构紧凑，推力提升，是中国新一代载人火箭的主动力。",
     "usedBy": "长征十号, 长征十二号",
     "imageUrl": "[\"./images/engines/YF-100K.jpg\"]",
@@ -369,17 +380,17 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.369Z",
-    "updatedAt": "2026-02-09T03:55:20.747Z",
+    "createdAt": "2026-02-09T04:13:52.697Z",
+    "updatedAt": "2026-02-09T04:13:53.129Z",
     "relatedRockets": [
       {
-        "id": 371,
+        "id": 459,
         "name": "CZ-10",
         "imageUrl": "[\"./images/rockets/CZ-10(2).png\"]",
         "manufacturer": "航天一院 (CALT)"
       },
       {
-        "id": 373,
+        "id": 461,
         "name": "CZ-12",
         "imageUrl": "[\"./images/rockets/CZ-12(2).jpg\",\"./images/rockets/CZ-12.jpg\"]",
         "manufacturer": "航天八院 (SAST)"
@@ -387,14 +398,15 @@
     ]
   },
   {
-    "id": 190,
+    "id": 213,
     "name": "YF-100N",
     "country": "中国",
     "manufacturer": "航天六院 (CAST)",
     "propellant": "液氧 / 煤油",
     "cycle": "高压补燃富氧分级燃烧循环",
     "thrust": "1250 kN (海平面)",
-    "specificImpulse": "2958 m/s (有效喷气速度)",
+    "specificImpulse": "302 s / 2958 m/s (有效喷气速度)",
+    "specificImpulseSecond": 302,
     "description": "YF-100系列改进型，支持多次点火。",
     "usedBy": "长征十号甲（载人）",
     "imageUrl": "[\"./images/engines/YF-100N.jpg\"]",
@@ -406,19 +418,20 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.392Z",
-    "updatedAt": "2026-02-09T03:55:20.772Z",
+    "createdAt": "2026-02-09T04:13:52.723Z",
+    "updatedAt": "2026-02-09T04:13:53.160Z",
     "relatedRockets": []
   },
   {
-    "id": 185,
+    "id": 208,
     "name": "YF-102",
     "country": "中国",
     "manufacturer": "航天六院 (CAST)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "835 kN (海平面)",
-    "specificImpulse": "275 s (海平面)",
+    "specificImpulse": "275 s / 2695 m/s (海平面)",
+    "specificImpulseSecond": 275,
     "description": "航天六院发布的80吨级开式循环商业发动机，已成功应用于天龙二号首飞。",
     "usedBy": "天龙二号",
     "imageUrl": "[\"./images/engines/YF-102.png\"]",
@@ -430,11 +443,11 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.373Z",
-    "updatedAt": "2026-02-09T03:55:20.750Z",
+    "createdAt": "2026-02-09T04:13:52.701Z",
+    "updatedAt": "2026-02-09T04:13:53.133Z",
     "relatedRockets": [
       {
-        "id": 380,
+        "id": 468,
         "name": "天龙二号",
         "imageUrl": "[\"./images/rockets/天龙二号(2).jpg\",\"./images/rockets/天龙二号.jpg\"]",
         "manufacturer": "天兵科技 (Space Pioneer)"
@@ -442,7 +455,7 @@
     ]
   },
   {
-    "id": 189,
+    "id": 212,
     "name": "YF-130",
     "country": "中国",
     "manufacturer": "航天六院 (CAST)",
@@ -450,6 +463,7 @@
     "cycle": "高压补燃富氧分级燃烧循环",
     "thrust": "5000 kN (海平面)",
     "specificImpulse": null,
+    "specificImpulseSecond": null,
     "description": "在研的500吨级发动机概念方案，长征九号早期方案使用。",
     "usedBy": "长征九号（2011）",
     "imageUrl": "[\"./images/engines/YF-130.png\"]",
@@ -461,12 +475,12 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.389Z",
-    "updatedAt": "2026-02-09T03:55:20.768Z",
+    "createdAt": "2026-02-09T04:13:52.719Z",
+    "updatedAt": "2026-02-09T04:13:53.155Z",
     "relatedRockets": []
   },
   {
-    "id": 182,
+    "id": 205,
     "name": "YF-209",
     "country": "中国",
     "manufacturer": "航天六院 (CAST)",
@@ -474,6 +488,7 @@
     "cycle": "燃气发生器循环",
     "thrust": "780 kN (真空)",
     "specificImpulse": "未公开",
+    "specificImpulseSecond": null,
     "description": "航天六院发布的商业液氧甲烷发动机，专为重复使用运载火箭设计，支持深度变推。",
     "usedBy": "商业可重复使用火箭",
     "imageUrl": "[\"./images/engines/YF-209.png\"]",
@@ -485,19 +500,20 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.361Z",
-    "updatedAt": "2026-02-09T03:55:20.738Z",
+    "createdAt": "2026-02-09T04:13:52.687Z",
+    "updatedAt": "2026-02-09T04:13:53.120Z",
     "relatedRockets": []
   },
   {
-    "id": 183,
+    "id": 206,
     "name": "YF-215",
     "country": "中国",
     "manufacturer": "航天六院 (CAST)",
     "propellant": "液氧 / 甲烷",
     "cycle": "全流量分级燃烧循环",
     "thrust": "2000 kN (海平面)",
-    "specificImpulse": "327 s (海平面)",
+    "specificImpulse": "327 s / 3204.6 m/s (海平面)",
+    "specificImpulseSecond": 327,
     "description": "中国研制的200吨级全流量分级燃烧循环液氧甲烷发动机，将作为长征九号的主动力。",
     "usedBy": "长征九号 (CZ-9)",
     "imageUrl": "[\"./images/engines/YF-215.png\"]",
@@ -509,11 +525,11 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.365Z",
-    "updatedAt": "2026-02-09T03:55:20.742Z",
+    "createdAt": "2026-02-09T04:13:52.692Z",
+    "updatedAt": "2026-02-09T04:13:53.125Z",
     "relatedRockets": [
       {
-        "id": 370,
+        "id": 458,
         "name": "CZ-9",
         "imageUrl": "[\"./images/rockets/CZ-9.png\"]",
         "manufacturer": "航天一院 (CALT)"
@@ -521,14 +537,15 @@
     ]
   },
   {
-    "id": 186,
+    "id": 209,
     "name": "YF-21C",
     "country": "中国",
     "manufacturer": "航天六院 (CAST)",
     "propellant": "四氧化二氮 / 偏二甲肼",
     "cycle": "燃气发生器循环",
     "thrust": "2960 kN (海平面)",
-    "specificImpulse": "2538.2 m/s (有效喷气速度)",
+    "specificImpulse": "259 s / 2538.2 m/s (有效喷气速度)",
+    "specificImpulseSecond": 259,
     "description": "常温推进剂芯一级发动机，长期用于长征二/三/四号系列。",
     "usedBy": "长征二/三/四号",
     "imageUrl": "[\"./images/engines/YF-21C.png\"]",
@@ -540,47 +557,47 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.377Z",
-    "updatedAt": "2026-02-09T03:55:20.754Z",
+    "createdAt": "2026-02-09T04:13:52.705Z",
+    "updatedAt": "2026-02-09T04:13:53.138Z",
     "relatedRockets": [
       {
-        "id": 354,
+        "id": 442,
         "name": "CZ-2C",
         "imageUrl": "[\"./images/rockets/CZ-2C.png\"]",
         "manufacturer": "航天一院 (CALT)"
       },
       {
-        "id": 355,
+        "id": 443,
         "name": "CZ-2D",
         "imageUrl": "[\"./images/rockets/CZ-2D(2).jpg\",\"./images/rockets/CZ-2D.jpg\"]",
         "manufacturer": "航天八院 (SAST)"
       },
       {
-        "id": 357,
+        "id": 445,
         "name": "CZ-3A",
         "imageUrl": "[\"./images/rockets/CZ-3A.jpg\"]",
         "manufacturer": "航天一院 (CALT)"
       },
       {
-        "id": 358,
+        "id": 446,
         "name": "CZ-3B",
         "imageUrl": "[\"./images/rockets/CZ-3B(2).jpg\",\"./images/rockets/CZ-3B.jpg\",\"./images/rockets/CZ-3B.png\"]",
         "manufacturer": "航天一院 (CALT)"
       },
       {
-        "id": 359,
+        "id": 447,
         "name": "CZ-3C",
         "imageUrl": "[\"./images/rockets/CZ-3C(2).jpg\",\"./images/rockets/CZ-3C.jpg\"]",
         "manufacturer": "航天一院 (CALT)"
       },
       {
-        "id": 360,
+        "id": 448,
         "name": "CZ-4B",
         "imageUrl": "[\"./images/rockets/CZ-4B(2).jpg\",\"./images/rockets/CZ-4B.jpg\",\"./images/rockets/CZ-4B.png\"]",
         "manufacturer": "航天八院 (SAST)"
       },
       {
-        "id": 361,
+        "id": 449,
         "name": "CZ-4C",
         "imageUrl": "[\"./images/rockets/CZ-4C.jpg\"]",
         "manufacturer": "航天八院 (SAST)"
@@ -588,14 +605,15 @@
     ]
   },
   {
-    "id": 187,
+    "id": 210,
     "name": "YF-77",
     "country": "中国",
     "manufacturer": "航天六院 (CAST)",
     "propellant": "液氧 / 液氢",
     "cycle": "燃气发生器循环",
     "thrust": "518 kN (海平面)",
-    "specificImpulse": "3103.66 m/s (有效喷气速度)",
+    "specificImpulse": "317 s / 3103.7 m/s (有效喷气速度)",
+    "specificImpulseSecond": 317,
     "description": "长征五号芯一级主发动机。",
     "usedBy": "长征五号",
     "imageUrl": "[\"./images/engines/YF-77.jpg\"]",
@@ -607,17 +625,17 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.381Z",
-    "updatedAt": "2026-02-09T03:55:20.759Z",
+    "createdAt": "2026-02-09T04:13:52.710Z",
+    "updatedAt": "2026-02-09T04:13:53.146Z",
     "relatedRockets": [
       {
-        "id": 362,
+        "id": 450,
         "name": "CZ-5",
         "imageUrl": "[\"./images/rockets/CZ-5.jpg\"]",
         "manufacturer": "航天一院 (CALT)"
       },
       {
-        "id": 363,
+        "id": 451,
         "name": "CZ-5B",
         "imageUrl": "[\"./images/rockets/CZ-5B.png\"]",
         "manufacturer": "航天一院 (CALT)"
@@ -625,14 +643,15 @@
     ]
   },
   {
-    "id": 202,
+    "id": 225,
     "name": "YS-20",
     "country": "中国",
     "manufacturer": "宇石空间 (Yushi Space)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "200 kN (海平面)",
-    "specificImpulse": "275 s (海平面)",
+    "specificImpulse": "275 s / 2695 m/s (海平面)",
+    "specificImpulseSecond": 275,
     "description": "20吨级小型液氧煤油发动机，结构简单，成本低廉。",
     "usedBy": "商业微型火箭",
     "imageUrl": null,
@@ -644,19 +663,20 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.437Z",
-    "updatedAt": "2026-02-09T03:55:20.820Z",
+    "createdAt": "2026-02-09T04:13:52.777Z",
+    "updatedAt": "2026-02-09T04:13:53.214Z",
     "relatedRockets": []
   },
   {
-    "id": 198,
+    "id": 221,
     "name": "Yuanli-110",
     "country": "中国",
     "manufacturer": "东方空间 (Orienspace)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "1100 kN (海平面)",
-    "specificImpulse": "285 s (海平面)",
+    "specificImpulse": "285 s / 2793 m/s (海平面)",
+    "specificImpulseSecond": 285,
     "description": "原力-110，百吨级液氧煤油发动机，采用针栓技术，旨在实现低成本和可重复使用。",
     "usedBy": "引力二号 (Gravity-2)",
     "imageUrl": "[\"./images/engines/Yuanli-110.png\"]",
@@ -668,19 +688,20 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.422Z",
-    "updatedAt": "2026-02-09T03:55:20.804Z",
+    "createdAt": "2026-02-09T04:13:52.759Z",
+    "updatedAt": "2026-02-09T04:13:53.196Z",
     "relatedRockets": []
   },
   {
-    "id": 197,
+    "id": 220,
     "name": "力擎二号",
     "country": "中国",
     "manufacturer": "中科宇航 (CAS Space)",
     "propellant": "液氧 / 煤油",
     "cycle": "燃气发生器循环",
     "thrust": "1100 kN (海平面)",
-    "specificImpulse": "285 s (海平面)",
+    "specificImpulse": "285 s / 2793 m/s (海平面)",
+    "specificImpulseSecond": 285,
     "description": "110吨级大推力液氧煤油发动机，采用针栓式喷注器，用于中科宇航未来的中大型火箭。",
     "usedBy": "力箭系列",
     "imageUrl": "[\"./images/engines/力擎二号.png\"]",
@@ -692,12 +713,12 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.419Z",
-    "updatedAt": "2026-02-09T03:55:20.801Z",
+    "createdAt": "2026-02-09T04:13:52.755Z",
+    "updatedAt": "2026-02-09T04:13:53.191Z",
     "relatedRockets": []
   },
   {
-    "id": 201,
+    "id": 224,
     "name": "跃迁-1号",
     "country": "中国",
     "manufacturer": "大航跃迁 (Dahang Yueqian)",
@@ -705,6 +726,7 @@
     "cycle": "未公开",
     "thrust": "800 kN (海平面)",
     "specificImpulse": "未公开",
+    "specificImpulseSecond": null,
     "description": "80吨级液氧甲烷发动机，将用于“筷子夹”回收型液体火箭跃迁一号。",
     "usedBy": "跃迁一号",
     "imageUrl": null,
@@ -716,19 +738,20 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.434Z",
-    "updatedAt": "2026-02-09T03:55:20.816Z",
+    "createdAt": "2026-02-09T04:13:52.772Z",
+    "updatedAt": "2026-02-09T04:13:53.209Z",
     "relatedRockets": []
   },
   {
-    "id": 200,
+    "id": 223,
     "name": "龙云",
     "country": "中国",
     "manufacturer": "九州云箭 (JZYJ)",
     "propellant": "液氧 / 甲烷",
     "cycle": "燃气发生器循环",
     "thrust": "676 kN (海平面)",
-    "specificImpulse": "2842 m/s (真空)",
+    "specificImpulse": "290 s / 2842 m/s (真空)",
+    "specificImpulseSecond": 290,
     "description": "国内首款多次启动、深度变推的液氧甲烷发动机，已完成多次试车验证。",
     "usedBy": "元行者一号",
     "imageUrl": "[\"./images/engines/龙云.png\"]",
@@ -740,8 +763,8 @@
     "clustering": null,
     "neededFor750t": null,
     "neededFor7500t": null,
-    "createdAt": "2026-02-09T03:55:20.430Z",
-    "updatedAt": "2026-02-09T03:55:20.812Z",
+    "createdAt": "2026-02-09T04:13:52.768Z",
+    "updatedAt": "2026-02-09T04:13:53.205Z",
     "relatedRockets": []
   }
 ]
