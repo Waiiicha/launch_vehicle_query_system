@@ -6,9 +6,74 @@
 
 - **火箭数据库**：收录全球主流运载火箭，支持按国家、厂商、运力、燃料类型、可回收性等筛选。
 - **发动机引擎库**：收录 20+ 款主流液体火箭发动机，包含循环方式、推力、比冲等关键参数，支持按海平面推力和循环方式筛选。
-- **智能关联**：自动关联发动机与其驱动的火箭型号（例如：Raptor 2 关联 Starship）。
+- **双向智能关联**：自动关联发动机与其驱动的火箭型号（例如：Raptor 2 ⟷ Starship），支持火箭→发动机和发动机→火箭的互链。
 - **交互体验**：支持多图浏览、大图缩放（Lightbox）、以及全屏详情模态框。
 - **静态化支持**：支持将数据库数据导出为静态 JSON，实现无后端的前端独立部署。
+
+## 🔗 双向链接实现原理
+
+### 架构设计
+```
+数据库层               导出层                    前端层
+─────────────────────────────────────────────────────────
+Rocket表              export_static.js         engines.json
+├─ name               ├─ 遍历所有engine        ├─ relatedRockets[]
+├─ firstStageEngine   ├─ 查询contains匹配      │  (反向关联)
+├─ secondStageEngine  └─ 生成relatedRockets    │
+└─ thirdStageEngine                           │
+                                               └─> 前端互链跳转
+```
+
+### 实现流程
+
+**1. 火箭 → 发动机（直接存储）**
+```javascript
+// seed.js 中直接存储发动机名称
+{
+  name: "Starship",
+  firstStageEngine: "33 x Raptor 2",   // ← 存储在数据库
+  ...
+}
+```
+
+**2. 发动机 → 火箭（动态计算）**
+```javascript
+// export_static.js 中的核心逻辑
+const relatedRockets = await prisma.rocket.findMany({
+  where: {
+    OR: [
+      { firstStageEngine: { contains: eng.name } },    // 查询包含发动机名称的火箭
+      { secondStageEngine: { contains: eng.name } },
+      { thirdStageEngine: { contains: eng.name } },
+    ]
+  },
+  select: { id: true, name: true, imageUrl: true, manufacturer: true }
+});
+
+// 返回包含双向链接的JSON
+return { ...eng, relatedRockets: processedRelated };
+```
+
+**3. 前端交互**
+```jsx
+// App.jsx 中的发动机链接
+<StatRow 
+  label="一级引擎"
+  value={selectedRocket.firstStageEngine}  // "33 x Raptor 2"
+  isLink={true}
+  onClick={() => {
+    // 用户点击时匹配并打开发动机详情
+    const matched = enginesData.find(e => raw.includes(e.name));
+    if (matched) setSelectedEngineName(matched.name);
+  }}
+/>
+```
+
+### 优点
+✅ **无需修改数据库结构**：不需要外键或关系表  
+✅ **自动关联**：每次导出时自动计算，无需手动维护  
+✅ **灵活匹配**：支持复杂格式（如"4 x YF-21C"、"2 x YF-77"）  
+✅ **预先计算**：导出后为静态JSON，前端查询零延迟
 
 ## 📂 目录结构规范
 
@@ -28,12 +93,12 @@ launch_vehicle_query_system/
 │   └── package.json
 ├── server/                      # 后端 API 与数据管理
 │   ├── prisma/
-│   │   ├── schema.prisma     # 数据库模型
+│   │   ├── schema.prisma     # 数据库模型（Rocket & Engine）
 │   │   └── dev.db           # SQLite数据库
-│   ├── seed.js              # 火箭数据种子
-│   ├── seed_engines_manual.js  # 发动机数据种子
-│   ├── link_images.js       # 图片关联脚本
-│   ├── export_static.js     # 静态数据导出脚本
+│   ├── seed.js              # 火箭数据初始化脚本
+│   ├── seed_engines_manual.js  # 发动机数据初始化脚本
+│   ├── link_images.js       # 图片关联脚本（扫描pic/目录）
+│   ├── export_static.js     # 数据导出脚本（生成JSON & 双向链接）
 │   ├── index.js             # Express API服务器
 │   └── package.json
 ├── pic/                         # 原始图片素材库（开发用）
@@ -168,12 +233,24 @@ npm run seed:quick
 # 仅关联图片到数据库
 npm run link
 
-# 仅导出JSON和复制图片到前端
+# 仅导出JSON和复制图片到前端（生成双向链接）
 npm run export
 
 # 完整流程（推荐）
 npm run seed
 ```
+
+### 核心脚本说明
+
+| 脚本 | 功能 | 何时运行 |
+|------|------|--------|
+| `seed.js` | 清空并重新填充火箭数据库 | 修改火箭参数时 |
+| `seed_engines_manual.js` | 初始化发动机数据库 | 修改发动机参数时 |
+| `link_images.js` | 扫描 `pic/` 目录，关联图片URL到数据库 | 添加新图片时 |
+| `export_static.js` | **导出JSON并生成双向链接** | 每次修改数据后 |
+| `index.js` | Express API 服务器 | `npm start` / `npm run dev` |
+
+**注**：`npm run seed` 会按顺序执行所有核心脚本（seed → seed_engines → link → export），是推荐的完整工作流程。
 
 ### 添加新火箭或发动机
 
