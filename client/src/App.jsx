@@ -911,7 +911,7 @@ function App() {
         {selectedRocket && (
           <Grid container sx={{ height: '100%', overflowY: { xs: 'auto', md: 'hidden' } }}>
             {/* 左侧：图片区 */}
-            <Grid item xs={12} md={4} sx={{ bgcolor: '#f5f5f7', display: 'flex', flexDirection: 'column', borderRight: '1px solid #eee' }}>
+            <Grid item xs={12} md={4} sx={{ height: { xs: 'auto', md: '100%' }, bgcolor: '#f5f5f7', display: 'flex', flexDirection: 'column', borderRight: '1px solid #eee' }}>
                <Box sx={{ flexGrow: 1, position: 'relative', minHeight: 300, cursor: 'zoom-in' }} onClick={() => setLightboxOpen(true)}>
                  <Box component="img" src={activeImage} sx={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute' }} />
                  <Box sx={{ position: 'absolute', bottom: 16, right: 16, bgcolor: 'rgba(0,0,0,0.5)', color: 'white', borderRadius: '50%', p: 1, display: 'flex' }}>
@@ -940,8 +940,8 @@ function App() {
             </Grid>
             
             {/* 右侧：信息区 */}
-            <Grid item xs={12} md={8}>
-              <Box sx={{ p: 5, position: 'relative', height: { md: '100%', xs: 'auto' }, overflowY: { md: 'auto', xs: 'visible' } }}>
+            <Grid item xs={12} md={8} sx={{ height: { xs: 'auto', md: '100%' } }}>
+              <Box sx={{ p: 5, position: 'relative', height: '100%', overflowY: { md: 'auto', xs: 'visible' } }}>
                 <IconButton onClick={() => setSelectedRocket(null)} sx={{ position: 'absolute', right: 16, top: 16 }}><CloseIcon /></IconButton>
                 
                 <Stack direction="row" spacing={1} mb={2}>

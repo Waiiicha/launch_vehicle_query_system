@@ -452,7 +452,7 @@ const rocketsData = [
     stages: "2",
     leoCapacity: 6.0,
     firstStageFuel: "液氧 / 甲烷",
-    firstStageEngine: "4 x TQ-12",
+    firstStageEngine: "4 x TQ-12A",
     description: "全球首款入轨成功的液氧甲烷火箭。",
     isReusable: false
   },
