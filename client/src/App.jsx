@@ -16,9 +16,11 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 import EngineList from './components/EngineList';
 import EngineDetailModal from './components/EngineDetailModal';
+import Statistics from './components/Statistics';
 import enginesData from './data/engines.json';
 
 const drawerWidth = 320;
@@ -53,7 +55,7 @@ const allManufacturers = [
 ];
 
 function App() {
-  const [viewMode, setViewMode] = useState('rockets'); // 'rockets' or 'engines'
+  const [viewMode, setViewMode] = useState('rockets'); // 'rockets' or 'engines' or 'statistics'
   const [rockets, setRockets] = useState([]); // 显示的数据
   const [filteredEngines, setFilteredEngines] = useState([]); // Filtered engines data
   const [selectedRocket, setSelectedRocket] = useState(null);
@@ -324,9 +326,28 @@ function App() {
           >
             发动机
           </Button>
+          <Button 
+            variant={viewMode === 'statistics' ? 'contained' : 'outlined'} 
+            fullWidth 
+            size="small"
+            startIcon={<BarChartIcon />}
+            onClick={() => setViewMode('statistics')}
+            sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 700 }}
+          >
+            统计
+          </Button>
         </Stack>
 
-                {viewMode === 'rockets' ? (
+                {viewMode === 'statistics' ? (
+                  <Box sx={{ mt: 3, p: 2, bgcolor: '#f5f5f7', borderRadius: 2 }}>
+                    <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center' }}>
+                      📊 统计数据视图
+                    </Typography>
+                    <Typography variant="caption" color="textSecondary" sx={{ textAlign: 'center', display: 'block', mt: 1 }}>
+                      显示火箭与发动机的统计图表
+                    </Typography>
+                  </Box>
+                ) : viewMode === 'rockets' ? (
 
                   <>
 
@@ -663,7 +684,7 @@ function App() {
 
         
 
-                              结果目录 ({viewMode === 'rockets' ? rockets.length : filteredEngines.length})
+                              结果目录 ({viewMode === 'rockets' ? rockets.length : viewMode === 'engines' ? filteredEngines.length : '统计'})
 
         
 
@@ -731,7 +752,7 @@ function App() {
 
         
 
-                              ) : (
+                              ) : viewMode === 'engines' ? (
 
         
 
@@ -787,7 +808,7 @@ function App() {
 
         
 
-                              )}
+                              ) : null}
 
         
 
@@ -899,10 +920,15 @@ function App() {
               ))}
             </Grid>
           </Container>
-        ) : (
+        ) : viewMode === 'engines' ? (
           <EngineList 
             engines={filteredEngines} 
             onSelectEngine={(name) => setSelectedEngineName(name)} 
+          />
+        ) : (
+          <Statistics 
+            rockets={rockets} 
+            engines={enginesData} 
           />
         )}
       </Box>
